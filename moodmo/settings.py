@@ -3,6 +3,13 @@ Django settings for moodmo project.
 """
 
 from pathlib import Path
+from environs import Env
+
+# Environment variables
+# https://github.com/sloria/environs
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,13 +19,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-j$@j_n_)1+ooetp8ufu%2iaca(f=g%!l_vp!-#!x8ex13jeagz"
+SECRET_KEY = env.str(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-j$@j_n_)1+ooetp8ufu%2iaca(f=g%!l_vp!-#!x8ex13jeagz",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+if DEBUG:
+    import socket
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
 
 # Application definition
 
@@ -33,6 +55,9 @@ INSTALLED_APPS = [
     "accounts",
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -42,6 +67,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "moodmo.urls"
 
