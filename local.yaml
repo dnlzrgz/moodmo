@@ -1,0 +1,37 @@
+version: "3.8"
+
+volumes:
+  moodmo_local_postgres_data: {}
+  moodmo_local_postgres_data_backups: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/Dockerfile
+    image: moodmo_local_django
+    container_name: moodmo_local_django
+    depends_on:
+      - postgres
+      - mailpit
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env.dev
+    ports:
+      - "8000:8000"
+
+  postgres:
+    image: postgres:16.0-alpine3.18
+    container_name: moodmo_local_postgres
+    volumes:
+      - moodmo_local_postgres_data:/var/lib/postgresql/data
+      - moodmo_local_postgres_data_backups:/backups
+    env_file:
+      - ./.env.dev
+
+  mailpit:
+    image: axllent/mailpit:v1.10.0
+    container_name: moodmo_local_mailpit
+    ports:
+      - "8025:8025"

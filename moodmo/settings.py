@@ -29,6 +29,9 @@ DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", [])
+
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
@@ -95,13 +98,29 @@ WSGI_APPLICATION = "moodmo.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if not env.bool("USE_POSTGRES", False):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": env.str(
+                "POSTGRES_ENGINE",
+                "django.db.backends.postgresql",
+            ),
+            "NAME": env.str("POSTGRES_DB", "moodmo_dev"),
+            "USER": env.str("POSTGRES_USER", "django"),
+            "PASSWORD": env.str("POSTGRES_PASSWORD", "root"),
+            "HOST": env.str("POSTGRES_HOST", "postgres"),
+            "PORT": env.str("POSTGRES_PORT", "5432"),
+        }
+    }
 
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -129,6 +148,8 @@ LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
 
+SITE_ID = 1
+
 USE_I18N = True
 
 USE_TZ = True
@@ -148,3 +169,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-user-model
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+# Email backend
+# https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
+
+EMAIL_HOST = env.str("EMAIL_HOST", default="mailpit")
+EMAIL_PORT = env.str("EMAIL_PORT", "1025")
+EMAIL_BACKEND = env.str(
+    "DJANGO_EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend",
+)
+EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", 5)
