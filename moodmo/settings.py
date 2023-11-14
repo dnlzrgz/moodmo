@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 3rd party
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # Local
     "accounts",
 ]
@@ -68,6 +72,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -79,7 +84,9 @@ ROOT_URLCONF = "moodmo.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -90,6 +97,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 WSGI_APPLICATION = "moodmo.wsgi.application"
@@ -170,13 +182,24 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
+LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "home")
+ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
+
+# Accounts related settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_UNIQUE_EMAIL = True
+
 # Email backend
 # https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
 
 EMAIL_HOST = env.str("EMAIL_HOST", default="mailpit")
 EMAIL_PORT = env.str("EMAIL_PORT", "1025")
 EMAIL_BACKEND = env.str(
-    "DJANGO_EMAIL_BACKEND",
-    "django.core.mail.backends.smtp.EmailBackend",
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", 5)
