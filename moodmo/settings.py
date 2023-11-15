@@ -27,8 +27,6 @@ SECRET_KEY = env.str(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
 
-ALLOWED_HOSTS = []
-
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", [])
 
 
@@ -60,6 +58,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     # Local
     "accounts",
+    "pages",
 ]
 
 if DEBUG:
