@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # Local
     "accounts",
     "pages",
+    "moods",
 ]
 
 if DEBUG:
