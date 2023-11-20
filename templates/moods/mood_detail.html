@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block title %}Mood - Details{% endblock title %}
+
+{% block content %}
+    {{ mood.mood }}
+    {{ mood.note_title }}
+    {{ mood.note }}
+    {{ mood.timestamp }}
+
+    <a href="{% url 'mood_edit' mood.id %}">Edit</a>
+    <a href="{% url 'mood_delete' mood.id %}">Delete</a>
+{% endblock content %}

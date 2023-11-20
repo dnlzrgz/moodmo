@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
 class Mood(models.Model):
@@ -17,7 +18,7 @@ class Mood(models.Model):
     mood = models.IntegerField(choices=MOOD_CHOICES)
     note_title = models.CharField(blank=True, max_length=255)
     note = models.TextField(blank=True)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:

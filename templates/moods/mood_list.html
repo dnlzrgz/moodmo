@@ -1,0 +1,20 @@
+{% extends "_base.html"  %}
+
+{% block title %}Moods{% endblock title %}
+
+{% block content %}
+    <a href="{% url 'mood_create' %}">Current mood</a>
+    <ul>
+        {% for mood in moods %}
+            <li>
+                {{ mood.mood }}
+                {{ mood.note_title }}
+                {{ mood.note }}
+                {{ mood.timestamp }}
+
+                <a href="{% url 'mood_edit' mood.id %}">Edit</a>
+                <a href="{% url 'mood_delete' mood.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

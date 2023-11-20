@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "moodmo"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["dnlzrgz <24715931+dnlzrgz@users.noreply.github.com>"]
 readme = "README.md"
