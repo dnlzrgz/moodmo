@@ -1,3 +1,6 @@
+from typing import Any
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -8,22 +11,26 @@ from django.views.generic import (
 )
 
 from moods.forms import MoodForm
-from .models import Mood
+from moods.mixins import UserIsOwnerMixin, SetUserMixin
+from moods.models import Mood
 
 
-class MoodListView(ListView):
+class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
     context_object_name = "moods"
 
+    def get_queryset(self) -> QuerySet[Any]:
+        return Mood.objects.filter(user=self.request.user)
 
-class MoodDetailView(DetailView):
+
+class MoodDetailView(LoginRequiredMixin, UserIsOwnerMixin, DetailView):
     model = Mood
     template_name = "moods/mood_detail.html"
     context_object_name = "mood"
 
 
-class MoodCreateView(CreateView):
+class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
     model = Mood
     form_class = MoodForm
     template_name = "moods/mood_form.html"
@@ -34,7 +41,7 @@ class MoodCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MoodUpdateView(UpdateView):
+class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateView):
     model = Mood
     form_class = MoodForm
     template_name = "moods/mood_form.html"
@@ -42,7 +49,7 @@ class MoodUpdateView(UpdateView):
     success_url = reverse_lazy("mood_list")
 
 
-class MoodDeleteView(DeleteView):
+class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     model = Mood
     template_name = "moods/mood_delete.html"
     success_url = reverse_lazy("mood_list")
