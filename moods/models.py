@@ -7,17 +7,18 @@ class Mood(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    mood_choices = [
+    MOOD_CHOICES = [
         (-2, "very unhappy"),
         (-1, "unhappy"),
         (0, "neutral"),
-        (-2, "happy"),
-        (-2, "very happy"),
+        (1, "happy"),
+        (2, "very happy"),
     ]
-    mood = models.IntegerField(choices=mood_choices)
-    note_title = models.TextField()
-    note = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    mood = models.IntegerField(choices=MOOD_CHOICES)
+    note_title = models.CharField(blank=True, max_length=255)
+    note = models.TextField(blank=True)
+    timestamp = models.DateTimeField()
+    last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.user.email}'s Mood on {self.timestamp}"

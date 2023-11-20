@@ -8,6 +8,7 @@ from django.urls import path, include
 urlpatterns = [
     path("management/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path("moods/", include("moods.urls")),
     path("", include("pages.urls")),
 ]
 
