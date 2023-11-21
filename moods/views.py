@@ -21,7 +21,8 @@ class MoodListView(LoginRequiredMixin, ListView):
     context_object_name = "moods"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Mood.objects.filter(user=self.request.user)
+        ordering = self.request.GET.get("ordering", "-timestamp")
+        return Mood.objects.filter(user=self.request.user).order_by(ordering)
 
 
 class MoodDetailView(LoginRequiredMixin, UserIsOwnerMixin, DetailView):
