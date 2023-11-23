@@ -1,8 +1,8 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Mood
 
 
-class MoodForm(ModelForm):
+class MoodForm(forms.ModelForm):
     pass
 
     class Meta:

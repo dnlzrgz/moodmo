@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Mood(models.Model):
@@ -20,6 +21,9 @@ class Mood(models.Model):
     note = models.TextField(blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse("mood_detail", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
         return f"{self.user.email}'s Mood on {self.timestamp}"

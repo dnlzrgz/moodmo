@@ -46,7 +46,6 @@ class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateV
     model = Mood
     form_class = MoodForm
     template_name = "moods/mood_form.html"
-    context_object_name = "mood"
     success_url = reverse_lazy("mood_list")
 
 
