@@ -478,6 +478,21 @@ django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
+name = "django-htmx"
+version = "1.17.2"
+description = "Extensions for using Django with htmx."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-htmx-1.17.2.tar.gz", hash = "sha256:4089f2ed38727e9846c2f4cd1daddf6b010c7be8d834cfbcffc8c5ecf445c04e"},
+    {file = "django_htmx-1.17.2-py3-none-any.whl", hash = "sha256:f4971432d2ca45dbb31d9b58add1c50ae54354afe4bf59cafd591b1711b502c0"},
+]
+
+[package.dependencies]
+asgiref = ">=3.6"
+Django = ">=3.2"
+
+[[package]]
 name = "djhtml"
 version = "3.0.6"
 description = "Django/Jinja template indenter"
@@ -1225,4 +1240,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "69902bd13e6452ea8d492e851359cc0d411b2a48aaf36f2d57e6cf1fd39ee965"
+content-hash = "f8af1abdd6dc2ad0f9ece13bea34fd2015ae746852a6fc7603e53012cd84dde1"

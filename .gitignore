@@ -355,3 +355,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Tailwind CSS
+tailwindcss

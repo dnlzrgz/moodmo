@@ -1,12 +1,30 @@
+{% load static django_htmx %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>{% block title %}MoodMo{% endblock title %}</title>
+
+    <!-- TailwindCSS -->
+    {% if settings.DEBUG %}
+      <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    {% else %}
+      <link rel="stylesheet" href="{% static 'css/output.min.css' %}">
+    {% endif %}
   </head>
+
   <body>
     {% block content %}
     {% endblock content %}
   </body>
+
+  <!-- HTMX -->
+  <script src="{% static 'js/htmx.js' %}" defer></script>
+  {% django_htmx_script %}
+  {% if settings.DEBUG %}
+    <script src="{% static 'js/debug.js' %}" defer></script>
+  {% endif %}
 </html>

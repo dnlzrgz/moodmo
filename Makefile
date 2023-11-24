@@ -18,6 +18,34 @@ update:
 	pre-commit autoupdate
 	@echo "✨ Update complete!"
 
+# Install Tailwind CSS
+install-tailwind:
+	@echo "🛠️ Installing Tailwind CSS..."
+	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+	chmod +x tailwindcss-linux-x64
+	mv tailwindcss-linux-x64 tailwindcss
+	@echo "✨ Tailwind CSS installed!"
+
+# Download v1.9.9 htmx script
+download-htmx:
+	@echo "📥 Downloading htmx script..."
+	curl -sL https://unpkg.com/htmx.org@1.9.9/dist/htmx.min.js -o static/js/htmx.js
+	curl -sL https://unpkg.com/htmx.org/dist/ext/debug.js -o static/js/debug.js
+	@echo "✨ htmx script downloaded and saved!"
+
+
+# Run Tailwind CSS minification
+tailwind-min:
+	@echo "🚀 Running Tailwind CSS minification..."
+	./tailwindcss -i ./static/css/input.css -o ./static/css/output.min.css --minify
+	@echo "✨ Tailwind CSS minification complete!"
+
+# Run Tailwind CSS in watch mode
+tailwind-watch:
+	@echo "🚀 Running Tailwind CSS in watch mode..."
+	./tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch
+	@echo "✨ Tailwind CSS watch mode started!"
+
 # Run tests
 test:
 	@echo "🧪 Running all tests..."
@@ -53,3 +81,11 @@ local-stop:
 	@echo "🛑 Stopping local Docker compose..."
 	docker-compose -f local.yaml down
 	@echo "✨ Local Docker compose stopped!"
+
+# Setup project with dependencies, Tailwind CSS, and htmx
+setup:
+	@make install-tailwind
+	@make download-htmx
+	poetry install
+	pre-commit run --all-files
+	@echo "✨ Project setup complete!"
