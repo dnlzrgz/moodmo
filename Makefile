@@ -11,6 +11,13 @@ lint:
 	ruff . --fix
 	@echo "✨ Linting complete!"
 
+# Update dependencies and pre-commit
+update:
+	@echo "🔄 Updating dependencies and pre-commit..."
+	poetry update
+	pre-commit autoupdate
+	@echo "✨ Update complete!"
+
 # Run tests
 test:
 	@echo "🧪 Running all tests..."
