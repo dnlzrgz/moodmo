@@ -87,5 +87,6 @@ setup:
 	@make install-tailwind
 	@make download-htmx
 	poetry install
+	pre-commit install
 	pre-commit run --all-files
 	@echo "✨ Project setup complete!"
