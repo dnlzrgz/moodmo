@@ -9,14 +9,14 @@
     <title>{% block title %}MoodMo{% endblock title %}</title>
 
     <!-- TailwindCSS -->
-    {% if settings.DEBUG %}
-      <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    {% if debug %}
+      <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/output.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/output.min.css' %}" />
     {% endif %}
   </head>
 
-  <body>
+  <body class="w-full h-full">
     {% block content %}
     {% endblock content %}
   </body>
@@ -24,7 +24,7 @@
   <!-- HTMX -->
   <script src="{% static 'js/htmx.js' %}" defer></script>
   {% django_htmx_script %}
-  {% if settings.DEBUG %}
+  {% if debug %}
     <script src="{% static 'js/debug.js' %}" defer></script>
   {% endif %}
 </html>
