@@ -67,4 +67,4 @@ class Command(BaseCommand):
         ]
 
         Mood.objects.bulk_create(random_entries)
-        self.stdout.write(self.style.SUCCESS("moods added to the database."))
+        self.stdout.write(self.style.SUCCESS("Moods added to the database."))
