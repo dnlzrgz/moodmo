@@ -9,21 +9,22 @@
 
     <div id="mood_list" class="max-w-lg mx-auto">
         {% for day, moods in moods_by_day %}
-            <div class="p-5 mb-4 rounded-lg">
-                <time class="text-lg font-medium text-gray-700"> {{ day }} </time>
-                <ol class="mt-3 divide-y divider-gray-200">
+            <div class="p-5 mb-4 text-stone-700">
+                <time class="font-medium">
+                    {{ day }}
+                </time>
+                <ol class="mt-3 divide-y divider-primary-200">
                     {% for mood in moods %}
-                        <li>
-                            <a href="{% url 'mood_edit' mood.id %}" class="items-center flex p-3 hover:bg-gray-100">
-                                <div class="w-12 h-12 mb-3 me-3 rounded-full sm:mb-0 bg-green-400"></div>
-                                <div class="text-gray-600 dark:text-gray-400">
-                                    <div class="text-base font-normal">
-                                        <span class="font-medium text-gray-900 dark:text-white">
-                                            {{ mood.timestamp|date:"H:i" }}
-                                        </span>
+                        <li x-data="{ moodColor: getMoodColor({{ mood.mood }}) }">
+                            <a href="{% url 'mood_edit' mood.id %}" class="items-center flex p-3 hover:bg-primary-50">
+                                <div x-bind:class="moodColor" class="w-12 h-12 mb-3 me-3 rounded-full">
+                                </div>
+                                <div class="text-stone-600">
+                                    <div class="text-stone-900">
+                                        {{ mood.timestamp|date:"H:i" }}
                                     </div>
                                     {% if mood.note_title != "" %}
-                                        <div class="text-sm font-normal">{{ mood.note_title }}</div>
+                                        <div>{{ mood.note_title }}</div>
                                     {% endif %}
                                 </div>
                             </a>
@@ -35,4 +36,17 @@
             <p>No moods registered!</p>
         {% endfor %}
     </div>
+
+    <script>
+        const moodColors = {
+            '-2': 'bg-red-500',
+            '-1': 'bg-red-100',
+            '1': 'bg-primary-100',
+            '2': 'bg-primary-500',
+        };
+
+        const getMoodColor = (mood) => {
+            return moodColors[mood] || 'bg-stone-50'
+        }
+    </script>
 {% endblock content %}

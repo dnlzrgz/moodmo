@@ -33,6 +33,11 @@ download-htmx:
 	curl -sL https://unpkg.com/htmx.org/dist/ext/debug.js -o static/js/debug.js
 	@echo "✨ htmx script downloaded and saved!"
 
+# Download v3.x.x Alpine.js script
+download-alpine:
+	@echo "📥 Downloading Alpine.js script..."
+	curl -sL https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js -o static/js/alpine.js
+	@echo "✨ Alpine.js script downloaded and saved!"
 
 # Run Tailwind CSS minification
 tailwind-min:
@@ -85,6 +90,7 @@ local-stop:
 # Setup project with dependencies, Tailwind CSS, and htmx
 setup:
 	@make install-tailwind
+	@make download-alpine
 	@make download-htmx
 	poetry install
 	pre-commit install
