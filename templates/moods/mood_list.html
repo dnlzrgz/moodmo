@@ -3,29 +3,36 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
+
     {% include "_nav.html" %}
     {% regroup moods by timestamp.date as moods_by_day %}
-    <ul role="list" class="mx-auto w-1/2">
-        {% for day, moods in moods_by_day %}
-            <li>
-                <h2>{{ day }}</h2>
-                <ul>
-                    {% for mood in moods %}
-                        <li class="flex justify-between gap-x-6 py-5">
-                            <span> {{ mood.mood }} </span>
-                            <p>{{ mood.note_title }}</p>
-                            <p>{{ mood.timestamp|date:"H:i" }}</p>
 
-                            <div>
-                                <a href="{% url 'mood_edit' mood.id %}">Edit</a>
-                                <a href="{% url 'mood_delete' mood.id %}">Delete</a>
-                            </div>
+    <div id="mood_list" class="max-w-lg mx-auto">
+        {% for day, moods in moods_by_day %}
+            <div class="p-5 mb-4 rounded-lg">
+                <time class="text-lg font-medium text-gray-700"> {{ day }} </time>
+                <ol class="mt-3 divide-y divider-gray-200">
+                    {% for mood in moods %}
+                        <li>
+                            <a href="{% url 'mood_edit' mood.id %}" class="items-center flex p-3 hover:bg-gray-100">
+                                <div class="w-12 h-12 mb-3 me-3 rounded-full sm:mb-0 bg-green-400"></div>
+                                <div class="text-gray-600 dark:text-gray-400">
+                                    <div class="text-base font-normal">
+                                        <span class="font-medium text-gray-900 dark:text-white">
+                                            {{ mood.timestamp|date:"H:i" }}
+                                        </span>
+                                    </div>
+                                    {% if mood.note_title != "" %}
+                                        <div class="text-sm font-normal">{{ mood.note_title }}</div>
+                                    {% endif %}
+                                </div>
+                            </a>
                         </li>
                     {% endfor %}
-                </ul>
-            </li>
+                </ol>
+            </div>
         {% empty %}
             <p>No moods registered!</p>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock content %}

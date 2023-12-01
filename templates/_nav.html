@@ -1,44 +1,44 @@
-<header class="">
+<header>
   <nav
-    class="mx-auto flex max-w-7xl items-center justify-between p-6 px-8"
+    class="flex items-center justify-between p-4 px-8 text-stone-700"
     aria-label="Global"
   >
     <div>
       <a
         href="{% url 'home' %}"
-        class="flex items-center py-4 space-x-2 text-gray-900 md:py-0"
+        class="flex items-center"
       >
         <span>MoodMo</span>
       </a>
     </div>
 
-    <div>
+    <div class="flex gap-2">
       {% if user.is_authenticated %}
         <a
           href="{% url 'mood_list' %}"
-          class="px-3 py-2 text-gray-700 mr-3 w-auto"
+          class="px-3 py-2"
         >
           Moods
         </a>
         <a
           href="{% url 'account_logout' %}"
-          class="px-3 py-2 text-gray-700 mr-3 w-auto"
+          class="px-3 py-2"
         >
           Sign Out
         </a>
       {% else %}
         <a
           href="{% url 'account_login' %}"
-          class="px-3 py-2 text-gray-700 mr-3 w-auto"
+          class="px-3 py-2"
         >
           Log in
         </a>
         <a
           href="{% url 'account_signup' %}"
-          class="inline-flex items-center w-auto px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+          class="inline-flex items-center px-6 py-3 text-sm leading-4 text-white bg-primary-600 rounded-full hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800"
         >
           Sign Up
-          <span aria-hidden="true">&rarr;</span>
+          <span aria-hidden="true">&nbsp;&rarr;</span>
         </a>
       {% endif %}
     </div>
