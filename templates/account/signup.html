@@ -3,10 +3,12 @@
 {% block title %}Sign Up{% endblock title %}
 
 {% block content %}
-    <h2>Sign Up</h2>
-    <form method="post">
+    <form class="auth-form max-w-sm mx-auto" method="post" id="signup_form" action="{% url 'account_signup' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Sign Up">
+
+        <button type="submit" class="btn-submit">
+            Sign Up
+        </button>
     </form>
 {% endblock %}
