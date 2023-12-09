@@ -3,7 +3,7 @@
 {% block title %}Log In{% endblock title %}
 
 {% block content %}
-    <form class="auth-form max-w-sm mx-auto" method="post" id="login_form" role="form" action="{% url 'account_login' %}">
+    <form class="form max-w-sm mx-auto" method="post" id="login_form" role="form" action="{% url 'account_login' %}">
         {% csrf_token %}
         {{ form.as_p }}
 

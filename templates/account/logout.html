@@ -4,7 +4,7 @@
 
 {% block content %}
     <p>Are you sure you want to sign out?</p>
-    <form class="auth-form max-w-sm mx-auto" method="post" id="signout_form" role="form" action="{% url 'account_logout' %}">
+    <form class="form max-w-sm mx-auto" method="post" id="signout_form" role="form" action="{% url 'account_logout' %}">
         {% csrf_token %}
         {{ form.as_p }}
 

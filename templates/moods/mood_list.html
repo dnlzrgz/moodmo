@@ -24,6 +24,10 @@
         {% endfor %}
     </div>
 
+    <a href="{% url 'mood_create' %}" class="fixed z-90 bottom-10 right-8 w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 flex items-center justify-center">
+        <span class="text-white text-2xl">&#x2b;</span>
+    </a>
+
     <script>
         const moodColors = {
             '-2': 'bg-red-500',

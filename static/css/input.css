@@ -3,23 +3,28 @@
 @tailwind utilities;
 
 @layer base {
-  .auth-form p {
+  .form p {
     @apply block mb-5;
   }
 
-  .auth-form label {
+  .form label {
     @apply block mb-2 font-medium text-stone-700;
   }
 
-  .auth-form input {
+  .form input {
     @apply bg-stone-50 border border-stone-300 text-stone-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5;
   }
 
-  .auth-form .helptext {
+  .form .helptext {
     @apply mt-2 text-sm text-stone-500;
   }
 
-  .auth-form ul {
+  .form select {
+    @apply bg-stone-50 border border-stone-300 text-stone-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5;
+  }
+
+  .form textarea {
+    @apply block p-2.5 w-full text-stone-900 bg-stone-50 rounded-lg border border-stone-300 focus:ring-primary-500 focus:border-primary-500;
   }
 }
 

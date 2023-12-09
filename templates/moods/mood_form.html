@@ -3,9 +3,13 @@
 {% block title %}Mood - Add{% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" class="form max-w-sm mx-auto" role="form" action="{% url 'mood_create' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Add">
+
+        <button type="submit" class="btn-submit">
+            Add
+        </button>
+        <a href="{% url 'mood_list' %}">Cancel</a>
     </form>
 {% endblock content %}
