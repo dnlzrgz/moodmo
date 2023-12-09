@@ -13,22 +13,9 @@
                 <time class="font-medium">
                     {{ day }}
                 </time>
-                <ol class="mt-3 divide-y divider-primary-200">
+                <ol class="divide-y divide-stone-200">
                     {% for mood in moods %}
-                        <li x-data="{ moodColor: getMoodColor({{ mood.mood }}) }">
-                            <a href="{% url 'mood_edit' mood.id %}" class="items-center flex p-3 hover:bg-primary-50">
-                                <div x-bind:class="moodColor" class="w-12 h-12 mb-3 me-3 rounded-full">
-                                </div>
-                                <div class="text-stone-600">
-                                    <div class="text-stone-900">
-                                        {{ mood.timestamp|date:"H:i" }}
-                                    </div>
-                                    {% if mood.note_title != "" %}
-                                        <div>{{ mood.note_title }}</div>
-                                    {% endif %}
-                                </div>
-                            </a>
-                        </li>
+                        {% include "moods/_mood_card.html" %}
                     {% endfor %}
                 </ol>
             </div>

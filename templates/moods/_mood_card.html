@@ -1,0 +1,18 @@
+<li x-data="{ moodColor: getMoodColor({{ mood.mood }}) }" class="p-4">
+  <a
+    href="{% url 'mood_edit' mood.id %}"
+    class="flex items-center hover:bg-primary-50"
+  >
+    <div x-bind:class="moodColor" class="w-8 h-8 rounded-full"></div>
+
+    <div class="flex-1 min-w-0 ms-4">
+      <div class="font-medium text-stone-700">
+        {{ mood.timestamp|date:"H:i" }}
+      </div>
+
+      {% if mood.note_title != "" %}
+        <div class="text-stone-500 truncate">{{ mood.note_title }}</div>
+      {% endif %}
+    </div>
+  </a>
+</li>
