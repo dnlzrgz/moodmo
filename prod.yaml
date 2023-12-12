@@ -1,0 +1,50 @@
+version: "3.8"
+
+volumes:
+  moodmo_prod_postgres_data: {}
+  moodmo_prod_postgres_data_backups: {}
+  moodmo_prod_redis_data: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/prod/django/Dockerfile
+    image: moodmo_prod_django
+    container_name: moodmo_prod_django
+    command: gunicorn moodmo.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    depends_on:
+      - postgres
+      - mailpit
+      - redis
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+
+  postgres:
+    image: postgres:16.1-alpine3.19
+    container_name: moodmo_prod_postgres
+    volumes:
+      - moodmo_prod_postgres_data:/var/lib/postgresql/data
+      - moodmo_prod_postgres_data_backups:/backups
+    env_file:
+      - ./.env
+
+  redis:
+    image: "redis:7.2.3-alpine3.19"
+    container_name: moodmo_prod_redis
+    expose:
+      - "6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    volumes:
+      - moodmo_prod_redis_data:/data
+    depends_on:
+      - postgres
+
+  mailpit:
+    image: axllent/mailpit:v1.10.1
+    container_name: moodmo_prod_mailpit
+    ports:
+      - "8025:8025"

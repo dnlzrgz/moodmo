@@ -6,14 +6,28 @@ FROM python as build-stage
 
 # Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    build-essential
+    build-essential \
+    wget
+
+# Download TailwindCSS cli
+RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+RUN chmod +x tailwindcss
+
+# Copy templates and static directories
+COPY ./templates /templates
+COPY ./static /static
 
 # Copy requirements
-COPY ./requirements.dev.txt .
+COPY ./requirements.txt .
 
 # Create Python dependency wheels.
 RUN pip wheel --wheel-dir /wheels \
-    -r requirements.dev.txt
+    -r requirements.txt
+
+# Build styles
+RUN ./tailwindcss -i ./static/css/input.css \
+    -o ./static/css/output.min.css \
+    --minify
 
 # Run stage
 FROM python as run-stage
@@ -22,9 +36,10 @@ FROM python as run-stage
 ENV APP_HOME /app
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PORT 8000
 
 # Expose default port
-EXPOSE 8000
+EXPOSE ${PORT}
 
 # Set working directory
 WORKDIR $APP_HOME
@@ -41,8 +56,15 @@ COPY --from=build-stage /wheels /wheels/
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
     && rm -rf /wheels/
 
+# Copy entrypoint.sh
+COPY ./entrypoint.sh .
+RUN chmod +x ${APP_HOME}/entrypoint.sh
+
 # Copy application code
 COPY . ${APP_HOME}
 
+# Copy minified styles
+COPY --from=build-stage /static/css ${APP_HOME}/static/css
+
 # Entrypoint
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT [ "bash", "/app/entrypoint.sh" ]

@@ -3,6 +3,7 @@ version: "3.8"
 volumes:
   moodmo_local_postgres_data: {}
   moodmo_local_postgres_data_backups: {}
+  moodmo_local_redis_data: {}
 
 services:
   django:
@@ -14,6 +15,7 @@ services:
     depends_on:
       - postgres
       - mailpit
+      - redis
     volumes:
       - .:/app
     env_file:
@@ -22,13 +24,25 @@ services:
       - "8000:8000"
 
   postgres:
-    image: postgres:16.0-alpine3.18
+    image: postgres:16.1-alpine3.19
     container_name: moodmo_local_postgres
     volumes:
       - moodmo_local_postgres_data:/var/lib/postgresql/data
       - moodmo_local_postgres_data_backups:/backups
     env_file:
       - ./.env.dev
+
+  redis:
+    image: "redis:7.2.3-alpine3.19"
+    container_name: moodmo_local_redis
+    expose:
+      - "6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    volumes:
+      - moodmo_local_redis_data:/data
+    depends_on:
+      - postgres
 
   mailpit:
     image: axllent/mailpit:v1.10.1
