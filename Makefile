@@ -87,7 +87,20 @@ local-stop:
 	docker-compose -f local.yaml down
 	@echo "✨ Local Docker compose stopped!"
 
-# Setup project with dependencies, Tailwind CSS, and htmx
+
+# Start prod Docker compose
+prod-start:
+	@echo "🚀 Starting prod Docker compose..."
+	docker-compose -f prod.yaml up -d --build
+	@echo "✨ Prod Docker compose started!"
+
+# Stop prod Docker compose
+prod-stop:
+	@echo "🛑 Stopping prod Docker compose..."
+	docker-compose -f prod.yaml down
+	@echo "✨ Prod Docker compose stopped!"
+
+# Setup project with dependencies, Tailwind CSS, and htmx for local development
 setup:
 	@make install-tailwind
 	@make download-alpine
