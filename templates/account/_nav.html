@@ -1,0 +1,23 @@
+<header class="flex justify-center">
+    <nav class="flex items-center justify-between w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg"
+         aria-label="Global">
+        <a href="{% url 'home' %}"> MoodMo </a>
+
+        {% if 'login' in request.path %}
+            <a href="{% url 'account_signup' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
+                Sign Up
+                <span aria-hidden="true">&nbsp;&rarr;</span>
+            </a>
+        {% elif 'sigout' in request.path %}
+            <a href="{% url 'account_login' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
+                Log In
+                <span aria-hidden="true">&nbsp;&rarr;</span>
+            </a>
+        {% else %}
+            <a href="{% url 'mood_list' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
+                Moods
+                <span aria-hidden="true">&nbsp;&rarr;</span>
+            </a>
+        {% endif %}
+    </nav>
+</header>

@@ -1,39 +1,27 @@
 <header class="flex justify-center">
   <nav
     class="fixed flex items-center justify-between bg-white w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg drop-shadow-sm"
-    aria-label="Global"
-  >
+    aria-label="Global">
     <div>
       <a href="{% url 'home' %}">
         MoodMo
       </a>
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex items-center gap-2">
       {% if user.is_authenticated %}
-        <a
-          href="{% url 'mood_list' %}"
-          class="px-3 py-2"
-        >
+        <a href="{% url 'mood_list' %}" class="px-3 py-2">
           Moods
         </a>
-        <a
-          href="{% url 'account_logout' %}"
-          class="px-3 py-2"
-        >
+        <a href="{% url 'account_logout' %}" class="px-3 py-2">
           Sign Out
         </a>
       {% else %}
-        <a
-          href="{% url 'account_login' %}"
-          class="px-3 py-2"
-        >
+        <a href="{% url 'account_login' %}" class="px-3 py-2">
           Log in
         </a>
-        <a
-          href="{% url 'account_signup' %}"
-          class="inline-flex items-center px-6 py-3 leading-4 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
-        >
+        <a href="{% url 'account_signup' %}"
+           class="inline-flex items-center px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
           Sign Up
           <span aria-hidden="true">&nbsp;&rarr;</span>
         </a>

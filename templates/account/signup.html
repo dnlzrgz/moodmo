@@ -3,12 +3,29 @@
 {% block title %}Sign Up{% endblock title %}
 
 {% block content %}
-    <form class="form max-w-sm mx-auto" method="post" id="signup_form" action="{% url 'account_signup' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
+    {% include "./_nav.html" %}
+    <div class="max-w-md mx-auto py-6 px-12 mt-6 bg-white rounded-2xl drop-shadow-sm">
+        <div class="flex flex-col items-start justify-start w-full h-full p-10">
+            <h4 class="w-full text-3xl font-bold text-stone-900 text-center leading-none">
+                Sign Up
+            </h4>
+        </div>
 
-        <button type="submit" class="btn-submit">
-            Sign Up
-        </button>
-    </form>
+        <form class="form" method="post" id="signup_form" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit"
+                    class="py-3 text-md text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
+                Sign Up for Free
+            </button>
+        </form>
+
+        <p class="w-full mt-4 text-md text-center text-stone-500">
+            Already have an account?
+            <a href="{% url 'account_login' %}" class="text-primary-500 underline">
+                Log in
+            </a>
+        </p>
+    </div>
 {% endblock %}

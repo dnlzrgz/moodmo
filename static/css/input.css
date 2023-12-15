@@ -8,15 +8,16 @@
   }
 
   .form label {
-    @apply block mb-2 font-medium text-stone-700;
+    @apply hidden;
   }
 
   .form input {
-    @apply bg-stone-50 border border-stone-300 text-stone-700 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5;
+    @apply border border-stone-300 text-stone-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-3;
   }
 
+  .form ul,
   .form .helptext {
-    @apply mt-2 text-sm text-stone-500;
+    @apply hidden;
   }
 
   .form select {
@@ -25,11 +26,5 @@
 
   .form textarea {
     @apply block p-2.5 w-full text-stone-900 bg-stone-50 rounded-lg border border-stone-300 focus:ring-primary-500 focus:border-primary-500;
-  }
-}
-
-@layer components {
-  .btn-submit {
-    @apply text-stone-50 bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg w-auto px-5 py-2.5 text-center;
   }
 }

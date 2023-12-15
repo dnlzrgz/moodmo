@@ -3,8 +3,6 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
-
-    {% include "_nav.html" %}
     {% regroup moods by timestamp.date as moods_by_day %}
 
     <div id="mood_list" class="max-w-lg mx-auto">
@@ -24,14 +22,34 @@
         {% endfor %}
     </div>
 
-    <a href="{% url 'mood_create' %}" class="fixed z-90 bottom-10 right-8 w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 flex items-center justify-center">
+    <a href="{% url 'mood_create' %}"
+       class="fixed z-90 bottom-10 right-8 w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 flex items-center justify-center">
         <span class="text-white text-2xl">&#x2b;</span>
     </a>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
     <script>
         const moodColors = {
             '-2': 'bg-red-500',
             '-1': 'bg-red-100',
+            '0': 'bg-stone-50',
             '1': 'bg-primary-100',
             '2': 'bg-primary-500',
         };
