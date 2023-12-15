@@ -3,47 +3,55 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
-    {% regroup moods by timestamp.date as moods_by_day %}
+    {% include "_nav.html" %}
 
-    <div id="mood_list" class="max-w-lg mx-auto">
+    {% regroup moods by timestamp.date as moods_by_day %}
+    <div class="mt-32 text-lg text-stone-900">
         {% for day, moods in moods_by_day %}
-            <div class="p-5 mb-4 text-stone-700">
-                <time class="font-medium">
-                    {{ day }}
-                </time>
-                <ol class="divide-y divide-stone-200">
+            <div class="max-w-lg mb-9 mx-auto">
+                <p class="mb-3">
+                    <time>
+                        {{ day }}
+                    </time>
+                </p>
+                <ol>
                     {% for mood in moods %}
                         {% include "moods/_mood_card.html" %}
                     {% endfor %}
                 </ol>
             </div>
+
         {% empty %}
-            <p>No moods registered!</p>
+            <div class="mt-56 text-center">
+                <h4 class="font-bold text-stone-900 text-5xl leading-none mb-4">
+                    Ooooooooooooooooooooooooops!
+                </h4>
+                <p class="text-xl max-w-xl mx-auto text-stone-900">
+                    No moods yet? Must be a glitch in the emotional matrix. Let’s debug together!
+                </p>
+            </div>
         {% endfor %}
     </div>
 
-    <a href="{% url 'mood_create' %}"
-       class="fixed z-90 bottom-10 right-8 w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 flex items-center justify-center">
-        <span class="text-white text-2xl">&#x2b;</span>
-    </a>
+    {% if moods %}
+        <div class="flex items-center justify-center mx-auto">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
             </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
+        </div>
+    {% endif %}
 
     <script>
         const moodColors = {
@@ -58,4 +66,5 @@
             return moodColors[mood] || 'bg-stone-50'
         }
     </script>
+
 {% endblock content %}
