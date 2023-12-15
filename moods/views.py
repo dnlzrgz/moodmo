@@ -19,7 +19,7 @@ class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
     context_object_name = "moods"
-    paginate_by = 10
+    paginate_by = 24
 
     def get_queryset(self) -> QuerySet[Any]:
         ordering = self.request.GET.get("ordering", "-timestamp")
@@ -35,7 +35,7 @@ class MoodDetailView(LoginRequiredMixin, UserIsOwnerMixin, DetailView):
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
     model = Mood
     form_class = MoodForm
-    template_name = "moods/mood_form.html"
+    template_name = "moods/mood_create.html"
     success_url = reverse_lazy("mood_list")
 
     def form_valid(self, form):
@@ -46,7 +46,7 @@ class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
 class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateView):
     model = Mood
     form_class = MoodForm
-    template_name = "moods/mood_form.html"
+    template_name = "moods/mood_update.html"
     success_url = reverse_lazy("mood_list")
 
 
