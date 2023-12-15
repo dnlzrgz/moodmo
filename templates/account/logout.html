@@ -10,14 +10,14 @@
                 Sign Out
             </h4>
             <p class="w-full mt-4 text-lg text-center text-stone-700">
-                Adiós for now! We'll miss you like a Wi-Fi signal in a plane.
+                Adiós for now! We'll miss you like a Wi-Fi signal in an elevator.
             </p>
         </div>
         <form class="form max-w-sm mx-auto" method="post" id="signout_form" role="form" action="{% url 'account_logout' %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit"
-                    class="py-3 text-md text-white bg-stone-900 rounded-full px-10 w-full">
+                    class="py-3 text-lg text-white bg-stone-900 rounded-full px-10 w-full">
                 Sign Out
             </button>
         </form>
