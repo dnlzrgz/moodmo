@@ -39,6 +39,8 @@ services:
       - "6379"
     environment:
       - REDIS_REPLICATION_MODE=master
+    env_file:
+      - ./.env.dev
     volumes:
       - moodmo_local_redis_data:/data
     depends_on:

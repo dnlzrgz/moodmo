@@ -123,14 +123,7 @@ WSGI_APPLICATION = "moodmo.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if not env.bool("USE_POSTGRES", False):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "data/db.sqlite3",
-        }
-    }
-else:
+if env.bool("USE_POSTGRES", False):
     DATABASES = {
         "default": {
             "ENGINE": env.str(
@@ -144,19 +137,21 @@ else:
             "PORT": env.str("POSTGRES_PORT", "5432"),
         }
     }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "data/db.sqlite3",
+        }
+    }
+
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Cache
 # https://docs.djangoproject.com/en/4.2/topics/cache/
 
-if not env.bool("USE_REDIS", False):
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-        }
-    }
-else:
+if env.bool("USE_REDIS", False):
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -164,6 +159,12 @@ else:
                 "REDIS_LOCATION",
                 "redis://127.0.0.1:6379",
             ),
+        }
+    }
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
         }
     }
 
@@ -227,7 +228,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
-LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "home")
+LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
 ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
 
 # Accounts related settings
