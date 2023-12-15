@@ -2,13 +2,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>{% block title %}MoodMo{% endblock title %}</title>
 
-    <!-- TailwindCSS -->
+  <!-- Tailwind CSS -->
     {% if debug %}
       <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     {% else %}
@@ -16,18 +17,19 @@
     {% endif %}
   </head>
 
-  <body class="w-full h-full">
+  <body class="bg-stone-100">
     {% block content %}
     {% endblock content %}
   </body>
 
-  <!-- Alpine.js -->
+<!-- Alpine.js -->
   <script src="{% static 'js/alpine.js' %}" defer></script>
 
-  <!-- HTMX -->
+<!-- HTMX -->
   <script src="{% static 'js/htmx.js' %}" defer></script>
   {% django_htmx_script %}
   {% if debug %}
     <script src="{% static 'js/debug.js' %}" defer></script>
   {% endif %}
+
 </html>

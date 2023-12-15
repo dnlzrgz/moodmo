@@ -4,22 +4,42 @@
 
 {% block content %}
   {% include "_nav.html" %}
+  <section class="w-full px-6 pb-12 antialiased">
+    <div class="mx-auto max-w-7xl">
 
-  <section class="h-auto bg-white">
-    <div class="max-w-7xl mx-auto py-24 px-8 text-center">
-      <h2
-        class="text-base font-semibold text-primary-600 tracking-wide uppercase"
-      >
-        Embrace your emotions, anytime, anywhere
-      </h2>
-      <p class="mt-1 font-extrabold text-stone-800 tracking-tight text-6xl">
-        Your Personal Mood Tracker
-      </p>
-      <p class="max-w-3xl mt-5 mx-auto text-xl text-stone-500">
-        MoodMo is your companion on the path to self-discovery. Gain insights into
-        your emotions, build mindfulness, and foster a deeper connection with
-        yourself."
-      </p>
+    <!-- Main Hero Content -->
+      <div class="container py-32 mx-auto mt-px px-4 text-center">
+        <h1 class="font-bold tracking-tight text-stone-900 text-center text-8xl leading-none">
+          Embrace Your Emotions, Anytime, Anywhere
+        </h1>
+
+        <div class="mx-auto text-stone-500 mt-8 max-w-3xl text-center text-xl">
+          MoodMo is your companion on the path to self-discovery. Gain insights into
+          your emotions, build mindfulness, and foster a deeper connection with
+          yourself.
+
+          <div
+            class="flex flex-col items-center justify-center mt-8 space-y-4 text-center sm:flex-row sm:space-y-0 sm:space-x-4">
+
+          <!-- Features, Code, etc -->
+            <span class="relative inline-flex w-auto">
+              <a href="#_"
+                 class="inline-flex items-center justify-center py-4 text-lg font-medium leading-6 text-white bg-stone-900 border border-transparent rounded-full px-10 w-auto">
+                Learn More
+              </a>
+            </span>
+
+          <!-- Sign Up -->
+            <span class="relative inline-flex w-auto">
+              <a href="{% url 'account_signup' %}"
+                 class="inline-flex items-center justify-center py-4 text-lg font-medium leading-6 text-white bg-primary-500 border border-transparent rounded-full px-10 w-auto">
+                Sign Up for Free
+                <span aria-hidden="true">&nbsp;&rarr;</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 {% endblock %}

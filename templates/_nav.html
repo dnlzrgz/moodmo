@@ -1,14 +1,11 @@
-<header>
+<header class="flex justify-center">
   <nav
-    class="flex items-center justify-between p-4 px-8 text-stone-700"
+    class="fixed flex items-center justify-between bg-white w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg drop-shadow-sm"
     aria-label="Global"
   >
     <div>
-      <a
-        href="{% url 'home' %}"
-        class="flex items-center"
-      >
-        <span>MoodMo</span>
+      <a href="{% url 'home' %}">
+        MoodMo
       </a>
     </div>
 
@@ -35,7 +32,7 @@
         </a>
         <a
           href="{% url 'account_signup' %}"
-          class="inline-flex items-center px-6 py-3 text-sm leading-4 text-white bg-primary-600 rounded-full hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800"
+          class="inline-flex items-center px-6 py-3 leading-4 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
         >
           Sign Up
           <span aria-hidden="true">&nbsp;&rarr;</span>
