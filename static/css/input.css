@@ -25,6 +25,6 @@
   }
 
   .form textarea {
-    @apply block p-2.5 w-full text-stone-900 bg-stone-50 rounded-lg border border-stone-300 focus:ring-primary-500 focus:border-primary-500;
+    @apply block p-2.5 h-32 w-full text-stone-900 bg-stone-50 rounded-lg border border-stone-300 focus:ring-primary-500 focus:border-primary-500;
   }
 }

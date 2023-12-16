@@ -3,13 +3,19 @@
 {% block title %}Mood - Add{% endblock %}
 
 {% block content %}
-    <form method="post" class="form max-w-sm mx-auto" role="form" action="{% url 'mood_create' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <button type="submit" class="btn-submit">
-            Add
-        </button>
-        <a href="{% url 'mood_list' %}">Cancel</a>
-    </form>
+    {% include '_secondary_nav.html' %}
+    <div class="max-w-md mx-auto py-9 px-12 mt-6 bg-white rounded-2xl drop-shadow-sm">
+        <form method="post" class="form max-w-sm mx-auto" role="form" action="{% url 'mood_create' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="py-3 text-lg text-white bg-stone-900 rounded-full px-10 w-full">
+                Add
+            </button>
+            <p class="w-full mt-4 text-md text-center text-stone-500">
+                <a href="{% url 'mood_list' %}" class="text-primary-500 underline">
+                    Go Back
+                </a>
+            </p>
+        </form>
+    </div>
 {% endblock content %}

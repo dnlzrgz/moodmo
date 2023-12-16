@@ -3,9 +3,24 @@
 {% block title %}Mood - Delete{% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-        <a href="{% url 'mood_list' %}">Cancel</a>
-    </form>
+    {% include "_secondary_nav.html" %}
+    <div class="max-w-md mx-auto py-6 px-12 mt-6 bg-white rounded-2xl drop-shadow-sm">
+        <div class="flex flex-col items-start justify-start w-full h-full p-10">
+            <h4 class="w-full text-3xl font-bold text-stone-900 text-center leading-none">
+                Delete Mood
+            </h4>
+        </div>
+        <form method="post" class="form max-w-sm mx-auto" role="form" action="{% url 'mood_delete' mood.pk %}">
+            {% csrf_token %}
+
+            <button type="submit" class="py-3 text-lg text-white bg-red-600 rounded-full px-10 w-full">
+                Delete
+            </button>
+            <p class="w-full mt-4 text-md text-center text-stone-500">
+                <a href="{% url 'mood_list' %}" class="text-primary-500 underline">
+                    Go Back
+                </a>
+            </p>
+        </form>
+    </div>
 {% endblock content %}

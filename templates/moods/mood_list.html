@@ -3,7 +3,7 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
-    {% include "_nav.html" %}
+    {% include "_primary_nav.html" %}
 
     {% regroup moods by timestamp.date as moods_by_day %}
     <div class="mt-32 text-lg text-stone-900">
