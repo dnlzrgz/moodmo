@@ -37,6 +37,7 @@ download-htmx:
 download-alpine:
 	@echo "📥 Downloading Alpine.js script..."
 	curl -sL https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js -o static/js/alpine.js
+	curl -sL https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js -o static/js/focus.js
 	@echo "✨ Alpine.js script downloaded and saved!"
 
 # Run Tailwind CSS minification

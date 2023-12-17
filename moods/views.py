@@ -4,7 +4,6 @@ from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
-    DetailView,
     CreateView,
     UpdateView,
     DeleteView,
@@ -24,12 +23,6 @@ class MoodListView(LoginRequiredMixin, ListView):
     def get_queryset(self) -> QuerySet[Any]:
         ordering = self.request.GET.get("ordering", "-timestamp")
         return Mood.objects.filter(user=self.request.user).order_by(ordering)
-
-
-class MoodDetailView(LoginRequiredMixin, UserIsOwnerMixin, DetailView):
-    model = Mood
-    template_name = "moods/mood_detail.html"
-    context_object_name = "mood"
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):

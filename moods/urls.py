@@ -3,7 +3,6 @@ from .views import (
     MoodListView,
     MoodCreateView,
     MoodUpdateView,
-    MoodDetailView,
     MoodDeleteView,
 )
 
@@ -12,11 +11,6 @@ urlpatterns = [
         "",
         MoodListView.as_view(),
         name="mood_list",
-    ),
-    path(
-        "details/<int:pk>/",
-        MoodDetailView.as_view(),
-        name="mood_detail",
     ),
     path(
         "create/",
