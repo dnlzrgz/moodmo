@@ -4,18 +4,15 @@ FROM python:3.12.1-slim-bookworm as python
 # Build stage
 FROM python as build-stage
 
-# Install apt packages
+# Install packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     wget
 
-# Download TailwindCSS cli
-RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
-RUN chmod +x tailwindcss
-
 # Copy templates and static directories
-COPY ./templates /templates
-COPY ./static /static
+COPY ./templates/ /templates
+COPY ./static/ /static
+COPY ./tailwind.config.js .
 
 # Copy requirements
 COPY ./requirements.txt .
@@ -24,10 +21,12 @@ COPY ./requirements.txt .
 RUN pip wheel --wheel-dir /wheels \
     -r requirements.txt
 
-# Build styles
-RUN ./tailwindcss -i ./static/css/input.css \
-    -o ./static/css/output.min.css \
-    --minify
+# Download TailwindCSS cli
+RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+RUN chmod +x tailwindcss
+
+# Create and minify styles
+RUN ./tailwindcss -i /static/css/input.css -o /static/css/output.min.css --minify
 
 # Run stage
 FROM python as run-stage
@@ -63,7 +62,7 @@ RUN chmod +x ${APP_HOME}/entrypoint.sh
 # Copy application code
 COPY . ${APP_HOME}
 
-# Copy minified styles
+# Copy final styles
 COPY --from=build-stage /static/css ${APP_HOME}/static/css
 
 # Entrypoint
