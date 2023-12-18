@@ -6,7 +6,7 @@
     {% include "_primary_nav.html" %}
 
     {% regroup moods by timestamp.date as moods_by_day %}
-    <div class="mt-32 text-lg text-stone-900">
+    <div class="mt-32 mb-12 text-lg text-stone-900">
         {% for day, moods in moods_by_day %}
             <div class="max-w-lg mb-9 mx-auto">
                 <p class="mb-3">
@@ -33,23 +33,35 @@
         {% endfor %}
     </div>
 
-    {% if moods %}
-        <div class="flex items-center justify-center mx-auto">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    {% if page_obj.has_next or page_obj.has_previous %}
+        <div class="text-lg flex items-center justify-center gap-3.5 mx-auto mb-8">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="hover:text-primary-500 transition-colors">&#171;</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="hover:text-primary-500 transition-colors">Prev</a>
+            {% else %}
+                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                    &#171;
                 </span>
+                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                    Prev
+                </span>
+            {% endif %}
 
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
+            <span class="mx-1.5 select-none">
+                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="hover:text-primary-500 transition-colors">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="hover:text-primary-500 transition-colors">&#187;</a>
+            {% else %}
+                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                    Next
+                </span>
+                <span class=" cursor-pointer p-1.5 text-stone-500 select-none">
+                    &#187;
+                </span>
+            {% endif %}
         </div>
     {% endif %}
 
