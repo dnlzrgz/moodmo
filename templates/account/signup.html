@@ -28,4 +28,23 @@
             </a>
         </p>
     </div>
+
+    {% if form.errors %}
+        <div class="absolute text-lg text-stone-900 bottom-3.5 left-3.5">
+            <ul class="flex flex-col gap-y-1.5">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li x-data="{ show: true }" x-show="show" x-on:click="show = false"
+                            x-init="setTimeout(() => { show = false }, 3000)" x-transition:enter="transition ease-out duration-250"
+                            x-transition:enter="transition ease-out duration-250" x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-250"
+                            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                            class="py-6 px-3.5 max-w-xl bg-red-300 rounded-xl drop-shadow-sm">
+                            {{ error }}
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}

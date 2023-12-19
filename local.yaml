@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - ./.env.dev
+      - ./.env
     ports:
       - "8000:8000"
 
@@ -30,7 +30,7 @@ services:
       - moodmo_local_postgres_data:/var/lib/postgresql/data
       - moodmo_local_postgres_data_backups:/backups
     env_file:
-      - ./.env.dev
+      - ./.env
 
   redis:
     image: "redis:7.2.3-alpine3.19"
@@ -40,7 +40,7 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
     env_file:
-      - ./.env.dev
+      - ./.env
     volumes:
       - moodmo_local_redis_data:/data
     depends_on:
