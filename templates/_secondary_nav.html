@@ -1,23 +1,70 @@
 <header class="flex justify-center">
-    <nav class="flex items-center justify-between w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg"
-         aria-label="Global">
-        <a href="{% url 'home' %}"> MoodMo </a>
+  <nav
+    class="flex items-center justify-between w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg"
+    aria-label="Global"
+  >
+    <a href="{% url 'home' %}"> MoodMo </a>
 
-        {% if 'login' in request.path %}
-            <a href="{% url 'account_signup' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
-                Sign Up
-                <span aria-hidden="true">&nbsp;&rarr;</span>
-            </a>
-        {% elif 'signup' in request.path %}
-            <a href="{% url 'account_login' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
-                Log In
-                <span aria-hidden="true">&nbsp;&rarr;</span>
-            </a>
-        {% else %}
-            <a href="{% url 'mood_list' %}" class="inline-flex items-center px-6 py-3 text-stone-900 rounded-full">
-                Moods
-                <span aria-hidden="true">&nbsp;&rarr;</span>
-            </a>
-        {% endif %}
-    </nav>
+    {% if 'login' in request.path %}
+      <a
+        href="{% url 'account_signup' %}"
+        class="inline-flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full"
+      >
+        Sign Up
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          data-slot="icon"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    {% elif 'signup' in request.path %}
+      <a
+        href="{% url 'account_login' %}"
+        class="inline-flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full"
+      >
+        Log In
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          data-slot="icon"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    {% else %}
+      <a
+        href="{% url 'mood_list' %}"
+        class="inline-flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full"
+      >
+        Moods
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          data-slot="icon"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </a>
+    {% endif %}
+  </nav>
 </header>

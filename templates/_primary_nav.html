@@ -1,38 +1,317 @@
 <header class="flex justify-center">
+  <!-- Navbar -->
   <nav
     class="fixed flex items-center justify-between bg-white w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg drop-shadow-sm z-10"
-    aria-label="Global">
+    aria-label="Global"
+  >
+    <!-- Home -->
     <div>
-      <a href="{% url 'home' %}">
-        MoodMo
-      </a>
+      <a href="{% url 'home' %}"> MoodMo </a>
     </div>
 
+    <!-- Links -->
     <div class="flex items-center justify-center gap-3.5">
       {% if user.is_authenticated %}
-        <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 {% endif %}">
+        <a
+          href="{% url 'mood_list' %}"
+          class="{% if 'moods' in request.path %} text-primary-500 {% endif %}"
+        >
           Moods
         </a>
-        <a href="{% url 'account_logout' %}" class="">
-          Sign Out
-        </a>
-        <a href="{% url 'mood_create' %}"
-           class="inline-flex items-center px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
-           role="button">
+        <a href="{% url 'account_logout' %}" class=""> Sign Out </a>
+        <button
+          name="command"
+          @click="commandOpen = true"
+          class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="w-6 h-6 text-stone-900"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <a
+          href="{% url 'mood_create' %}"
+          class="inline-flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+          role="button"
+        >
           New Mood
-          <span aria-hidden="true">&nbsp;&plus;</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            data-slot="icon"
+            class="w-5 h-5 text-white"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
         </a>
       {% else %}
-        <a href="{% url 'account_login' %}" class="">
-          Log in
-        </a>
-        <a href="{% url 'account_signup' %}"
-           class="inline-flex items-center px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
-           role="button">
+        <a href="{% url 'account_login' %}" class=""> Log in </a>
+        <a
+          href="{% url 'account_signup' %}"
+          class="inline-flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+          role="button"
+        >
           Sign Up
-          <span aria-hidden="true">&nbsp;&rarr;</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="w-5 h-5 text-white"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+              clip-rule="evenodd"
+            />
+          </svg>
         </a>
       {% endif %}
     </div>
   </nav>
+
+  <!-- Command palette -->
+  <template x-teleport="body">
+    <div
+      x-show="commandOpen"
+      class="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen backdrop-blur-sm"
+      x-cloak
+    >
+      <div
+        x-show="commandOpen"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click="commandOpen=false"
+        class="absolute inset-0 w-full h-full"
+      ></div>
+      <div
+        x-show="commandOpen"
+        x-trap.inert.noscroll="commandOpen"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        x-data="{
+                commandItems: {
+                suggestions : [
+                {
+                title: 'New mood',
+                value: 'mood_create',
+                icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m7.5-7.5h-15\'/></svg>',
+                default: true,
+                },
+                {
+                title: 'Search moods',
+                value: 'emoji',
+                icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z\'/></svg>',
+                default: true,
+                },
+                ],
+                settings: [
+                {
+                title: 'Sign Out',
+                value: 'signout',
+                icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9\'/></svg>',
+                default: true,
+                },
+                ]
+                },
+                commandItemsFiltered: [],
+                commandItemActive: null,
+                commandItemSelected: null,
+                commandId: $id('command'),
+                commandSearch: '',
+                commandSearchIsEmpty() {
+                return this.commandSearch.length == 0;
+                },
+                commandItemIsActive(item) {
+                return this.commandItemActive && this.commandItemActive.value==item.value;
+                },
+                commandItemActiveNext(){
+                let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
+                if(index < this.commandItemsFiltered.length-1){
+                this.commandItemActive = this.commandItemsFiltered[index+1];
+                this.commandScrollToActiveItem();
+                }
+                },
+                commandItemActivePrevious(){
+                let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
+                if(index > 0){
+                this.commandItemActive = this.commandItemsFiltered[index-1];
+                this.commandScrollToActiveItem();
+                }
+                },
+                commandScrollToActiveItem(){
+                if(this.commandItemActive){
+                activeElement = document.getElementById(this.commandItemActive.value + '-' + this.commandId)
+                if(!activeElement) return;
+
+                newScrollPos = (activeElement.offsetTop + activeElement.offsetHeight) - this.$refs.commandItemsList.offsetHeight;
+                if(newScrollPos > 0){
+                this.$refs.commandItemsList.scrollTop=newScrollPos;
+                } else {
+                this.$refs.commandItemsList.scrollTop=0;
+                }
+                }
+                },
+                commandSearchItems() {
+                if(!this.commandSearchIsEmpty()){
+                searchTerm = this.commandSearch.replace(/\*/g, '').toLowerCase();
+                this.commandItemsFiltered = this.commandItems.filter(item => item.title.toLowerCase().startsWith(searchTerm));
+
+                this.commandScrollToActiveItem();
+                } else {
+                this.commandItemsFiltered = this.commandItems.filter(item => item.default);
+                }
+                this.commandItemActive = this.commandItemsFiltered[0];
+                },
+                commandShowCategory(item, index){
+                if(index == 0) return true;
+                if(typeof this.commandItems[index-1] === 'undefined') return false;
+                return item.category != this.commandItems[index-1].category;
+                },
+                commandCategoryCapitalize(string){
+                return string.charAt(0).toUpperCase() + string.slice(1);
+                },
+                commandItemsReorganize(){
+                commandItemsOriginal = this.commandItems;
+                keys = Object.keys(this.commandItems);
+                this.commandItems = [];
+                keys.forEach((key, index) => {
+                for(i=0; i<commandItemsOriginal[key].length; i++){
+                commandItemsOriginal[key][i].category = key;
+                this.commandItems.push( commandItemsOriginal[key][i] );
+                }
+                });
+                }
+                }"
+        x-init="
+                commandItemsReorganize();
+                commandItemsFiltered = commandItems;
+                commandItemActive=commandItems[0];
+                $watch('commandSearch', value => commandSearchItems());
+                $watch('commandItemSelected', function(item){
+                if(item.value == 'mood_create'){
+                window.location.href = '{% url 'mood_create' %}';
+                } else if (item.value == 'signout') {
+                window.location.href = '{% url 'account_logout' %}';
+                } else {
+                console.log({...item});
+                }
+                });
+               "
+        @keydown.down="event.preventDefault(); commandItemActiveNext();"
+        @keydown.up="event.preventDefault(); commandItemActivePrevious()"
+        @keydown.enter="commandItemSelected=commandItemActive;"
+        @command-input-focus.window="$refs.commandInput.focus();"
+        class="flex min-h-[370px] justify-center w-full max-w-xl items-start relative"
+        x-cloak
+      >
+        <div
+          class="box-border p-1.5 flex flex-col w-full h-full overflow-hidden bg-white rounded-lg border border-stone-100 drop-shadow-md"
+        >
+          <!-- Search bar -->
+          <div class="flex items-center px-3 border-b border-stone-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              data-slot="icon"
+              class="w-6 h-6 text-stone-900"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <input
+              type="text"
+              x-ref="commandInput"
+              x-model="commandSearch"
+              class="flex w-full px-2.5 py-2.5 text-lg bg-transparent border-0 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-400"
+              placeholder="Type a command or search..."
+              autocomplete="off"
+              autocorrect="off"
+              spellcheck="false"
+            />
+            <kbd
+              class="px-2.5 py-1.5 text-sm font-semibold text-stone-900 bg-stone-100 border border-stone-200 rounded-lg cursor-pointer"
+              @click="commandOpen = false"
+              role="button"
+            >
+              Esc
+            </kbd>
+          </div>
+
+          <!-- Commands -->
+          <div
+            x-ref="commandItemsList"
+            class="max-h-80 overflow-y-auto overflow-x-hidden"
+          >
+            <template
+              x-for="(item, index) in commandItemsFiltered"
+              :key="'item-' + index"
+            >
+              <div class="pb-1 space-y-1">
+                <template x-if="commandShowCategory(item, index)">
+                  <div class="overflow-hidden">
+                    <div
+                      class="px-3.5 py-1.5 font-medium text-md text-stone-500"
+                      x-text="commandCategoryCapitalize(item.category)"
+                    ></div>
+                  </div>
+                </template>
+
+                <template
+                  x-if="(item.default && commandSearchIsEmpty()) || !commandSearchIsEmpty()"
+                >
+                  <div class="px-3.5">
+                    <div
+                      :id="item.value + '-' + commandId"
+                      @click="commandItemSelected=item"
+                      @mousemove="commandItemActive=item"
+                      :class="{ 'bg-primary-500 text-white' : commandItemIsActive(item) }"
+                      class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
+                    >
+                      <span x-html="item.icon"></span>
+                      <span x-text="item.title"></span>
+                      <template x-if="item.right">
+                        <span
+                          class="ml-auto text-xs tracking-widest text-muted-foreground"
+                          x-text="item.right"
+                        ></span>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
 </header>

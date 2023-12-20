@@ -5,6 +5,13 @@
 {% block content %}
     {% include "_primary_nav.html" %}
 
+<!--
+<form method="get" action="{% url 'mood_list' %}">
+    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+-->
+
     {% regroup moods by timestamp.date as moods_by_day %}
     <div class="mt-32 mb-12 text-lg text-stone-900">
         {% for day, moods in moods_by_day %}

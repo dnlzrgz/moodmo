@@ -2,14 +2,13 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>{% block title %}MoodMo{% endblock title %}</title>
 
-  <!-- Tailwind CSS -->
+    <!-- Tailwind CSS -->
     {% if debug %}
       <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     {% else %}
@@ -17,20 +16,32 @@
     {% endif %}
   </head>
 
-  <body class="bg-stone-100">
-    {% block content %}
-    {% endblock content %}
+  <body
+    class="bg-stone-100"
+    x-data="{ commandOpen: false }"
+    x-init="
+            $watch('commandOpen', function(value){
+            if(value === true){
+            document.body.classList.add('overflow-hidden');
+            $nextTick(() => { window.dispatchEvent(new CustomEvent('command-input-focus', {})); });
+            }else{
+            document.body.classList.remove('overflow-hidden');
+            }
+            })
+           "
+    @keyup.ctrl.space="commandOpen = !commandOpen"
+    @keydown.escape.window="commandOpen = false"
+  >
+    {% block content %} {% endblock content %}
   </body>
 
-<!-- Alpine.js -->
+  <!-- Alpine.js -->
   <script src="{% static 'js/focus.js' %}" defer></script>
   <script src="{% static 'js/alpine.js' %}" defer></script>
 
-<!-- HTMX -->
+  <!-- HTMX -->
   <script src="{% static 'js/htmx.js' %}" defer></script>
-  {% django_htmx_script %}
-  {% if debug %}
+  {% django_htmx_script %} {% if debug %}
     <script src="{% static 'js/debug.js' %}" defer></script>
   {% endif %}
-
 </html>

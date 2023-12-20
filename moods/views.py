@@ -1,5 +1,6 @@
 from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -22,7 +23,15 @@ class MoodListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         ordering = self.request.GET.get("ordering", "-timestamp")
-        return Mood.objects.filter(user=self.request.user).order_by(ordering)
+        search_query = self.request.GET.get("q", "")
+        queryset = Mood.objects.filter(user=self.request.user).order_by(ordering)
+
+        if search_query:
+            queryset = queryset.filter(
+                Q(note_title__icontains=search_query) | Q(note__icontains=search_query)
+            )
+
+        return queryset
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
