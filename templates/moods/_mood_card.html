@@ -49,7 +49,7 @@
       <time>{{ mood.timestamp|date:"H:i" }}</time>
 
       {% if mood.note_title != "" %}
-        <div class="text-stone-500">{{ mood.note_title }}</div>
+        <div class="text-stone-500 truncate">{{ mood.note_title }}</div>
       {% endif %}
     </div>
   </li>

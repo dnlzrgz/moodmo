@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{% block title %}MoodMo{% endblock title %}</title>
+    <title>{% block title %} MoodMo {% endblock title %}</title>
 
     <!-- Tailwind CSS -->
     {% if debug %}
@@ -18,7 +18,7 @@
 
   <body
     class="bg-stone-100"
-    x-data="{ commandOpen: false }"
+    x-data="{ commandOpen: true }"
     x-init="
             $watch('commandOpen', function(value){
             if(value === true){
