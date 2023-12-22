@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.conf import settings
 from django.utils import timezone
@@ -30,3 +31,8 @@ class Mood(models.Model):
 
     def __str__(self) -> str:
         return f"Mood added on {self.timestamp}"
+
+    class Meta:
+        indexes = [
+            GinIndex(fields=["search_vector"]),
+        ]
