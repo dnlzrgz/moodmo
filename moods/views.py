@@ -1,6 +1,6 @@
 from typing import Any
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -33,17 +33,17 @@ class MoodSearchView(LoginRequiredMixin, ListView):
     context_object_name = "moods"
 
     def get_queryset(self):
-        search_query = self.request.GET.get("q", "")
-        limit = self.request.GET.get("limit", 5)
+        query = self.request.GET.get("q")
+        limit = self.request.GET.get("limit", 10)
+        search_vector = SearchVector("note_title", "note")
+        search_query = SearchQuery(query)
 
         limit = max(1, min(int(limit), 100))
 
-        queryset = Mood.objects.filter(
-            Q(note_title__icontains=search_query),
-            user=self.request.user,
-        ).order_by("-timestamp")[:limit]
-
-        return queryset
+        return Mood.objects.annotate(
+            search=search_vector,
+            rank=SearchRank(search_vector, search_query),
+        ).filter(search=search_query, user=self.request.user)[:limit]
 
     def render_to_response(self, context, **kwargs):
         mood_data = [

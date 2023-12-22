@@ -240,7 +240,10 @@
                 .then(data => {
                 this.moods = data.moods;
                 this.fetchingMoods = false;
-                }).catch(error => this.errorFetching = error);
+                }).catch(error => {
+                this.errorFetching = error; console.log(error);
+                }
+                );
                 },
                 debouncedFetchMoods: function() {
                 let timeout;
@@ -265,8 +268,6 @@
                 window.location.href = '{% url 'mood_create' %}';
                 } else if (item.value == 'signout') {
                 window.location.href = '{% url 'account_logout' %}';
-                } else if (item.value == 'search') {
-                console.log({...item})
                 }
                 });
                "

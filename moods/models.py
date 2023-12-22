@@ -26,4 +26,4 @@ class Mood(models.Model):
         return reverse("mood_detail", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
-        return f"{self.user.email}'s Mood on {self.timestamp}"
+        return f"Mood added on {self.timestamp}"
