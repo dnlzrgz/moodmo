@@ -1,5 +1,4 @@
 from typing import Any
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http import JsonResponse
@@ -35,21 +34,17 @@ class MoodSearchView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         limit = self.request.GET.get("limit", 10)
-        search_vector = SearchVector("note_title", "note")
-        search_query = SearchQuery(query)
 
         limit = max(1, min(int(limit), 100))
 
-        return Mood.objects.annotate(
-            search=search_vector,
-            rank=SearchRank(search_vector, search_query),
-        ).filter(search=search_query, user=self.request.user)[:limit]
+        return Mood.objects.filter(search_vector=query, user=self.request.user)[:limit]
 
     def render_to_response(self, context, **kwargs):
         mood_data = [
             {
                 "id": mood.id,
                 "note_title": mood.note_title,
+                "note": mood.note,
                 "timestamp": mood.timestamp,
             }
             for mood in context["moods"]

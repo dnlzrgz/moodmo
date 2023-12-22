@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.search import SearchVectorField
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
@@ -21,6 +22,8 @@ class Mood(models.Model):
     note = models.TextField(blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+
+    search_vector = SearchVectorField(null=True)
 
     def get_absolute_url(self):
         return reverse("mood_detail", kwargs={"pk": self.pk})
