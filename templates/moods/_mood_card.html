@@ -1,7 +1,7 @@
 <div
   class="relative"
   x-data="{
-          moodColor: getMoodColor({{ mood.mood }}),
+          emoji: getEmoji({{ mood.mood }}),
           popoverOpen: false,
           popoverArrow: true,
           popoverPosition: 'bottom',
@@ -40,10 +40,10 @@
   <li
     x-ref="popoverButton"
     @click="popoverOpen=!popoverOpen"
-    class="px-6 py-3 bg-white mb-1.5 drop-shadow-sm rounded-xl select-none flex justify-center items-center gap-3.5 cursor-pointer"
+    class="px-3.5 py-5 bg-white mb-1.5 drop-shadow-sm rounded-xl select-none flex justify-start items-center gap-3.5 cursor-pointer overflow-hidden"
     role="button"
   >
-    <div x-bind:class="moodColor" class="w-12 h-12 rounded-full"></div>
+    <div x-text="emoji" class="text-5xl"></div>
 
     <div class="flex-col w-full">
       <time>{{ mood.timestamp|date:"H:i" }}</time>
