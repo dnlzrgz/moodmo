@@ -1,7 +1,7 @@
 from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -30,6 +30,12 @@ class MoodListView(LoginRequiredMixin, ListView):
 class MoodSearchView(LoginRequiredMixin, ListView):
     model = Mood
     context_object_name = "moods"
+
+    def dispatch(self, request, *args, **kwargs):
+        if "X-Alpine-Search" not in request.headers:
+            return HttpResponseForbidden("Forbidden: Direct access not allowed.")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         query = self.request.GET.get("q")

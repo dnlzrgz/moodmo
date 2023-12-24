@@ -237,12 +237,18 @@
                 ? `{% url 'mood_search' %}?limit=5&q=${searchTerm}`
                 : `{% url 'mood_search' %}?limit=3`;
 
-                fetch(url)
+                fetch(url, {
+                method: 'GET',
+                headers: {
+                'X-Alpine-Search': 'true',
+                },
+                })
                 .then(response => response.json())
                 .then(data => {
                 this.moods = data.moods;
                 this.fetchingMoods = false;
                 }).catch(error => {
+                console.log(error);
                 this.errorFetching = true;
                 this.fetchingMoods = false;
                 }
