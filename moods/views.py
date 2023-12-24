@@ -43,7 +43,9 @@ class MoodSearchView(LoginRequiredMixin, ListView):
 
         limit = max(1, min(int(limit), 100))
 
-        return Mood.objects.filter(search_vector=query, user=self.request.user)[:limit]
+        return Mood.objects.filter(
+            search_vector=query, user=self.request.user
+        ).order_by("-timestamp")[:limit]
 
     def render_to_response(self, context, **kwargs):
         mood_data = [
