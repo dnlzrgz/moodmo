@@ -221,12 +221,27 @@
                 }
                 });
                 },
-                formatTimestamp(timestamp) {
+                formatTime(timestamp) {
                 const date = new Date(timestamp);
                 const hours = date.getHours().toString().padStart(2, '0');
                 const minutes = date.getMinutes().toString().padStart(2, '0');
 
                 return `${hours}:${minutes}`;
+                },
+                formatDate(timestamp) {
+                const date = new Date(timestamp);
+                const currentYear = new Date().getFullYear();
+
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+
+                if (year == currentYear) {
+                return `${month}/${day}`;
+                } else {
+                return `${year}/${month}/${day}`;
+                }
+
                 },
                 redirectToMoodEditPage(moodId) {
                 const url = `{% url 'mood_edit' 0 %}`.replace('0', moodId);
@@ -248,7 +263,7 @@
                 this.moods = data.moods;
                 this.fetchingMoods = false;
                 }).catch(error => {
-                console.log(error);
+                console.error(error);
                 this.errorFetching = true;
                 this.fetchingMoods = false;
                 }
@@ -267,6 +282,7 @@
                 }(),
                 }"
         x-init="
+                fetchMoods('Magazine');
                 commandItemsReorganize();
                 commandItemsFiltered = commandItems;
                 commandItemActive=commandItems[0];
@@ -500,7 +516,12 @@
                     >
                       <time
                         class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
-                        x-text="formatTimestamp(mood.timestamp)"
+                        x-text="formatDate(mood.timestamp)"
+                      >
+                      </time>
+                      <time
+                        class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
+                        x-text="formatTime(mood.timestamp)"
                       ></time>
                       <p x-text="mood.note_title"></p>
                     </li>
