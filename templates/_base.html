@@ -41,8 +41,7 @@
 
   <!-- HTMX -->
   <script src="{% static 'js/htmx.js' %}" defer></script>
-  {% django_htmx_script %}
-  {% if debug %}
+  {% django_htmx_script %} {% if debug %}
     <script src="{% static 'js/debug.js' %}" defer></script>
   {% endif %}
 </html>

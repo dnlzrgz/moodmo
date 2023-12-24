@@ -11,6 +11,14 @@ lint:
 	ruff . --fix
 	@echo "✨ Linting complete!"
 
+# Check using Django's system-check
+check:
+	@echo "🔍 Running system checks..."
+	python manage.py check
+	python manage.py check --deploy
+	python manage.py check --tag security
+	@echo "✨ All checks done!"
+
 # Update dependencies and pre-commit
 update:
 	@echo "🔄 Updating dependencies and pre-commit..."

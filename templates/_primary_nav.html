@@ -133,8 +133,8 @@
                 ],
                 },
                 moods: [],
-                errorFetching: '',
-                fetchingMoods: true,
+                errorFetching: false,
+                fetchingMoods: false,
                 fetchDelay: 350,
                 commandItemsFiltered: [],
                 commandItemActive: null,
@@ -184,12 +184,16 @@
                 this.commandItemsFiltered = this.commandItems.filter(item => item.title.toLowerCase().startsWith(searchTerm));
 
                 // Fetch new moods
+                this.errorFetching = false;
+                this.moods = []
+                this.fetchingMoods = true;
                 this.debouncedFetchMoods(
                 encodeURIComponent(searchTerm)
                 );
 
                 this.commandScrollToActiveItem();
                 } else {
+                this.moods = [];
                 this.commandItemsFiltered = this.commandItems.filter(item => item.default);
                 }
 
@@ -233,15 +237,14 @@
                 ? `{% url 'mood_search' %}?limit=5&q=${searchTerm}`
                 : `{% url 'mood_search' %}?limit=3`;
 
-                this.fetchingMoods = true;
-
                 fetch(url)
                 .then(response => response.json())
                 .then(data => {
                 this.moods = data.moods;
                 this.fetchingMoods = false;
                 }).catch(error => {
-                this.errorFetching = error; console.log(error);
+                this.errorFetching = true;
+                this.fetchingMoods = false;
                 }
                 );
                 },
@@ -261,7 +264,6 @@
                 commandItemsReorganize();
                 commandItemsFiltered = commandItems;
                 commandItemActive=commandItems[0];
-                fetchMoods('');
                 $watch('commandSearch', value => commandSearchItems());
                 $watch('commandItemSelected', function(item){
                 if(item.value == 'mood_create'){
@@ -301,7 +303,7 @@
               x-ref="commandInput"
               x-model="commandSearch"
               class="flex w-full px-2.5 py-2.5 text-lg bg-transparent border-0 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-400"
-              placeholder="Type a command or search..."
+              placeholder="Type a command or search moods"
               autocomplete="off"
               autocorrect="off"
               spellcheck="false"
@@ -363,7 +365,6 @@
           <!-- Moods -->
           <div
             x-ref="moodsItemList"
-            x-show="moods.length > 0"
             class="max-h-80 overflow-y-auto overflow-x-hidden"
           >
             <div class="pb-1 space-y-1">
@@ -372,20 +373,134 @@
                   Moods
                 </div>
               </div>
-              <ul class="px-3.5">
-                <template x-for="mood in moods">
-                  <li
-                    class="group flex items-center relative gap-x-1.5 py-0.5 px-1.5 cursor-default select-none rounded-lg outline-none hover:bg-primary-500 hover:text-white truncate text-lg"
-                    @click="redirectToMoodEditPage(mood.id)"
+
+              <!-- Loading indicator -->
+              <template x-if="fetchingMoods && !errorFetching">
+                <div class="flex justify-center p-2.5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    class="text-stone-900 animate-spin w-5 h-5"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
                   >
-                    <time
-                      class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
-                      x-text="formatTimestamp(mood.timestamp)"
-                    ></time>
-                    <p x-text="mood.note_title"></p>
-                  </li>
-                </template>
-              </ul>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                    />
+                  </svg>
+                </div>
+              </template>
+
+              <!-- Search -->
+              <template
+                x-if="moods.length == 0 && !fetchingMoods && !errorFetching && commandSearch.length <= 0"
+              >
+                <div class="px-3.5">
+                  <div
+                    class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        class="w-5 h-5 text-stone-900"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
+                        />
+                      </svg>
+                    </span>
+                    <span>Start typing to search moods</span>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Empty -->
+              <template
+                x-if="moods.length <= 0 && !fetchingMoods && !errorFetching && commandSearch.length > 0"
+              >
+                <div class="px-3.5">
+                  <div
+                    class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        class="w-5 h-5 text-stone-900"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
+                        />
+                      </svg>
+                    </span>
+                    <span>No moods found!</span>
+                  </div>
+                </div>
+              </template>
+              <!-- Error fetching -->
+              <template x-if="errorFetching">
+                <div class="px-3.5">
+                  <div
+                    class="relative flex gap-x-2.5 py-1 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none bg-red-500 text-white"
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                    >Something went wrong while fetching moods! Please, try
+                      again.
+                    </span>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Mood list -->
+              <template x-if="moods.length > 0">
+                <ul class="px-3.5">
+                  <template x-for="mood in moods">
+                    <li
+                      class="group flex items-center relative gap-x-1.5 py-0.5 px-1.5 cursor-default select-none rounded-lg outline-none hover:bg-primary-500 hover:text-white truncate text-lg"
+                      @click="redirectToMoodEditPage(mood.id)"
+                    >
+                      <time
+                        class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
+                        x-text="formatTimestamp(mood.timestamp)"
+                      ></time>
+                      <p x-text="mood.note_title"></p>
+                    </li>
+                  </template>
+                </ul>
+              </template>
             </div>
           </div>
         </div>
