@@ -158,7 +158,7 @@ if env.bool("USE_REDIS", False):
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
             "LOCATION": env.list(
                 "REDIS_LOCATION",
-                "redis://127.0.0.1:6379",
+                "redis://redis:6379",
             ),
         }
     }

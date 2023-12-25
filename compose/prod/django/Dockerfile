@@ -22,7 +22,7 @@ RUN pip wheel --wheel-dir /wheels \
     -r requirements.txt
 
 # Download TailwindCSS cli
-RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/download/v3.4.0/tailwindcss-linux-x64
 RUN chmod +x tailwindcss
 
 # Create and minify styles

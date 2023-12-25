@@ -26,10 +26,10 @@ update:
 	pre-commit autoupdate
 	@echo "✨ Update complete!"
 
-# Install Tailwind CSS
-install-tailwind:
+# Download Tailwind CSS cli
+download-tailwind:
 	@echo "🛠️ Installing Tailwind CSS..."
-	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.0/tailwindcss-linux-x64
 	chmod +x tailwindcss-linux-x64
 	mv tailwindcss-linux-x64 tailwindcss
 	@echo "✨ Tailwind CSS installed!"
@@ -111,7 +111,7 @@ prod-stop:
 
 # Setup project with dependencies, Tailwind CSS, and htmx for local development
 setup:
-	@make install-tailwind
+	@make download-tailwind
 	@make download-alpine
 	@make download-htmx
 	poetry install
