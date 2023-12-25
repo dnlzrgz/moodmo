@@ -3,21 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  .form p {
-    @apply block mb-5;
-  }
-
   .form label {
     @apply hidden;
   }
 
   .form input {
     @apply border border-stone-300 text-stone-900 text-lg rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-3 placeholder:text-stone-400;
-  }
-
-  .form ul,
-  .form .helptext {
-    @apply hidden;
   }
 
   .form select {

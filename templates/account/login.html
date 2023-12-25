@@ -14,7 +14,24 @@
         <form class="form" method="post" id="login_form" role="form" action="{% url 'account_login' %}">
             {% csrf_token %}
 
-            {{ form.as_p }}
+            {% for field in form %}
+                <div class="mb-5">
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            {% for error in form.non_field_errors %}
+                <div class="text-red-500 mb-3.5 flex items-start gap-x-1.5">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </span>
+                    <p class="text-sm">{{ error }}</p>
+                </div>
+            {% endfor %}
 
             <button type="submit"
                     class="py-3 text-lg text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
@@ -22,36 +39,17 @@
             </button>
         </form>
 
-        <p class="w-full mt-4 text-md text-center text-stone-500">
+        <p class="w-full mt-3.5 text-md text-center text-stone-500">
             <a href="/accounts/password/reset/" class="text-primary-500 underline">
-                Reset Password
+                I forgot my password
             </a>
         </p>
 
-        <p class="w-full mt-4 text-md text-center text-stone-500">
+        <p class="w-full mt-2.5 text-md text-center text-stone-500">
             Want to create an account instead?
-            <a href="{% url 'account_login' %}" class="text-primary-500 underline">
-                Create Account
+            <a href="{% url 'account_signup' %}" class="text-primary-500 underline">
+                Create account
             </a>
         </p>
     </div>
-
-    {% if form.errors %}
-        <div class="absolute text-lg text-stone-900 bottom-3.5 left-3.5">
-            <ul class="flex flex-col gap-y-1.5">
-                {% for field, errors in form.errors.items %}
-                    {% for error in errors %}
-                        <li x-data="{ show: true }" x-show="show" x-on:click="show = false"
-                            x-init="setTimeout(() => { show = false }, 3000)" x-transition:enter="transition ease-out duration-250"
-                            x-transition:enter="transition ease-out duration-250" x-transition:enter-start="opacity-0"
-                            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-250"
-                            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                            class="py-6 px-3.5 max-w-xl bg-red-300 rounded-xl drop-shadow-sm">
-                            {{ error }}
-                        </li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
 {% endblock %}
