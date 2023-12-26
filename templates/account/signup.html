@@ -4,10 +4,10 @@
 
 {% block content %}
     {% include "_secondary_nav.html" %}
-    <main class="max-w-md mx-auto py-6 px-12 mt-6 bg-white rounded-2xl drop-shadow-sm">
+    <main class="max-w-md mx-auto py-6 px-9 md:px-12 md:mt-6 bg-white rounded-2xl drop-shadow-sm">
         <div class="flex flex-col items-start justify-start w-full h-full p-10">
             <h4 class="w-full text-3xl font-bold text-stone-900 text-center leading-none">
-                Sign Up
+                Sign up
             </h4>
         </div>
 
@@ -15,7 +15,7 @@
             {% csrf_token %}
 
             {% for field in form %}
-                <div class="mb-5">
+                <div class="mb-3.5">
                     {{ field }}
                     {% for error in field.errors %}
                         <div class="text-red-500 px-4 mt-2.5 mb-2.5 flex items-start justify-start gap-x-1.5">
@@ -46,7 +46,7 @@
             {% endfor %}
 
             <button type="submit"
-                    class="py-3 text-lg text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
+                    class="mt-5 py-3 text-lg text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
                 Sign Up
             </button>
         </form>

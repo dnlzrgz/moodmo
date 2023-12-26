@@ -1,6 +1,6 @@
-<header class="flex justify-center">
+<header>
   <nav
-    class="flex items-center justify-between w-3/4 p-4 px-8 rounded-b-2xl text-stone-900 text-lg"
+    class="flex items-center justify-between w-full md:w-3/4 p-4 px-8 text-stone-900 text-lg mx-auto"
     aria-label="Global"
   >
     <a href="{% url 'home' %}"> MoodMo </a>
@@ -10,7 +10,7 @@
         href="{% url 'account_signup' %}"
         class="inline-flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full"
       >
-        Sign Up
+        Sign up
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -30,7 +30,7 @@
         href="{% url 'account_login' %}"
         class="inline-flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full"
       >
-        Log In
+        Log in
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
