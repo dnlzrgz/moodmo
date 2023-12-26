@@ -358,3 +358,5 @@ $RECYCLE.BIN/
 
 # Tailwind CSS
 tailwindcss
+output.css
+output.*.css

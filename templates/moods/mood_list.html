@@ -6,14 +6,12 @@
     {% include "_primary_nav.html" %}
 
     {% regroup moods by timestamp.date as moods_by_day %}
-    <div class="mt-32 mb-12 text-lg text-stone-900">
+    <div class="mt-32 mb-12 mx-4 md:mx-0 text-lg text-stone-900">
         {% for day, moods in moods_by_day %}
             <div class="max-w-lg mb-9 mx-auto">
-                <p class="mb-3">
-                    <time>
-                        {{ day }}
-                    </time>
-                </p>
+                <time class="inline-block py-1.5 px-3.5 mb-3 bg-stone-900 text-white rounded-lg">
+                    {{ day }}
+                </time>
                 <ol>
                     {% for mood in moods %}
                         {% include "moods/_mood_card.html" %}
@@ -23,10 +21,10 @@
 
         {% empty %}
             <div class="mt-56 text-center">
-                <h4 class="font-bold text-stone-900 text-5xl leading-none mb-4">
+                <h4 class="font-bold text-stone-900 text-4xl md:text-8xl leading-none mb-4">
                     Ooops!
                 </h4>
-                <p class="text-xl max-w-xl mx-auto text-stone-900">
+                <p class="text-xl max-w-xl mx-auto text-stone-600">
                     No moods yet? Must be a glitch in the emotional matrix. Let’s debug together!
                 </p>
             </div>
