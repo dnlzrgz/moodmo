@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("management/", admin.site.urls),
+    path(settings.DJANGO_ADMIN_URL, admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("moods/", include("moods.urls")),
     path("", include("pages.urls")),

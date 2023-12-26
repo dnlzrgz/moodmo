@@ -29,6 +29,8 @@ DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", [])
 
+DJANGO_ADMIN_URL = env.str("DJANGO_ADMIN_URL", "admin/")
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
