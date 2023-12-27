@@ -1,8 +1,10 @@
+import csv
 from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     ListView,
     CreateView,
@@ -83,3 +85,38 @@ class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     template_name = "moods/mood_delete.html"
     success_url = reverse_lazy("mood_list")
     context_object_name = "mood"
+
+
+# TODO: Implement StreamingHttpResponse
+class MoodExportView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        moods = Mood.objects.filter(user=self.request.user).order_by("-timestamp")
+        export_format = self.request.GET.get("format", "csv")
+
+        if export_format == "json":
+            mood_data = [
+                {
+                    "mood": mood.mood,
+                    "note_title": mood.note_title,
+                    "note": mood.note,
+                    "timestamp": mood.timestamp,
+                }
+                for mood in moods
+            ]
+
+            return JsonResponse({"moods": mood_data})
+        else:
+            response = HttpResponse(content_type="text/csv")
+            response["Content-Disposition"] = 'attachment; filename="moods_export.csv"'
+
+            writer = csv.writer(response)
+            writer.writerow(["mood", "note_title", "note", "timestamp"])
+
+            writer.writerows(
+                [
+                    [mood.mood, mood.note_title, mood.note, mood.timestamp]
+                    for mood in moods
+                ]
+            )
+
+            return response

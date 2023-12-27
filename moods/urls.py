@@ -5,6 +5,7 @@ from .views import (
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,
+    MoodExportView,
 )
 
 urlpatterns = [
@@ -32,5 +33,10 @@ urlpatterns = [
         "delete/<int:pk>",
         MoodDeleteView.as_view(),
         name="mood_delete",
+    ),
+    path(
+        "export/",
+        MoodExportView.as_view(),
+        name="mood_export",
     ),
 ]
