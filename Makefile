@@ -96,6 +96,10 @@ local-stop:
 	docker-compose -f local.yaml down
 	@echo "✨ Local Docker compose stopped!"
 
+docker-logs:
+	@echo "👀 Watching container logs..."
+	docker-compose -f local.yaml logs -f
+	@echo "✨ Watching container logs finished!"
 
 # Start prod Docker compose
 prod-start:
