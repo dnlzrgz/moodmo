@@ -6,6 +6,20 @@ from django.utils import timezone
 from django.urls import reverse
 
 
+class Activity(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name_plural = "activities"
+
+
 class Mood(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -21,6 +35,11 @@ class Mood(models.Model):
     mood = models.IntegerField(choices=MOOD_CHOICES)
     note_title = models.CharField(blank=True, max_length=255)
     note = models.TextField(blank=True)
+    activities = models.ManyToManyField(
+        Activity,
+        related_name="moods",
+        blank=True,
+    )
     timestamp = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
 

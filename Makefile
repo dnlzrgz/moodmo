@@ -108,7 +108,7 @@ prod-stop:
 	@echo "✨ Prod Docker compose stopped!"
 
 # Watch production Docker compose logs
-local-logs:
+prod-logs:
 	@echo "👀 Watching container logs..."
 	docker-compose -f prod.yaml logs -f
 	@echo "✨ Watching container logs finished!"
