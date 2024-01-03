@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "django_htmx",
     # Local
     "accounts",
     "pages",

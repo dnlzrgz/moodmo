@@ -34,13 +34,6 @@ download-tailwind:
 	mv tailwindcss-linux-x64 tailwindcss
 	@echo "✨ Tailwind CSS installed!"
 
-# Download v1.9.9 htmx script
-download-htmx:
-	@echo "📥 Downloading htmx script..."
-	curl -sL https://unpkg.com/htmx.org@1.9.9/dist/htmx.min.js -o static/js/htmx.js
-	curl -sL https://unpkg.com/htmx.org/dist/ext/debug.js -o static/js/debug.js
-	@echo "✨ htmx script downloaded and saved!"
-
 # Download v3.x.x Alpine.js script
 download-alpine:
 	@echo "📥 Downloading Alpine.js script..."
@@ -120,11 +113,10 @@ local-logs:
 	docker-compose -f prod.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
-# Setup project with dependencies, Tailwind CSS, and htmx for local development
+# Setup project with dependencies, Tailwind CSS and Alpine.js for local development
 setup:
 	@make download-tailwind
 	@make download-alpine
-	@make download-htmx
 	poetry install
 	pre-commit install
 	pre-commit run --all-files
