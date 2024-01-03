@@ -2,7 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-display: swap;
+  src: url("/static/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf") format("truetype");
+  font-weight: 1 900;
+}
+
+
 @layer base {
+
+  *,
+  *::before,
+  *::after,
+  html {
+    font-family: "Nunito Sans", system-ui, sans-serif;
+  }
+
   .form label {
     @apply hidden;
   }

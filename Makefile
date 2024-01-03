@@ -96,7 +96,8 @@ local-stop:
 	docker-compose -f local.yaml down
 	@echo "✨ Local Docker compose stopped!"
 
-docker-logs:
+# Watch local Docker compose logs
+local-logs:
 	@echo "👀 Watching container logs..."
 	docker-compose -f local.yaml logs -f
 	@echo "✨ Watching container logs finished!"
@@ -112,6 +113,12 @@ prod-stop:
 	@echo "🛑 Stopping prod Docker compose..."
 	docker-compose -f prod.yaml down
 	@echo "✨ Prod Docker compose stopped!"
+
+# Watch production Docker compose logs
+local-logs:
+	@echo "👀 Watching container logs..."
+	docker-compose -f prod.yaml logs -f
+	@echo "✨ Watching container logs finished!"
 
 # Setup project with dependencies, Tailwind CSS, and htmx for local development
 setup:
