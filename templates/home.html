@@ -3,9 +3,11 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-  {% include "_primary_nav.html" %}
-  <main class="mt-32 flex flex-col gap-y-32 w-full md:w-3/4 max-w-6xl py-4 px-8 mx-auto">
+  <header>
+    {% include "_primary_nav.html" %}
     {% include "_hero.html" %}
+  </header>
+  <main class="my-24 flex flex-col gap-y-24 w-full md:w-3/4 max-w-6xl py-4 px-8 mx-auto">
     {% include "_features.html" %}
   </main>
   {% include "_footer.html" %}

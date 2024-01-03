@@ -3,10 +3,12 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
-    {% include "_primary_nav.html" %}
+    <header>
+        {% include "_primary_nav.html" %}
+    </header>
 
     {% regroup moods by timestamp.date as moods_by_day %}
-    <div class="mt-32 mb-12 mx-4 md:mx-0 text-lg text-stone-900">
+    <main class="mt-32 mb-12 mx-4 md:mx-0 text-lg text-stone-900">
         {% for day, moods in moods_by_day %}
             <div class="max-w-lg mb-9 mx-auto">
                 <time class="inline-block py-1.5 px-3.5 mb-3 bg-stone-900 text-white rounded-lg">
@@ -29,56 +31,58 @@
                 </p>
             </div>
         {% endfor %}
-    </div>
+    </main>
 
-    {% if page_obj.has_next or page_obj.has_previous %}
-        <div class="text-lg flex items-center justify-center gap-3.5 mx-auto mb-8">
-            {% if page_obj.has_previous %}
-                <a href="?page=1" class="hover:text-primary-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                         class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                    </svg>
-                </a>
+    <footer>
+        {% if page_obj.has_next or page_obj.has_previous %}
+            <div class="text-lg flex items-center justify-center gap-3.5 mx-auto mb-8">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="hover:text-primary-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                             class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                        </svg>
+                    </a>
 
-                <a href="?page={{ page_obj.previous_page_number }}" class="hover:text-primary-500 transition-colors">Prev</a>
-            {% else %}
-                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                         class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                    </svg>
-                </span>
-                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                    Prev
-                </span>
-            {% endif %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="hover:text-primary-500 transition-colors">Prev</a>
+                {% else %}
+                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                             class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                        </svg>
+                    </span>
+                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                        Prev
+                    </span>
+                {% endif %}
 
-            <span class="mx-1.5 select-none">
-                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-            </span>
+                <span class="mx-1.5 select-none">
+                    {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
 
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="hover:text-primary-500 transition-colors">Next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="hover:text-primary-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                         class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </a>
-            {% else %}
-                <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                    Next
-                </span>
-                <span class=" cursor-pointer p-1.5 text-stone-500 select-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                         class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </span>
-            {% endif %}
-        </div>
-    {% endif %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="hover:text-primary-500 transition-colors">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="hover:text-primary-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                             class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </a>
+                {% else %}
+                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
+                        Next
+                    </span>
+                    <span class=" cursor-pointer p-1.5 text-stone-500 select-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                             class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </span>
+                {% endif %}
+            </div>
+        {% endif %}
+    </footer>
 
     <script>
         const moodToEmoji = {
@@ -93,5 +97,4 @@
             return moodToEmoji[mood]
         }
     </script>
-
 {% endblock content %}

@@ -6,7 +6,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{% block title %} MoodMo {% endblock title %}</title>
+    <title>
+      {% block title %} MoodMo {% endblock title %}
+    </title>
 
     <!-- Tailwind CSS -->
     {% if debug %}
@@ -32,7 +34,8 @@
     @keyup.ctrl.space="commandOpen = !commandOpen"
     @keydown.escape.window="commandOpen = false"
   >
-    {% block content %} {% endblock content %}
+    {% block content %}
+    {% endblock content %}
   </body>
 
   <!-- Alpine.js -->
