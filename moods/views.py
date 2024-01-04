@@ -11,7 +11,6 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-
 from moods.forms import MoodForm
 from moods.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.models import Mood
@@ -20,13 +19,37 @@ from moods.models import Mood
 class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
+
+
+class MoodInfiniteListView(LoginRequiredMixin, ListView):
+    model = Mood
     context_object_name = "moods"
     paginate_by = 24
+
+    def dispatch(self, request, *args, **kwargs):
+        if "X-Alpine-Load" not in request.headers:
+            return HttpResponseForbidden("Forbidden: Direct access not allowed.")
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[Any]:
         ordering = self.request.GET.get("ordering", "-timestamp")
         queryset = Mood.objects.filter(user=self.request.user).order_by(ordering)
         return queryset
+
+    def render_to_response(self, context, **kwargs):
+        mood_data = [
+            {
+                "id": mood.id,
+                "mood": mood.mood,
+                "note_title": mood.note_title,
+                "note": mood.note,
+                "timestamp": mood.timestamp,
+            }
+            for mood in context["moods"]
+        ]
+
+        return JsonResponse({"moods": mood_data})
 
 
 class MoodSearchView(LoginRequiredMixin, ListView):
@@ -43,7 +66,7 @@ class MoodSearchView(LoginRequiredMixin, ListView):
         query = self.request.GET.get("q")
         limit = self.request.GET.get("limit", 10)
 
-        limit = max(1, min(int(limit), 100))
+        limit = max(1, min(int(limit), 20))
 
         return Mood.objects.filter(
             search_vector=query, user=self.request.user

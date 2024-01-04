@@ -3,7 +3,7 @@ from .models import Mood
 
 
 class MoodForm(forms.ModelForm):
-    pass
+    mood = forms.ChoiceField(choices=Mood.MOOD_CHOICES, widget=forms.RadioSelect)
 
     class Meta:
         model = Mood
@@ -11,5 +11,6 @@ class MoodForm(forms.ModelForm):
             "mood",
             "note_title",
             "note",
+            "activities",
             "timestamp",
         ]

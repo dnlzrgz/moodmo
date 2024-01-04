@@ -1,291 +1,249 @@
 <template x-teleport="body">
-  <div
-    x-show="commandOpen"
-    class="fixed top-0 left-0 z-50 flex items-start sm:items-center justify-center w-screen h-screen backdrop-blur-sm"
-    x-cloak
-  >
-    <div
-      x-show="commandOpen"
-      x-transition:enter="ease-out duration-300"
-      x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="ease-in duration-300"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      @click="commandOpen=false"
-      class="absolute inset-0 w-full h-full"
-    ></div>
-    <div
-      x-show="commandOpen"
-      x-trap.inert.noscroll="commandOpen"
-      x-transition:enter="ease-out duration-300"
-      x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-      x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-      x-transition:leave="ease-in duration-200"
-      x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-      x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-      x-data="{
-              commandItems: {
-              commands : [
-              {
-              title: 'New mood',
-              value: 'mood_create',
-              icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m7.5-7.5h-15\'/></svg>',
-              default: true,
-              },
-              ],
-              settings: [
-              {
-              title: 'Sign Out',
-              value: 'signout',
-              icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9\'/></svg>',
-              default: true,
-              },
-              ],
-              },
-              moods: [],
-              errorFetching: false,
-              fetchingMoods: false,
-              fetchDelay: 350,
-              commandItemsFiltered: [],
-              commandItemActive: null,
-              commandItemSelected: null,
-              commandId: $id('command'),
-              commandSearch: '',
-              commandSearchIsEmpty() {
-              return this.commandSearch.length == 0;
-              },
-              commandItemIsActive(item) {
-              return this.commandItemActive && this.commandItemActive.value==item.value;
-              },
-              commandItemActiveNext(){
-              let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
+  <div x-show="commandOpen"
+       class="fixed top-0 left-0 z-50 flex items-start sm:items-center justify-center w-screen h-screen backdrop-blur-sm"
+       x-cloak>
+    <div x-show="commandOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-300"
+         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="commandOpen=false"
+         class="absolute inset-0 w-full h-full"></div>
+    <div x-show="commandOpen" x-trap.inert.noscroll="commandOpen" x-transition:enter="ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-data="{
+                                                                                               commandItems: {
+                                                                                               commands : [
+                                                                                               {
+                                                                                               title: 'New mood',
+                                                                                               value: 'mood_create',
+                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m7.5-7.5h-15\'/></svg>',
+                                                                                               default: true,
+                                                                                               },
+                                                                                               ],
+                                                                                               settings: [
+                                                                                               {
+                                                                                               title: 'Sign Out',
+                                                                                               value: 'signout',
+                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9\'/></svg>',
+                                                                                               default: true,
+                                                                                               },
+                                                                                               {
+                                                                                               title: 'Export moods',
+                                                                                               value: 'export',
+                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'currentColor\' class=\'w-5 h-5\'><path d=\'M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75\' /><path d=\'M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z\'/></svg>',
+                                                                                               default: true,
+                                                                                               },
+                                                                                               ],
+                                                                                               },
+                                                                                               moods: [],
+                                                                                               errorFetching: false,
+                                                                                               fetching: false,
+                                                                                               fetchDelay: 350,
+                                                                                               commandItemsFiltered: [],
+                                                                                               commandItemActive: null,
+                                                                                               commandItemSelected: null,
+                                                                                               commandId: $id('command'),
+                                                                                               commandSearch: '',
+                                                                                               commandSearchIsEmpty() {
+                                                                                               return this.commandSearch.length == 0;
+                                                                                               },
+                                                                                               commandItemIsActive(item) {
+                                                                                               return this.commandItemActive && this.commandItemActive.value==item.value;
+                                                                                               },
+                                                                                               commandItemActiveNext(){
+                                                                                               let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
 
-              if(index < this.commandItemsFiltered.length-1){
-              this.commandItemActive = this.commandItemsFiltered[index+1];
-              this.commandScrollToActiveItem();
-              }
-              },
-              commandItemActivePrevious(){
-              let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
-              if(index > 0){
-              this.commandItemActive = this.commandItemsFiltered[index-1];
-              this.commandScrollToActiveItem();
-              }
-              },
-              commandScrollToActiveItem(){
-              if(this.commandItemActive){
-              activeElement = document.getElementById(this.commandItemActive.value + '-' + this.commandId)
+                                                                                               if(index < this.commandItemsFiltered.length-1){
+                                                                                               this.commandItemActive = this.commandItemsFiltered[index+1];
+                                                                                               this.commandScrollToActiveItem();
+                                                                                               }
+                                                                                               },
+                                                                                               commandItemActivePrevious(){
+                                                                                               let index = this.commandItemsFiltered.indexOf(this.commandItemActive);
+                                                                                               if(index > 0){
+                                                                                               this.commandItemActive = this.commandItemsFiltered[index-1];
+                                                                                               this.commandScrollToActiveItem();
+                                                                                               }
+                                                                                               },
+                                                                                               commandScrollToActiveItem(){
+                                                                                               if(this.commandItemActive){
+                                                                                               activeElement = document.getElementById(this.commandItemActive.value + '-' + this.commandId)
 
-              if(!activeElement) return;
+                                                                                               if(!activeElement) return;
 
-              newScrollPos = (activeElement.offsetTop + activeElement.offsetHeight) - this.$refs.commandItemsList.offsetHeight;
-              if(newScrollPos > 0){
-              this.$refs.commandItemsList.scrollTop=newScrollPos;
-              } else {
-              this.$refs.commandItemsList.scrollTop=0;
-              }
-              }
-              },
-              commandSearchItems() {
-              if(!this.commandSearchIsEmpty()){
-              searchTerm = this.commandSearch.replace(/\*/g, '').toLowerCase();
+                                                                                               newScrollPos = (activeElement.offsetTop + activeElement.offsetHeight) - this.$refs.commandItemsList.offsetHeight;
+                                                                                               if(newScrollPos > 0){
+                                                                                               this.$refs.commandItemsList.scrollTop=newScrollPos;
+                                                                                               } else {
+                                                                                               this.$refs.commandItemsList.scrollTop=0;
+                                                                                               }
+                                                                                               }
+                                                                                               },
+                                                                                               commandSearchItems() {
+                                                                                               if(!this.commandSearchIsEmpty()){
+                                                                                               searchTerm = this.commandSearch.replace(/\*/g, '').toLowerCase();
 
-              // Update command list
-              this.commandItemsFiltered = this.commandItems.filter(item => item.title.toLowerCase().startsWith(searchTerm));
+                                                                                               // Update command list
+                                                                                               this.commandItemsFiltered = this.commandItems.filter(item => item.title.toLowerCase().startsWith(searchTerm));
 
-              // Fetch new moods
-              this.errorFetching = false;
-              this.moods = []
-              this.fetchingMoods = true;
-              this.debouncedFetchMoods(
-              encodeURIComponent(searchTerm)
-              );
+                                                                                               // Fetch new moods
+                                                                                               this.errorFetching = false;
+                                                                                               this.moods = []
+                                                                                               this.fetching = true;
+                                                                                               this.debouncedFetchMoods(
+                                                                                               encodeURIComponent(searchTerm)
+                                                                                               );
 
-              this.commandScrollToActiveItem();
-              } else {
-              this.moods = [];
-              this.commandItemsFiltered = this.commandItems.filter(item => item.default);
-              }
+                                                                                               this.commandScrollToActiveItem();
+                                                                                               } else {
+                                                                                               this.moods = [];
+                                                                                               this.commandItemsFiltered = this.commandItems.filter(item => item.default);
+                                                                                               }
 
-              this.commandItemActive = this.commandItemsFiltered[0];
-              },
-              commandShowCategory(item, index){
-              if(index == 0) return true;
+                                                                                               this.commandItemActive = this.commandItemsFiltered[0];
+                                                                                               },
+                                                                                               commandShowCategory(item, index){
+                                                                                               if(index == 0) return true;
 
-              if(typeof this.commandItems[index-1] === 'undefined') return false;
+                                                                                               if(typeof this.commandItems[index-1] === 'undefined') return false;
 
-              return item.category != this.commandItems[index-1].category;
-              },
-              commandCategoryCapitalize(string){
-              return string.charAt(0).toUpperCase() + string.slice(1);
-              },
-              commandItemsReorganize(){
-              commandItemsOriginal = this.commandItems;
-              keys = Object.keys(this.commandItems);
-              this.commandItems = [];
+                                                                                               return item.category != this.commandItems[index-1].category;
+                                                                                               },
+                                                                                               commandCategoryCapitalize(string){
+                                                                                               return string.charAt(0).toUpperCase() + string.slice(1);
+                                                                                               },
+                                                                                               commandItemsReorganize(){
+                                                                                               commandItemsOriginal = this.commandItems;
+                                                                                               keys = Object.keys(this.commandItems);
+                                                                                               this.commandItems = [];
 
-              keys.forEach((key, index) => {
-              for(i=0; i<commandItemsOriginal[key].length; i++){
-              commandItemsOriginal[key][i].category = key;
-              this.commandItems.push( commandItemsOriginal[key][i] );
-              }
-              });
-              },
-              formatTime(timestamp) {
-              const date = new Date(timestamp);
-              const hours = date.getHours().toString().padStart(2, '0');
-              const minutes = date.getMinutes().toString().padStart(2, '0');
+                                                                                               keys.forEach((key, index) => {
+                                                                                               for(i=0; i<commandItemsOriginal[key].length; i++){
+                                                                                               commandItemsOriginal[key][i].category = key;
+                                                                                               this.commandItems.push( commandItemsOriginal[key][i] );
+                                                                                               }
+                                                                                               });
+                                                                                               },
+                                                                                               formatTime(timestamp) {
+                                                                                               const date = new Date(timestamp);
+                                                                                               const hours = date.getHours().toString().padStart(2, '0');
+                                                                                               const minutes = date.getMinutes().toString().padStart(2, '0');
 
-              return `${hours}:${minutes}`;
-              },
-              formatDate(timestamp) {
-              const date = new Date(timestamp);
-              const currentYear = new Date().getFullYear();
+                                                                                               return `${hours}:${minutes}`;
+                                                                                               },
+                                                                                               formatDate(timestamp) {
+                                                                                               const date = new Date(timestamp);
+                                                                                               const currentYear = new Date().getFullYear();
 
-              const year = date.getFullYear();
-              const month = (date.getMonth() + 1).toString().padStart(2, '0');
-              const day = date.getDate().toString().padStart(2, '0');
+                                                                                               const year = date.getFullYear();
+                                                                                               const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                                                                               const day = date.getDate().toString().padStart(2, '0');
 
-              if (year == currentYear) {
-              return `${month}/${day}`;
-              } else {
-              return `${year}/${month}/${day}`;
-              }
+                                                                                               if (year == currentYear) {
+                                                                                               return `${month}/${day}`;
+                                                                                               } else {
+                                                                                               return `${year}/${month}/${day}`;
+                                                                                               }
 
-              },
-              redirectToMoodEditPage(moodId) {
-              const url = `{% url 'mood_edit' 0 %}`.replace('0', moodId);
-              window.location.href = url;
-              },
-              async fetchMoods(searchTerm) {
-              const url = searchTerm
-              ? `{% url 'mood_search' %}?limit=5&q=${searchTerm}`
-              : `{% url 'mood_search' %}?limit=3`;
+                                                                                               },
+                                                                                               redirectToMoodEditPage(moodId) {
+                                                                                               const url = `{% url 'mood_edit' 0 %}`.replace('0', moodId);
+                                                                                               window.location.href = url;
+                                                                                               },
+                                                                                               async fetchMoods(searchTerm) {
+                                                                                               const url = searchTerm
+                                                                                               ? `{% url 'mood_search' %}?limit=5&q=${searchTerm}`
+                                                                                               : `{% url 'mood_search' %}?limit=3`;
 
-              fetch(url, {
-              method: 'GET',
-              headers: {
-              'X-Alpine-Search': 'true',
-              },
-              })
-              .then(response => response.json())
-              .then(data => {
-              this.moods = data.moods;
-              this.fetchingMoods = false;
-              }).catch(error => {
-              console.error(error);
-              this.errorFetching = true;
-              this.fetchingMoods = false;
-              }
-              );
-              },
-              debouncedFetchMoods: function() {
-              let timeout;
+                                                                                               fetch(url, {
+                                                                                               method: 'GET',
+                                                                                               headers: {
+                                                                                               'X-Alpine-Search': 'true',
+                                                                                               },
+                                                                                               })
+                                                                                               .then(response => response.json())
+                                                                                               .then(data => {
+                                                                                               this.moods = data.moods;
+                                                                                               this.fetching = false;
+                                                                                               }).catch(error => {
+                                                                                               console.error(error);
+                                                                                               this.errorFetching = true;
+                                                                                               this.fetching = false;
+                                                                                               }
+                                                                                               );
+                                                                                               },
+                                                                                               debouncedFetchMoods: function() {
+                                                                                               let timeout;
 
-              return function(searchTerm) {
-              clearTimeout(timeout);
+                                                                                               return function(searchTerm) {
+                                                                                               clearTimeout(timeout);
 
-              timeout = setTimeout(() => {
-              this.fetchMoods(searchTerm);
-              }, this.fetchDelay);
-              };
-              }(),
-              }"
-      x-init="
-              commandItemsReorganize();
-              commandItemsFiltered = commandItems;
-              commandItemActive=commandItems[0];
-              $watch('commandSearch', value => commandSearchItems());
-              $watch('commandItemSelected', function(item){
-              if(item.value == 'mood_create'){
-              window.location.href = '{% url 'mood_create' %}';
-              } else if (item.value == 'signout') {
-              window.location.href = '{% url 'account_logout' %}';
-              }
-              });
-             "
-      @keydown.down="event.preventDefault(); commandItemActiveNext();"
-      @keydown.up="event.preventDefault(); commandItemActivePrevious()"
-      @keydown.enter="commandItemSelected=commandItemActive;"
-      @command-input-focus.window="$refs.commandInput.focus();"
-      class="flex m-3 sm:m-0 min-h-[370px] justify-center w-full max-w-xl items-start relative"
-      x-cloak
-    >
+                                                                                               timeout = setTimeout(() => {
+                                                                                               this.fetchMoods(searchTerm);
+                                                                                               }, this.fetchDelay);
+                                                                                               };
+                                                                                               }(),
+                                                                                               }" x-init="
+                                                                                                                   commandItemsReorganize();
+                                                                                                                   commandItemsFiltered = commandItems;
+                                                                                                                   commandItemActive=commandItems[0];
+                                                                                                                   $watch('commandSearch', value => commandSearchItems());
+                                                                                                                   $watch('commandItemSelected', function(item){
+                                                                                                                   if(item.value == 'mood_create'){
+                                                                                                                   window.location.href = '{% url 'mood_create' %}';
+                                                                                                                   } else if (item.value == 'signout') {
+                                                                                                                   window.location.href = '{% url 'account_logout' %}';
+                                                                                                                   } else if (item.value == 'export') {
+
+                                                                                                                   window.location.href = '{% url 'mood_export' %}';
+                                                                                                                   }
+                                                                                                                   });
+                                                                                                                  "
+         @keydown.down="event.preventDefault(); commandItemActiveNext();"
+         @keydown.up="event.preventDefault(); commandItemActivePrevious()"
+         @keydown.enter="commandItemSelected=commandItemActive;" @command-input-focus.window="$refs.commandInput.focus();"
+         class="flex m-3 sm:m-0 min-h-[370px] justify-center w-full max-w-xl items-start relative" x-cloak>
       <div
-        class="box-border p-1.5 flex flex-col w-full h-full overflow-hidden bg-white rounded-lg border border-stone-100 drop-shadow-md"
-      >
+        class="box-border p-1.5 flex flex-col w-full h-full overflow-hidden bg-white rounded-lg border border-stone-100 drop-shadow-md">
         <!-- Search bar -->
         <div class="flex items-center px-3 border-b border-stone-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            data-slot="icon"
-            class="w-6 h-6 text-stone-900"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-              clip-rule="evenodd"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
+               class="w-6 h-6 text-stone-900">
+            <path fill-rule="evenodd"
+                  d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                  clip-rule="evenodd" />
           </svg>
-          <input
-            type="text"
-            x-ref="commandInput"
-            x-model="commandSearch"
-            class="flex w-full px-2.5 py-2.5 text-lg bg-transparent border-0 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-400"
-            placeholder="Type a command or search moods"
-            autocomplete="off"
-            autocorrect="off"
-            spellcheck="false"
-          />
+          <input type="text" x-ref="commandInput" x-model="commandSearch"
+                 class="flex w-full px-2.5 py-2.5 text-lg bg-transparent border-0 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-400"
+                 placeholder="Type a command or search moods" autocomplete="off" autocorrect="off" spellcheck="false" />
           <kbd
             class="px-2.5 py-1.5 text-sm font-semibold text-stone-900 bg-stone-100 border border-stone-200 rounded-lg cursor-pointer"
-            @click="commandOpen = false"
-            role="button"
-          >
+            @click="commandOpen = false" role="button">
             Esc
           </kbd>
         </div>
 
         <!-- Commands -->
-        <div
-          x-ref="commandItemsList"
-          class="max-h-80 overflow-y-auto overflow-x-hidden"
-        >
-          <template
-            x-for="(item, index) in commandItemsFiltered"
-            :key="'item-' + index"
-          >
+        <div x-ref="commandItemsList" class="max-h-80 overflow-y-auto overflow-x-hidden">
+          <template x-for="(item, index) in commandItemsFiltered" :key="'item-' + index">
             <div class="pb-1 space-y-1">
               <template x-if="commandShowCategory(item, index)">
                 <div class="overflow-hidden">
-                  <div
-                    class="px-3.5 py-1.5 font-medium text-md text-stone-500"
-                    x-text="commandCategoryCapitalize(item.category)"
-                  ></div>
+                  <div class="px-3.5 py-1.5 font-medium text-md text-stone-500"
+                       x-text="commandCategoryCapitalize(item.category)"></div>
                 </div>
               </template>
 
-              <template
-                x-if="(item.default && commandSearchIsEmpty()) || !commandSearchIsEmpty()"
-              >
+              <template x-if="(item.default && commandSearchIsEmpty()) || !commandSearchIsEmpty()">
                 <div class="px-3.5">
-                  <div
-                    :id="item.value + '-' + commandId"
-                    @click="commandItemSelected=item"
-                    @mousemove="commandItemActive=item"
-                    :class="{ 'bg-primary-500 text-white' : commandItemIsActive(item) }"
-                    class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
-                  >
+                  <div :id="item.value + '-' + commandId" @click="commandItemSelected=item"
+                       @mousemove="commandItemActive=item"
+                       :class="{ 'bg-primary-500 text-white' : commandItemIsActive(item) }"
+                       class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none">
                     <span x-html="item.icon"></span>
                     <span x-text="item.title"></span>
                     <template x-if="item.right">
-                      <span
-                        class="ml-auto text-xs tracking-widest text-muted-foreground"
-                        x-text="item.right"
-                      ></span>
+                      <span class="ml-auto text-xs tracking-widest text-muted-foreground" x-text="item.right"></span>
                     </template>
                   </div>
                 </div>
@@ -295,10 +253,7 @@
         </div>
 
         <!-- Moods -->
-        <div
-          x-ref="moodsItemList"
-          class="max-h-80 overflow-y-auto overflow-x-hidden"
-        >
+        <div x-ref="moodsItemList" class="max-h-80 overflow-y-auto overflow-x-hidden">
           <div class="pb-1 space-y-1">
             <div class="overflow-hidden">
               <div class="px-3.5 py-1.5 font-medium text-md text-stone-500">
@@ -307,49 +262,26 @@
             </div>
 
             <!-- Loading indicator -->
-            <template x-if="fetchingMoods && !errorFetching">
+            <template x-if="fetching && !errorFetching">
               <div class="flex justify-center p-2.5">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  class="text-stone-900 animate-spin w-5 h-5"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="text-stone-900 animate-spin w-5 h-5"
+                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
               </div>
             </template>
 
             <!-- Search -->
-            <template
-              x-if="moods.length == 0 && !fetchingMoods && !errorFetching && commandSearch.length <= 0"
-            >
+            <template x-if="moods.length == 0 && !fetching && !errorFetching && commandSearch.length <= 0">
               <div class="px-3.5">
                 <div
-                  class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
-                >
+                  class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none">
                   <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      class="w-5 h-5 text-stone-900"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-5 h-5 text-stone-900"
+                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
                     </svg>
                   </span>
                   <span>Start typing to search moods</span>
@@ -358,28 +290,15 @@
             </template>
 
             <!-- Empty -->
-            <template
-              x-if="moods.length <= 0 && !fetchingMoods && !errorFetching && commandSearch.length > 0"
-            >
+            <template x-if="moods.length <= 0 && !fetching && !errorFetching && commandSearch.length > 0">
               <div class="px-3.5">
                 <div
-                  class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none"
-                >
+                  class="relative flex gap-x-1.5 py-0.5 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none">
                   <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      class="w-5 h-5 text-stone-900"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-5 h-5 text-stone-900"
+                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
                     </svg>
                   </span>
                   <span>No moods found!</span>
@@ -390,26 +309,15 @@
             <template x-if="errorFetching">
               <div class="px-3.5">
                 <div
-                  class="relative flex gap-x-2.5 py-1 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none bg-red-500 text-white"
-                >
+                  class="relative flex gap-x-2.5 py-1 px-1.5 cursor-default select-none items-center rounded-lg text-lg outline-none bg-red-500 text-white">
                   <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-5 h-5"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                     </svg>
                   </span>
-                  <span
-                  >Something went wrong while fetching moods! Please, try
+                  <span>Something went wrong while fetching moods! Please, try
                     again.
                   </span>
                 </div>
@@ -422,17 +330,14 @@
                 <template x-for="mood in moods">
                   <li
                     class="group flex items-center relative gap-x-1.5 py-0.5 px-1.5 cursor-default select-none rounded-lg outline-none hover:bg-primary-500 hover:text-white truncate text-lg"
-                    @click="redirectToMoodEditPage(mood.id)"
-                  >
+                    @click="redirectToMoodEditPage(mood.id)">
                     <time
                       class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
-                      x-text="formatDate(mood.timestamp)"
-                    >
+                      x-text="formatDate(mood.timestamp)">
                     </time>
                     <time
                       class="text-sm text-white bg-stone-900 px-1.5 py-0.5 rounded-lg font-semibold group-hover:bg-primary-700"
-                      x-text="formatTime(mood.timestamp)"
-                    ></time>
+                      x-text="formatTime(mood.timestamp)"></time>
                     <p x-text="mood.note_title"></p>
                   </li>
                 </template>

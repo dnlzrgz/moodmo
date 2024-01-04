@@ -34,11 +34,12 @@ download-tailwind:
 	mv tailwindcss-linux-x64 tailwindcss
 	@echo "✨ Tailwind CSS installed!"
 
-# Download v3.x.x Alpine.js script
+# Download v3.x.x Alpine.js core and plugins
 download-alpine:
 	@echo "📥 Downloading Alpine.js script..."
 	curl -sL https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js -o static/js/alpine.js
 	curl -sL https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js -o static/js/focus.js
+	curl -sL https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js -o static/js/intersect.js
 	@echo "✨ Alpine.js script downloaded and saved!"
 
 # Run Tailwind CSS minification

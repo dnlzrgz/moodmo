@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     MoodListView,
+    MoodInfiniteListView,
     MoodSearchView,
     MoodCreateView,
     MoodUpdateView,
@@ -13,6 +14,11 @@ urlpatterns = [
         "",
         MoodListView.as_view(),
         name="mood_list",
+    ),
+    path(
+        "infinite/",
+        MoodInfiniteListView.as_view(),
+        name="mood_list_infinite",
     ),
     path(
         "search/",

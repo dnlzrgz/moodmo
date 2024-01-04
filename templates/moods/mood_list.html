@@ -3,98 +3,143 @@
 {% block title %}Moods{% endblock title %}
 
 {% block content %}
-    <header>
-        {% include "_primary_nav.html" %}
-    </header>
+  <header>
+    {% include "_primary_nav.html" %}
+  </header>
 
-    {% regroup moods by timestamp.date as moods_by_day %}
-    <main class="mt-32 mb-12 mx-4 md:mx-0 text-lg text-stone-900">
-        {% for day, moods in moods_by_day %}
-            <div class="max-w-lg mb-9 mx-auto">
-                <time class="inline-block py-1.5 px-3.5 mb-3 bg-stone-900 text-white rounded-lg">
-                    {{ day }}
-                </time>
-                <ol>
-                    {% for mood in moods %}
-                        {% include "moods/_mood_card.html" %}
-                    {% endfor %}
-                </ol>
+  <main class="mt-32 mb-12 mx-4 md:mx-4 text-lg text-stone-900" x-data="{
+                                                                        moods: [],
+                                                                        page: 1,
+                                                                        errorFetching: false,
+                                                                        fetching: false,
+                                                                        noMoreMoods: false,
+                                                                        async loadMoods() {
+                                                                        if (this.fetching || this.noMoreMoods) return;
+
+                                                                        this.fetching = true;
+
+                                                                        try {
+                                                                        const response = await fetch(`/moods/infinite/?page=${this.page}`, {
+                                                                        headers: {
+                                                                        'X-Alpine-Load': 'true',
+                                                                        },
+                                                                        });
+
+                                                                        const data = await response.json();
+                                                                        this.moods.push(...data.moods);
+                                                                        this.page++;
+                                                                        } catch (error) {
+                                                                        console.error(error);
+                                                                        this.errorFetching = true;
+                                                                        }
+
+                                                                        this.fetching = false;
+                                                                        },
+                                                                        formatTimestamp(timestamp) {
+                                                                        const date = new Date(timestamp);
+                                                                        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                                                                        },
+                                                                        }">
+    <div class="max-w-lg mb-9 mx-auto" x-init="loadMoods">
+      <template x-for="mood in moods">
+        <ul class="relative" x-data="{
+                                     emoji: getEmoji(mood.mood),
+                                     popoverOpen: false,
+                                     popoverArrow: true,
+                                     popoverPosition: 'bottom',
+                                     popoverHeight: 0,
+                                     popoverOffset: 8,
+                                     popoverHeightCalculate() {
+                                     this.$refs.popover.classList.add('invisible');
+                                     this.popoverOpen=true;
+                                     let that=this;
+                                     $nextTick(function(){
+                                     that.popoverHeight = that.$refs.popover.offsetHeight;
+                                     that.popoverOpen=false;
+                                     that.$refs.popover.classList.remove('invisible');
+                                     that.$refs.popoverInner.setAttribute('x-transition', '');
+                                     that.popoverPositionCalculate();
+                                     });
+                                     },
+                                     popoverPositionCalculate(){
+                                     if(window.innerHeight < (this.$refs.popoverButton.getBoundingClientRect().top + this.$refs.popoverButton.offsetHeight + this.popoverOffset + this.popoverHeight)){
+                                     this.popoverPosition = 'top';
+                                     } else {
+                                     this.popoverPosition = 'bottom';
+                                     }
+                                     }
+                                     }"
+            x-init="
+                    that = this;
+                    window.addEventListener('resize', function(){
+                    popoverPositionCalculate();
+                    });
+                    $watch('popoverOpen', function(value){
+                    if(value){ popoverPositionCalculate() }
+                    });">
+          <!-- Mood card -->
+          <li x-ref="popoverButton" @click="popoverOpen=!popoverOpen"
+              class="px-3.5 py-5 bg-white mb-1.5 drop-shadow-sm rounded-xl select-none flex justify-start items-center gap-3.5 cursor-pointer overflow-hidden"
+              role="button">
+            <div x-text="emoji" class="text-5xl"></div>
+
+            <div class="flex-col w-full">
+              <time x-text="formatTimestamp(mood.timestamp)"></time>
+
+              <template x-if="mood.note_title">
+                <p class="text-stone-500 truncate" x-text="mood.note_title"></p>
+              </template>
             </div>
+          </li>
 
-        {% empty %}
-            <div class="mt-56 text-center">
-                <h4 class="font-bold text-stone-900 text-4xl md:text-8xl leading-none mb-4">
-                    Ooops!
-                </h4>
-                <p class="text-xl max-w-xl mx-auto text-stone-600">
-                    No moods yet? Must be a glitch in the emotional matrix. Let’s debug together!
-                </p>
+          <!-- Popover -->
+          <div x-ref="popover" x-show="popoverOpen" x-init="setTimeout(function(){ popoverHeightCalculate(); }, 100);"
+               x-trap.inert="popoverOpen" @click.away="popoverOpen=false;" @keydown.escape.window="popoverOpen=false"
+               :class="{ 'top-0 mt-12' : popoverPosition == 'bottom', 'bottom-0 mb-12' : popoverPosition == 'top' }"
+               class="absolute w-44 max-w-lg -translate-x-1/2 left-1/2 z-50" x-cloak>
+            <div x-ref="popoverInner" x-show="popoverOpen"
+                 class="w-44 p-3.5 bg-white rounded-md drop-shadow-md border border-stone-100">
+              <!-- Up arrow-->
+              <div x-show="popoverArrow && popoverPosition == 'bottom'"
+                   class="absolute top-0 inline-block w-5 mt-px overflow-hidden -translate-x-2 -translate-y-2.5 left-1/2">
+                <div class="w-2.5 h-2.5 origin-bottom-left transform rotate-45 bg-white border-t border-l rounded-sm"></div>
+              </div>
+
+              <!-- Down arrow -->
+              <div x-show="popoverArrow  && popoverPosition == 'top'"
+                   class="absolute bottom-0 inline-block w-5 mb-px overflow-hidden -translate-x-2 translate-y-2.5 left-1/2">
+                <div class="w-2.5 h-2.5 origin-top-left transform -rotate-45 bg-white border-b border-l rounded-sm"></div>
+              </div>
+
+              <!-- Menu -->
+              <div class="flex flex-col gap-1.5 text-lg text-stone-900">
+                <a class="hover:text-primary-500" x-bind:href="'/moods/edit/' + mood.id">
+                  Edit
+                </a>
+                <a class="text-red-600" x-bind:href="'/moods/delete/' + mood.id">
+                  Delete
+                </a>
+              </div>
             </div>
-        {% endfor %}
-    </main>
+          </div>
+        </ul>
+      </template>
+    </div>
 
-    <footer>
-        {% if page_obj.has_next or page_obj.has_previous %}
-            <div class="text-lg flex items-center justify-center gap-3.5 mx-auto mb-8">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1" class="hover:text-primary-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                             class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                        </svg>
-                    </a>
+    <div class="w-full h-24" x-intersect="loadMoods" x-on:click="loadMoods"></div>
+  </main>
 
-                    <a href="?page={{ page_obj.previous_page_number }}" class="hover:text-primary-500 transition-colors">Prev</a>
-                {% else %}
-                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                             class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                        </svg>
-                    </span>
-                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                        Prev
-                    </span>
-                {% endif %}
+  <script>
+    const moodToEmoji = {
+      '-2': '😢',
+      '-1': '☹️',
+      '0': '😐',
+      '1': '🙂',
+      '2': '🤩',
+    };
 
-                <span class="mx-1.5 select-none">
-                    {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}" class="hover:text-primary-500 transition-colors">Next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}" class="hover:text-primary-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                             class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </a>
-                {% else %}
-                    <span class="cursor-pointer p-1.5 text-stone-500 select-none">
-                        Next
-                    </span>
-                    <span class=" cursor-pointer p-1.5 text-stone-500 select-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                             class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </span>
-                {% endif %}
-            </div>
-        {% endif %}
-    </footer>
-
-    <script>
-        const moodToEmoji = {
-            '-2': '😢',
-            '-1': '☹️',
-            '0': '😐',
-            '1': '🙂',
-            '2': '🤩',
-        };
-
-        const getEmoji = (mood) => {
-            return moodToEmoji[mood]
-        }
-    </script>
+    const getEmoji = (mood) => {
+      return moodToEmoji[mood]
+    }
+  </script>
 {% endblock content %}
