@@ -1,14 +1,36 @@
 import random
 from datetime import datetime
-
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from faker import Faker
 
-from moods.models import Mood
+from moods.models import Activity, Mood
 
 fake = Faker()
+
+ACTIVITY_CHOICES = [
+    "meditating",
+    "running",
+    "reading",
+    "listening to music",
+    "painting",
+    "cooking",
+    "gardening",
+    "yoga",
+    "swimming",
+    "hiking",
+    "cycling",
+    "writing",
+    "photography",
+    "watching movies",
+    "gaming",
+    "dancing",
+    "traveling",
+    "singing",
+    "volunteering",
+    "coding",
+]
 
 
 class Command(BaseCommand):
@@ -51,7 +73,18 @@ class Command(BaseCommand):
         if username:
             user_queryset = user_queryset.filter(username=username)
 
-        random_entries = [
+        # Create activities
+        activities = [
+            Activity(
+                user=random.choice(user_queryset),
+                name=activity,
+            )
+            for activity in ACTIVITY_CHOICES
+        ]
+        Activity.objects.bulk_create(activities)
+
+        # Create moods
+        moods = [
             Mood(
                 user=random.choice(user_queryset),
                 mood=random.choice(Mood.MOOD_CHOICES)[0],
@@ -65,6 +98,17 @@ class Command(BaseCommand):
             )
             for _ in range(n)
         ]
+        Mood.objects.bulk_create(moods)
 
-        Mood.objects.bulk_create(random_entries)
+        # Update some moods with activities
+        all_moods = Mood.objects.all()
+        selected_moods = random.sample(list(all_moods), int(0.5 * n))
+
+        for mood in selected_moods:
+            num_activities = random.randint(0, len(activities))
+            selected_activities = random.sample(activities, num_activities)
+            mood.activities.set(selected_activities)
+
+            mood.save()
+
         self.stdout.write(self.style.SUCCESS("Moods added to the database."))
