@@ -11,9 +11,13 @@
     <!-- Links -->
     <div class="flex items-center justify-center gap-3.5">
       {% if user.is_authenticated %}
-        <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 {% endif %}">
+        <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 underline {% endif %}">
           Moods
         </a>
+        <a href="#" class="{% if 'settings' in request.path %} text-primary-500 underline {% endif %}">
+          Settings
+        </a>
+
         <a href="{% url 'account_logout' %}" class=""> Sign out </a>
         <button name="command" @click="commandOpen = true"
                 class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white">

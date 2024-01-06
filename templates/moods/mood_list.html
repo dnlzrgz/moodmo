@@ -114,7 +114,7 @@
 
               <!-- Menu -->
               <div class="flex flex-col gap-1.5 text-lg text-stone-900">
-                <a class="hover:text-primary-500" x-bind:href="'/moods/edit/' + mood.id">
+                <a x-bind:href="'/moods/edit/' + mood.id">
                   Edit
                 </a>
                 <a class="text-red-600" x-bind:href="'/moods/delete/' + mood.id">
@@ -127,7 +127,26 @@
       </template>
     </div>
 
-    <div class="w-full h-24" x-intersect="loadMoods" x-on:click="loadMoods"></div>
+    <!-- Go top button -->
+    <div
+      x-data="{ show: false }"
+      x-on:scroll.window="show = window.pageYOffset >= 1000"
+      class="hidden md:block md:fixed bottom-8 left-8"
+    >
+      <button
+        x-show="show"
+        x-transition
+        x-on:click="window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="drop-shadow-lg bg-white text-stone-900 p-3.5 rounded-full"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Load more -->
+    <div class="w-full h-24" x-intersect="loadMoods"></div>
   </main>
 
   <script>
