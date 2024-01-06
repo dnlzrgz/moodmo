@@ -124,28 +124,6 @@
                                                                                                }
                                                                                                });
                                                                                                },
-                                                                                               formatTime(timestamp) {
-                                                                                               const date = new Date(timestamp);
-                                                                                               const hours = date.getHours().toString().padStart(2, '0');
-                                                                                               const minutes = date.getMinutes().toString().padStart(2, '0');
-
-                                                                                               return `${hours}:${minutes}`;
-                                                                                               },
-                                                                                               formatDate(timestamp) {
-                                                                                               const date = new Date(timestamp);
-                                                                                               const currentYear = new Date().getFullYear();
-
-                                                                                               const year = date.getFullYear();
-                                                                                               const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                                                                               const day = date.getDate().toString().padStart(2, '0');
-
-                                                                                               if (year == currentYear) {
-                                                                                               return `${month}/${day}`;
-                                                                                               } else {
-                                                                                               return `${year}/${month}/${day}`;
-                                                                                               }
-
-                                                                                               },
                                                                                                redirectToMoodEditPage(moodId) {
                                                                                                const url = `{% url 'mood_edit' 0 %}`.replace('0', moodId);
                                                                                                window.location.href = url;

@@ -36,10 +36,39 @@
   >
     {% block content %}
     {% endblock content %}
-  </body>
 
-  <!-- Alpine.js -->
-  <script src="{% static 'js/focus.js' %}" defer></script>
-  <script src="{% static 'js/intersect.js' %}" defer></script>
-  <script src="{% static 'js/alpine.js' %}" defer></script>
+    <!-- Alpine.js -->
+    <script src="{% static 'js/focus.js' %}" defer></script>
+    <script src="{% static 'js/intersect.js' %}" defer></script>
+    <script src="{% static 'js/alpine.js' %}" defer></script>
+
+    <script>
+      const formatTime = (timestamp) => {
+        const date = new Date(timestamp);
+        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      }
+
+      const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const yesterday = new Date(currentDate);
+        yesterday.setDate(currentDate.getDate() - 1);
+
+        if (date.toDateString() === currentDate.toDateString()) {
+          return 'Today';
+        } else if (date.toDateString() === yesterday.toDateString()) {
+          return 'Yesterday';
+        } else {
+          const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: (date.getFullYear() === currentYear) ? undefined : 'numeric'
+          };
+
+          return new Intl.DateTimeFormat(undefined, options).format(date);
+        }
+      };
+    </script>
+  </body>
 </html>

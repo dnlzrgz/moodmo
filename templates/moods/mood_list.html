@@ -12,32 +12,30 @@
                                                                         page: 1,
                                                                         errorFetching: false,
                                                                         fetching: false,
-                                                                        noMoreMoods: false,
+                                                                        lastPage: false,
                                                                         async loadMoods() {
-                                                                        if (this.fetching || this.noMoreMoods) return;
+                                                                        if (this.fetching || this.lastPage) return;
 
                                                                         this.fetching = true;
 
-                                                                        try {
-                                                                        const response = await fetch(`/moods/infinite/?page=${this.page}`, {
+                                                                        fetch(`/moods/infinite/?page=${this.page}`, {
                                                                         headers: {
                                                                         'X-Alpine-Load': 'true',
                                                                         },
-                                                                        });
-
-                                                                        const data = await response.json();
+                                                                        })
+                                                                        .then(response => {
+                                                                        return response.json()
+                                                                        })
+                                                                        .then(data => {
                                                                         this.moods.push(...data.moods);
                                                                         this.page++;
-                                                                        } catch (error) {
-                                                                        console.error(error);
+                                                                        })
+                                                                        .catch(error => {
                                                                         this.errorFetching = true;
-                                                                        }
-
+                                                                        })
+                                                                        .finally(() => {
                                                                         this.fetching = false;
-                                                                        },
-                                                                        formatTimestamp(timestamp) {
-                                                                        const date = new Date(timestamp);
-                                                                        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                                                                        });
                                                                         },
                                                                         }">
     <div class="max-w-lg mb-9 mx-auto" x-init="loadMoods">
@@ -84,7 +82,10 @@
             <div x-text="emoji" class="text-5xl"></div>
 
             <div class="flex-col w-full">
-              <time x-text="formatTimestamp(mood.timestamp)"></time>
+              <time class="text-sm text-white font-semibold">
+                <span class=" bg-stone-900 px-1.5 py-0.5 rounded-lg mr-1-5" x-text="formatDate(mood.timestamp)"></span>
+                <span class="bg-stone-900 px-1.5 py-0.5 rounded-lg" x-text="formatTime(mood.timestamp)"></span>
+              </time>
 
               <template x-if="mood.note_title">
                 <p class="text-stone-500 truncate" x-text="mood.note_title"></p>

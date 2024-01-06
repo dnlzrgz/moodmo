@@ -38,7 +38,7 @@ class MoodInfiniteListView(LoginRequiredMixin, ListView):
         return queryset
 
     def render_to_response(self, context, **kwargs):
-        mood_data = [
+        moods = [
             {
                 "id": mood.id,
                 "mood": mood.mood,
@@ -49,7 +49,7 @@ class MoodInfiniteListView(LoginRequiredMixin, ListView):
             for mood in context["moods"]
         ]
 
-        return JsonResponse({"moods": mood_data})
+        return JsonResponse({"moods": moods})
 
 
 class MoodSearchView(LoginRequiredMixin, ListView):
