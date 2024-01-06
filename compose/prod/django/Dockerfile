@@ -6,8 +6,8 @@ FROM python as build-stage
 
 # Install packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    build-essential \
-    wget
+  build-essential \
+  wget
 
 # Copy templates and static directories
 COPY ./templates/ /templates
@@ -19,10 +19,10 @@ COPY ./requirements.txt .
 
 # Create Python dependency wheels.
 RUN pip wheel --wheel-dir /wheels \
-    -r requirements.txt
+  -r requirements.txt
 
 # Download TailwindCSS cli
-RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/download/v3.4.0/tailwindcss-linux-x64
+RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/download/v3.4.1/tailwindcss-linux-x64
 RUN chmod +x tailwindcss
 
 # Create and minify styles
@@ -45,15 +45,15 @@ WORKDIR $APP_HOME
 
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy dependency wheels from the build stage
 COPY --from=build-stage /wheels /wheels/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
-    && rm -rf /wheels/
+  && rm -rf /wheels/
 
 # Copy entrypoint.sh
 COPY ./entrypoint.sh .
