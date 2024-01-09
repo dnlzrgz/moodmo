@@ -14,3 +14,7 @@ class MoodForm(forms.ModelForm):
             "activities",
             "timestamp",
         ]
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

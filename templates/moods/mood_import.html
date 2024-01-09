@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+
+{% block title %}Log In{% endblock title %}
+
+{% block content %}
+  {% include "_secondary_nav.html" %}
+  <main class="max-w-md mx-auto py-6 px-9 md:px-12 md:mt-6 bg-white rounded-2xl drop-shadow-sm border border-stone-100">
+    <div class="flex flex-col items-start justify-start w-full h-full p-10">
+      <h4 class="w-full text-3xl font-bold text-stone-900 text-center leading-none">
+        Import moods
+      </h4>
+    </div>
+
+    <form class="" method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="id_file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mb-4 text-gray-500">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+            </svg>
+
+            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs text-gray-500">CSV or JSON</p>
+          </div>
+          <input id="id_file" name="file" type="file" class="hidden" />
+        </label>
+      </div>
+
+      {% for error in form.non_field_errors %}
+        <div class="text-red-500 mb-3.5 flex items-start gap-x-1.5">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                 class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+          </span>
+          <p class="text-sm">{{ error }}</p>
+        </div>
+      {% endfor %}
+
+      <button type="submit"
+              class="mt-5 py-3 text-lg text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
+        Import
+      </button>
+    </form>
+  </main>
+{% endblock %}

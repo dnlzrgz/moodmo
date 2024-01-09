@@ -15,10 +15,12 @@ MoodMo is an Open-Source, Self-Hosted mood tracking application designed for sim
 - Integration with `Mailpit` for local email testing.
 - Registration functionality implemented with `django-allauth`.
 - Static files managed with `Whitenoise`.
-- Ready-to-go custom user model.
-- Ready to use `setup` command.
 - Choose between PostgreSQL or SQLite as your prefered database.
 - Optional support for Redis.
+- Ready-to-go custom user model.
+- Ready to use `setup` command.
+- Linting tools like `djhtml` and `ruff` are ready to use with `pre-commit`.
+- Follows conventional commits via `commitizen`.
 
 ## Roadmap - Future Features
 

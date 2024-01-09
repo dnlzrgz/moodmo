@@ -6,6 +6,7 @@ from .views import (
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,
+    MoodImportView,
     MoodExportView,
 )
 
@@ -44,5 +45,10 @@ urlpatterns = [
         "export/",
         MoodExportView.as_view(),
         name="mood_export",
+    ),
+    path(
+        "import/",
+        MoodImportView.as_view(),
+        name="mood_import",
     ),
 ]

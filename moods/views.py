@@ -6,12 +6,13 @@ from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
+    FormView,
     ListView,
     CreateView,
     UpdateView,
     DeleteView,
 )
-from moods.forms import MoodForm
+from moods.forms import MoodForm, UploadFileForm
 from moods.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.models import Mood
 
@@ -110,7 +111,28 @@ class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     context_object_name = "mood"
 
 
-# TODO: Implement StreamingHttpResponse
+class MoodImportView(LoginRequiredMixin, FormView):
+    form_class = UploadFileForm
+    template_name = "moods/mood_import.html"
+    success_url = reverse_lazy("mood_list")
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        file = form.cleaned_data["file"]
+        print("--------------------------------------")
+        print(file)
+        print("--------------------------------------")
+
+        return super().form_valid(form)
+
+
 class MoodExportView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         moods = Mood.objects.filter(user=self.request.user).order_by("-timestamp")

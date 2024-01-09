@@ -9,6 +9,7 @@ clean:
 lint:
 	@echo "🔍 Linting with Ruff..."
 	ruff . --fix
+	djhtml .
 	@echo "✨ Linting complete!"
 
 # Check using Django's system-check
