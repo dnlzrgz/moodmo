@@ -1,4 +1,6 @@
 import csv
+import json
+from datetime import datetime
 from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
@@ -126,9 +128,35 @@ class MoodImportView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         file = form.cleaned_data["file"]
-        print("--------------------------------------")
-        print(file)
-        print("--------------------------------------")
+
+        # Check that file is a CSV
+        if not (file.name.endswith(".csv") or file.name.endswith(".json")):
+            form.add_error("file", "Only CSV or JSON files are allowed.")
+            return self.form_invalid(form)
+
+        try:
+            if file.name.endswith(".csv"):
+                csv_data = file.read().decode("utf-8")
+                csv_reader = csv.DictReader(csv_data.splitlines())
+                moods = [
+                    Mood(
+                        user=self.request.user,
+                        mood=row["mood"],
+                        note_title=row["note_title"],
+                        note=row["note"],
+                        timestamp=row["timestamp"],
+                    )
+                    for row in csv_reader
+                ]
+
+                Mood.objects.bulk_create(moods)
+
+            elif file.name.endswith(".json"):
+                pass
+
+        except (csv.Error, json.JSONDecodeError) as e:
+            form.add_error("file", f"Error reading file: {e}")
+            return self.form_invalid(form)
 
         return super().form_valid(form)
 
@@ -139,20 +167,13 @@ class MoodExportView(LoginRequiredMixin, View):
         export_format = self.request.GET.get("format", "csv")
 
         if export_format == "json":
-            mood_data = [
-                {
-                    "mood": mood.mood,
-                    "note_title": mood.note_title,
-                    "note": mood.note,
-                    "timestamp": mood.timestamp,
-                }
-                for mood in moods
-            ]
-
-            return JsonResponse({"moods": mood_data})
+            pass
         else:
             response = HttpResponse(content_type="text/csv")
-            response["Content-Disposition"] = 'attachment; filename="moods_export.csv"'
+            current_date = datetime.now().strftime("%Y_%m_%d")
+            response[
+                "Content-Disposition"
+            ] = f'attachment; filename="moodmo_export_{current_date}.csv"'
 
             writer = csv.writer(response)
             writer.writerow(["mood", "note_title", "note", "timestamp"])

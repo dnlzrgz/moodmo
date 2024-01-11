@@ -63,7 +63,7 @@
           const options = {
             day: '2-digit',
             month: '2-digit',
-            year: (date.getFullYear() === currentYear) ? undefined : 'numeric'
+            year: 'numeric'
           };
 
           return new Intl.DateTimeFormat(undefined, options).format(date);

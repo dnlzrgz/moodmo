@@ -1,6 +1,6 @@
 {% extends "_base.html" %}
 
-{% block title %}Log In{% endblock title %}
+{% block title %}Moods - Import{% endblock title %}
 
 {% block content %}
   {% include "_secondary_nav.html" %}
@@ -11,24 +11,33 @@
       </h4>
     </div>
 
-    <form class="" method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data">
+    <form class="" method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data" x-data="{fileName: ''}">
       {% csrf_token %}
 
       <div class="mb-4">
-        <label for="id_file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+        <label for="id_file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-stone-300 border-dashed rounded-lg cursor-pointer bg-stone-50">
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mb-4 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mb-2.5 text-stone-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
             </svg>
-
-            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-            <p class="text-xs text-gray-500">CSV or JSON</p>
+            <p class="mb-2 text-sm text-stone-700"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs text-stone-700">CSV or JSON</p>
           </div>
-          <input id="id_file" name="file" type="file" class="hidden" />
+
+          <input id="id_file" name="file" type="file" class="hidden" x-on:change="fileName = $event.target.files[0].name" />
         </label>
+
+        <template x-if="fileName">
+          <div class="flex items-start gap-x-1.5 p-2 mt-2.5 border border-stone-300 text-stone-700 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            <p x-text="fileName"></p>
+          </div>
+        </template>
       </div>
 
-      {% for error in form.non_field_errors %}
+      {% for error in form.errors.file %}
         <div class="text-red-500 mb-3.5 flex items-start gap-x-1.5">
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
