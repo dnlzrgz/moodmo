@@ -11,10 +11,19 @@ class MoodForm(forms.ModelForm):
             "mood",
             "note_title",
             "note",
-            "activities",
+            # "activities",
             "timestamp",
         ]
 
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
+
+
+class ExportOptionsForm(forms.Form):
+    export_format = forms.ChoiceField(
+        choices=[
+            ("csv", "CSV"),
+            ("json", "JSON"),
+        ],
+    )

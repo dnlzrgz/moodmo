@@ -9,6 +9,7 @@ MoodMo is an Open-Source, Self-Hosted mood tracking application designed for sim
 - Smooth and dynamic user interactions provided by Alpine.js.
 - Infinite scrolling list for moods.
 - Command palette with full-search text functionality for moods.
+- Easy to export and import moods in CSV and JSON formats.
 - Easy to configure settings through environment variables.
 - Docker support with `docker-compose` for development and production environments.
 - Optimized `Dockerfile`s for production.

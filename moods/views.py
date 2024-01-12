@@ -6,7 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import (
     FormView,
     ListView,
@@ -14,7 +13,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from moods.forms import MoodForm, UploadFileForm
+from moods.forms import MoodForm, UploadFileForm, ExportOptionsForm
 from moods.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.models import Mood
 
@@ -161,28 +160,37 @@ class MoodImportView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class MoodExportView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        moods = Mood.objects.filter(user=self.request.user).order_by("-timestamp")
-        export_format = self.request.GET.get("format", "csv")
+class MoodExportView(LoginRequiredMixin, FormView):
+    form_class = ExportOptionsForm
+    template_name = "moods/mood_export.html"
+    success_url = reverse_lazy("mood_list")
 
-        if export_format == "json":
-            pass
-        else:
-            response = HttpResponse(content_type="text/csv")
-            current_date = datetime.now().strftime("%Y_%m_%d")
-            response[
-                "Content-Disposition"
-            ] = f'attachment; filename="moodmo_export_{current_date}.csv"'
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            moods = Mood.objects.filter(user=self.request.user).order_by("-timestamp")
+            export_format = form.cleaned_data["export_format"]
 
-            writer = csv.writer(response)
-            writer.writerow(["mood", "note_title", "note", "timestamp"])
+            if export_format == "json":
+                pass
+            else:
+                response = HttpResponse(content_type="text/csv")
+                current_date = datetime.now().strftime("%Y_%m_%d")
+                response[
+                    "Content-Disposition"
+                ] = f'attachment; filename="moodmo_export_{current_date}.csv"'
 
-            writer.writerows(
-                [
-                    [mood.mood, mood.note_title, mood.note, mood.timestamp]
-                    for mood in moods
-                ]
-            )
+                writer = csv.writer(response)
+                writer.writerow(["mood", "note_title", "note", "timestamp"])
 
-            return response
+                writer.writerows(
+                    [
+                        [mood.mood, mood.note_title, mood.note, mood.timestamp]
+                        for mood in moods
+                    ]
+                )
+
+                return response
+
+        return self.form_invalid(form)
