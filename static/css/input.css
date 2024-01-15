@@ -20,16 +20,8 @@
     font-family: "Nunito Sans", system-ui, sans-serif;
   }
 
-  .form label {
-    @apply hidden;
-  }
-
-  .form input {
+  .form input[type="text"] {
     @apply border border-stone-300 text-stone-900 text-lg rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-3 placeholder:text-stone-400;
-  }
-
-  .form select {
-    @apply bg-white border border-stone-300 text-stone-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5;
   }
 
   .form textarea {

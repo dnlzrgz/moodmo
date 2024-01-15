@@ -53,7 +53,7 @@
     <template x-for="mood in moods">
       <ul class="relative"
           x-data="{
-                  emoji: getEmoji(mood.mood),
+                  emoji: moodToEmoji[mood.mood],
                   popoverOpen: false,
                   popoverArrow: true,
                   popoverPosition: 'bottom',
@@ -173,18 +173,4 @@
     <!-- Load more -->
     <div class="w-full h-24" x-intersect="loadMoods"></div>
   </main>
-
-  <script>
-    const moodToEmoji = {
-      '-2': '😢',
-      '-1': '☹️',
-      '0': '😐',
-      '1': '🙂',
-      '2': '🤩',
-    };
-
-    const getEmoji = (mood) => {
-      return moodToEmoji[mood]
-    }
-  </script>
 {% endblock content %}

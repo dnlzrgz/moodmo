@@ -1,19 +1,34 @@
 {% extends "_base.html" %}
 
-{% block title %}Mood - Add{% endblock %}
+{% block title %}Mood - Create{% endblock %}
 
 {% block content %}
     {% include '_secondary_nav.html' %}
     <main class="max-w-md mx-auto py-6 px-9 md:px-12 md:mt-6 bg-white rounded-2xl drop-shadow-sm border border-stone-100">
-        <form method="post" class="" role="form" action="{% url 'mood_create' %}">
+        <form class="form" method="post" role="form" action="{% url 'mood_create' %}">
             {% csrf_token %}
 
-            {% for field in form %}
-                <div class="mb-3.5">
-                    {{ field }}
-                </div>
-            {% endfor %}
+            <ul class="mb-4 grid w-full gap-1.5 grid-cols-5">
+                <template x-for="(key, _) in Object.keys(moodToEmoji).sort()" :key="key">
+                    <li class="text-center">
+                        <input type="radio" :id="key" name="mood" :value="key" class="hidden peer" required>
+                        <label :for="key"
+                               class="flex items-center justify-center w-full p-5 bg-white border border-stone-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-stone-600 hover:bg-stone-100">
+                            <div class="block">
+                                <p class="w-full text-5xl" x-text="moodToEmoji[key]"></p>
+                            </div>
+                        </label>
+                    </li>
+                </template>
+            </ul>
 
+            {% for field in form %}
+                {% if field.name != 'mood' %}
+                    <div class="mb-4">
+                        {{ field }}
+                    </div>
+                {% endif %}
+            {% endfor %}
 
             <button type="submit" class="py-3 text-lg text-white bg-stone-900 rounded-full px-10 w-full">
                 Add
