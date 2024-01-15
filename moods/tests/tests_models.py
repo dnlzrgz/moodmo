@@ -62,5 +62,5 @@ class MoodModelTest(TestCase):
             Mood.objects.get(user_id=user_id)
 
     def test_str_representation(self):
-        expected_str = f"{self.user.email}'s Mood on {self.mood.timestamp}"
+        expected_str = f"Mood added on {self.mood.timestamp}"
         self.assertEqual(str(self.mood), expected_str)

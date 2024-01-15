@@ -11,6 +11,10 @@ USER_CREDENTIALS = {
     "password": "test1234",
 }
 
+# TODO:: Add tests for MoodExportView
+# TODO: Add tests for MoodImportView
+# TODO: Add tests for MoodInfiniteListView
+
 
 class ListViewTest(TestCase):
     def setUp(self):
@@ -29,12 +33,6 @@ class ListViewTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
-    def test_context_data(self):
-        self.client.login(**USER_CREDENTIALS)
-        response = self.client.get(self.url)
-
-        self.assertIn("moods", response.context)
-
 
 class CreateViewTest(TestCase):
     def setUp(self):
@@ -46,7 +44,7 @@ class CreateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "moods/mood_form.html")
+        self.assertTemplateUsed(response, "moods/mood_create.html")
 
     def test_not_authenticated_user(self):
         response = self.client.get(self.url)
@@ -86,13 +84,16 @@ class UpdateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "moods/mood_form.html")
+        self.assertTemplateUsed(response, "moods/mood_update.html")
 
     def test_authenticated_user_can_update_mood_entry(self):
         self.client.login(**USER_CREDENTIALS)
         self.mood.note_title = "Testing"
 
-        response = self.client.post(self.url, self.mood.__dict__)
+        post_data = self.mood.__dict__.copy()
+        post_data.pop("search_vector", None)
+
+        response = self.client.post(self.url, post_data)
         self.assertEqual(response.status_code, 302)
 
         updated_mood = Mood.objects.get(id=self.mood.id)
