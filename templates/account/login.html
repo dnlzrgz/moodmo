@@ -1,27 +1,25 @@
 {% extends "_base.html" %}
 
-{% block title %}Log In{% endblock title %}
+{% block title %}Log in{% endblock title %}
 
 {% block content %}
     {% include "_secondary_nav.html" %}
-    <main class="max-w-md mx-auto py-6 px-9 md:px-12 md:mt-6 bg-white rounded-2xl drop-shadow-sm border border-stone-100">
-        <div class="flex flex-col items-start justify-start w-full h-full p-10">
-            <h4 class="w-full text-3xl font-bold text-stone-900 text-center leading-none">
-                Log In
-            </h4>
-        </div>
+    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
+        <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
+            Log In
+        </h4>
 
         <form class="form" method="post" id="login_form" role="form" action="{% url 'account_login' %}">
             {% csrf_token %}
 
             {% for field in form %}
-                <div class="mb-3.5">
+                <div class="mb-4">
                     {{ field }}
                 </div>
             {% endfor %}
 
             {% for error in form.non_field_errors %}
-                <div class="text-red-500 mb-3.5 flex items-start gap-x-1.5">
+                <div class="text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-start justify-start gap-x-1.5">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5">
@@ -29,23 +27,21 @@
                                   d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                         </svg>
                     </span>
-                    <p class="text-sm">{{ error }}</p>
+                    <p>{{ error }}</p>
                 </div>
             {% endfor %}
 
             <button type="submit"
-                    class="mt-5 py-3 text-lg text-white bg-primary-500 hover:bg-stone-900 rounded-full px-10 w-full transition-colors">
+                    class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
                 Log In
             </button>
         </form>
 
-        <p class="w-full mt-3.5 text-md text-center text-stone-500">
-            <a href="/accounts/password/reset/" class="text-primary-500 underline">
-                I forgot my password
-            </a>
-        </p>
+        <a href="/accounts/password/reset/" class="block mt-4 text-lg text-center text-primary-500 underline">
+            I forgot my password
+        </a>
 
-        <p class="w-full mt-2.5 text-md text-center text-stone-500">
+        <p class="mt-1.5 text-lg text-center text-stone-700">
             Want to create an account instead?
             <a href="{% url 'account_signup' %}" class="text-primary-500 underline">
                 Create account

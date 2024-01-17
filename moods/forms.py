@@ -3,6 +3,23 @@ from .models import Mood
 
 
 class MoodForm(forms.ModelForm):
+    note_title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Add a quick summary",
+            },
+        ),
+        required=False,
+    )
+    note = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Add a note",
+            },
+        ),
+        required=False,
+    )
+
     class Meta:
         model = Mood
         fields = [

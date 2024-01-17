@@ -12,19 +12,18 @@
 
 
 @layer base {
-
-  *,
-  *::before,
-  *::after,
-  html {
+  :root {
+    /* Custom font family */
     font-family: "Nunito Sans", system-ui, sans-serif;
   }
 
-  .form input[type="text"] {
-    @apply border border-stone-300 text-stone-900 text-lg rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-3 placeholder:text-stone-400;
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="password"] {
+    @apply border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500;
   }
 
   .form textarea {
-    @apply block p-2.5 h-32 w-full text-stone-900 bg-white rounded-lg border border-stone-300 focus:ring-primary-500 focus:border-primary-500;
+    @apply h-32 border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500;
   }
 }

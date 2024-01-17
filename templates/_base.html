@@ -6,9 +6,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>
-      {% block title %} MoodMo {% endblock title %}
-    </title>
+    <!-- Basic Meta Tags -->
+    <title>{% block title %}MoodMo - A Self-Hosted Mood Tracking App{% endblock title %}</title>
+    <meta name="description" content="MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance." />
+    <meta name="keywords" content="MoodMo, mood tracking, self-hosted app, Django, Tailwind CSS, Python, Alpine.js" />
+    <meta name="author" content="dnlzrgz" />
 
     <!-- Tailwind CSS -->
     {% if debug %}
@@ -19,7 +21,7 @@
   </head>
 
   <body
-    class="bg-stone-100"
+    class="bg-stone-50"
     x-data="{ commandOpen: false }"
     x-init="
             $watch('commandOpen', function(value){

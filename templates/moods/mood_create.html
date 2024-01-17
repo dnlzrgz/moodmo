@@ -4,16 +4,21 @@
 
 {% block content %}
     {% include '_secondary_nav.html' %}
-    <main class="max-w-md mx-auto py-6 px-9 md:px-12 md:mt-6 bg-white rounded-2xl drop-shadow-sm border border-stone-100">
+
+    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
+        <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
+            How are you feeling?
+        </h4>
+
         <form class="form" method="post" role="form" action="{% url 'mood_create' %}">
             {% csrf_token %}
 
-            <ul class="mb-4 grid w-full gap-1.5 grid-cols-5">
+            <ul class="mb-4 grid w-full gap-x-1.5 grid-cols-5">
                 <template x-for="(key, _) in Object.keys(moodToEmoji).sort()" :key="key">
                     <li class="text-center">
                         <input type="radio" :id="key" name="mood" :value="key" class="hidden peer" required>
                         <label :for="key"
-                               class="flex items-center justify-center w-full p-5 bg-white border border-stone-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-stone-600 hover:bg-stone-100">
+                               class="flex items-center justify-center w-full px-1 py-2 border border-stone-500 rounded-xl cursor-pointer peer-checked:border-primary-500 peer-checked:bg-primary-500 hover:bg-stone-100">
                             <div class="block">
                                 <p class="w-full text-5xl" x-text="moodToEmoji[key]"></p>
                             </div>
@@ -30,14 +35,14 @@
                 {% endif %}
             {% endfor %}
 
-            <button type="submit" class="py-3 text-lg text-white bg-stone-900 rounded-full px-10 w-full">
+            <button type="submit"
+                    class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
                 Add
             </button>
-            <p class="w-full mt-4 text-md text-center text-stone-500">
-                <a href="{% url 'mood_list' %}" class="text-primary-500 underline">
-                    Go Back
-                </a>
-            </p>
         </form>
+
+        <a href="{% url 'mood_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
+            Go back
+        </a>
     </main>
 {% endblock content %}

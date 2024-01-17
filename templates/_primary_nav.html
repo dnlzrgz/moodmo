@@ -1,7 +1,7 @@
 <section class="flex justify-center">
   <!-- Navbar -->
   <nav
-    class="fixed flex items-center justify-between bg-white w-full md:w-3/4 max-w-6xl py-4 px-8 rounded-b-2xl text-stone-900 text-lg drop-shadow-sm border border-stone-100 z-10"
+    class="fixed flex items-center justify-between bg-white w-full md:w-3/4 max-w-6xl py-4 px-6 rounded-b-2xl text-stone-900 text-xl drop-shadow-sm shadow-stone-900 border border-stone-50 z-10"
     aria-label="Global">
     <!-- Home -->
     <div>
@@ -9,7 +9,7 @@
     </div>
 
     <!-- Links -->
-    <div class="flex items-center justify-center gap-3.5">
+    <div class="flex items-center justify-center gap-4">
       {% if user.is_authenticated %}
         <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 underline {% endif %}">
           Moods
@@ -29,8 +29,8 @@
           </svg>
         </button>
         <a href="{% url 'mood_create' %}"
-           class="flex items-center sm:gap-x-1.5 px-3 sm:px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
-           role="button">
+           class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+           role="button" aria-label="command palette">
           <span class="hidden sm:inline-block">
             New mood
           </span>
@@ -40,9 +40,9 @@
           </svg>
         </a>
       {% else %}
-        <a href="{% url 'account_login' %}" class=""> Log in </a>
+        <a href="{% url 'account_login' %}"> Log in </a>
         <a href="{% url 'account_signup' %}"
-           class="inline-flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+           class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
            role="button">
           Sign up
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
