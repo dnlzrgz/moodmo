@@ -2,7 +2,7 @@ import csv
 import json
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
     FormView,
@@ -19,39 +19,6 @@ from moods.models import Mood
 class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
-
-
-class MoodSearchView(LoginRequiredMixin, ListView):
-    model = Mood
-    context_object_name = "moods"
-
-    def dispatch(self, request, *args, **kwargs):
-        if "X-Alpine-Search" not in request.headers:
-            return HttpResponseForbidden("Forbidden: Direct access not allowed.")
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        limit = self.request.GET.get("limit", 10)
-
-        limit = max(1, min(int(limit), 20))
-
-        return Mood.objects.filter(
-            search_vector=query, user=self.request.user
-        ).order_by("-timestamp")[:limit]
-
-    def render_to_response(self, context, **kwargs):
-        mood_data = [
-            {
-                "id": mood.id,
-                "note_title": mood.note_title,
-                "note": mood.note,
-                "timestamp": mood.timestamp,
-            }
-            for mood in context["moods"]
-        ]
-        return JsonResponse({"moods": mood_data})
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
@@ -109,10 +76,7 @@ class MoodImportView(LoginRequiredMixin, FormView):
                         mood=row["mood"],
                         note_title=row["note_title"],
                         note=row["note"],
-                        timestamp=datetime.strptime(
-                            row["timestamp"],
-                            "%Y-%m-%d %H:%M:%S %z",
-                        ),
+                        timestamp=row["timestamp"],
                     )
                     for row in csv_reader
                 ]

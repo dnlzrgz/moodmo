@@ -135,26 +135,17 @@
                                                                                                window.location.href = url;
                                                                                                },
                                                                                                async fetchMoods(searchTerm) {
-                                                                                               const url = searchTerm
-                                                                                               ? `{% url 'mood_search' %}?limit=5&q=${searchTerm}`
-                                                                                               : `{% url 'mood_search' %}?limit=3`;
-
-                                                                                               fetch(url, {
-                                                                                               method: 'GET',
-                                                                                               headers: {
-                                                                                               'X-Alpine-Search': 'true',
-                                                                                               },
-                                                                                               }).then(response => {
+                                                                                               fetch(`/moods/api/v1/search?q=${searchTerm}`)
+                                                                                               .then(response => {
                                                                                                if (response.status != 200) {
                                                                                                this.errorFetching = true;
                                                                                                }
                                                                                                return response.json();
                                                                                                })
                                                                                                .then(data => {
-                                                                                               this.moods = data.moods;
+                                                                                               this.moods = data;
                                                                                                this.fetching = false;
                                                                                                }).catch(error => {
-                                                                                               console.error(error);
                                                                                                this.errorFetching = true;
                                                                                                this.fetching = false;
                                                                                                }

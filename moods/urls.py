@@ -2,7 +2,6 @@ from django.urls import path
 from .api_views import api
 from .views import (
     MoodListView,
-    MoodSearchView,
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,
@@ -15,11 +14,6 @@ urlpatterns = [
         "",
         MoodListView.as_view(),
         name="mood_list",
-    ),
-    path(
-        "search/",
-        MoodSearchView.as_view(),
-        name="mood_search",
     ),
     path(
         "create/",
