@@ -3,7 +3,7 @@
 MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance.
 
 ## Features
-- Developed using Django 4.2 and Python 3.11.
+- Developed using Django 4.2 and Python >= 3.11.
 - Uses Tailwind CSS for clean and responsive styles.
 - No need for Node.js or npm related work-arounds.
 - Smooth and dynamic user interactions provided by Alpine.js.
@@ -15,6 +15,7 @@ MoodMo is an Open-Source, Self-Hosted mood tracking application designed for sim
 - Optimized `Dockerfile`s for production.
 - Integration with `Mailpit` for local email testing.
 - Registration functionality implemented with `django-allauth`.
+- API endpoints powered by `django-ninja`.
 - Static files managed with `Whitenoise`.
 - Choose between PostgreSQL or SQLite as your prefered database.
 - Optional support for Redis.

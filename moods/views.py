@@ -91,10 +91,7 @@ class MoodImportView(LoginRequiredMixin, FormView):
                         mood=item["mood"],
                         note_title=item["note_title"],
                         note=item["note"],
-                        timestamp=datetime.strptime(
-                            item["timestamp"],
-                            "%Y-%m-%d %H:%M:%S %z",
-                        ),
+                        timestamp=item["timestamp"],
                     )
                     for item in json_data
                 ]
@@ -127,12 +124,12 @@ class MoodExportView(LoginRequiredMixin, FormView):
                         "mood": mood.mood,
                         "note_title": mood.note_title,
                         "note": mood.note,
-                        "timestamp": mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
+                        "timestamp": mood.timestamp,
                     }
                     for mood in moods
                 ]
 
-                json_data = json.dumps(data, indent=2)
+                json_data = json.dumps(data, indent=4, default=str)
                 response = HttpResponse(json_data, content_type="application/json")
                 response[
                     "Content-Disposition"
@@ -154,7 +151,7 @@ class MoodExportView(LoginRequiredMixin, FormView):
                             mood.mood,
                             mood.note_title,
                             mood.note,
-                            mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
+                            mood.timestamp,
                         ]
                         for mood in moods
                     ]
