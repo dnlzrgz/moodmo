@@ -232,6 +232,11 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
 ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
 
+# Django Ninja settings
+# https://django-ninja.dev/reference/settings/
+NINJA_PAGINATION_PER_PAGE = 32
+NINJA_PAGNATION_MAX_LIMIT = 100
+
 # Accounts related settings
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False

@@ -22,23 +22,22 @@
                 }
 
                 this.fetching = true;
-
-                fetch(`/moods/infinite/?page=${this.page}`, {
-                headers: {
-                'X-Alpine-Load': 'true',
-                },
-                })
+                fetch(`/moods/api/v1/list?page=${this.page}`)
                 .then(response => {
-                if (response.status === 404 && this.page != 1) {
-                this.lastPage = true;
-                return {moods: []};
+                if (response.status != 200) {
+                this.errorFetching = true;
+                return;
                 }
 
                 return response.json();
                 })
                 .then(data => {
-                this.moods.push(...data.moods);
+                this.moods.push(...data.items);
                 this.page++;
+
+                if (this.moods.length == data.count) {
+                this.lastPage = true;
+                }
                 })
                 .catch(error => {
                 this.errorFetching = true;

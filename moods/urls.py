@@ -1,7 +1,7 @@
 from django.urls import path
+from .api_views import api
 from .views import (
     MoodListView,
-    MoodInfiniteListView,
     MoodSearchView,
     MoodCreateView,
     MoodUpdateView,
@@ -15,11 +15,6 @@ urlpatterns = [
         "",
         MoodListView.as_view(),
         name="mood_list",
-    ),
-    path(
-        "infinite/",
-        MoodInfiniteListView.as_view(),
-        name="mood_list_infinite",
     ),
     path(
         "search/",
@@ -51,4 +46,5 @@ urlpatterns = [
         MoodImportView.as_view(),
         name="mood_import",
     ),
+    path("api/v1/", api.urls),
 ]

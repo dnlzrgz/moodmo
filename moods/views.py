@@ -1,9 +1,7 @@
 import csv
 import json
 from datetime import datetime
-from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -21,37 +19,6 @@ from moods.models import Mood
 class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
-
-
-class MoodInfiniteListView(LoginRequiredMixin, ListView):
-    model = Mood
-    context_object_name = "moods"
-    paginate_by = 24
-
-    def dispatch(self, request, *args, **kwargs):
-        if "X-Alpine-Load" not in request.headers:
-            return HttpResponseForbidden("Forbidden: Direct access not allowed.")
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_queryset(self) -> QuerySet[Any]:
-        ordering = self.request.GET.get("ordering", "-timestamp")
-        queryset = Mood.objects.filter(user=self.request.user).order_by(ordering)
-        return queryset
-
-    def render_to_response(self, context, **kwargs):
-        moods = [
-            {
-                "id": mood.id,
-                "mood": mood.mood,
-                "note_title": mood.note_title,
-                "note": mood.note,
-                "timestamp": mood.timestamp,
-            }
-            for mood in context["moods"]
-        ]
-
-        return JsonResponse({"moods": moods})
 
 
 class MoodSearchView(LoginRequiredMixin, ListView):
@@ -128,11 +95,10 @@ class MoodImportView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         file = form.cleaned_data["file"]
 
-        # Check that file is a CSV
+        # Check that file is a CSV or a JSON
         if not (file.name.endswith(".csv") or file.name.endswith(".json")):
             form.add_error("file", "Only CSV or JSON files are allowed.")
             return self.form_invalid(form)
-
         try:
             if file.name.endswith(".csv"):
                 csv_data = file.read().decode("utf-8")
@@ -143,7 +109,10 @@ class MoodImportView(LoginRequiredMixin, FormView):
                         mood=row["mood"],
                         note_title=row["note_title"],
                         note=row["note"],
-                        timestamp=row["timestamp"],
+                        timestamp=datetime.strptime(
+                            row["timestamp"],
+                            "%Y-%m-%d %H:%M:%S %z",
+                        ),
                     )
                     for row in csv_reader
                 ]
@@ -151,7 +120,22 @@ class MoodImportView(LoginRequiredMixin, FormView):
                 Mood.objects.bulk_create(moods)
 
             elif file.name.endswith(".json"):
-                pass
+                json_data = json.loads(file.read().decode("utf-8"))
+                moods = [
+                    Mood(
+                        user=self.request.user,
+                        mood=item["mood"],
+                        note_title=item["note_title"],
+                        note=item["note"],
+                        timestamp=datetime.strptime(
+                            item["timestamp"],
+                            "%Y-%m-%d %H:%M:%S %z",
+                        ),
+                    )
+                    for item in json_data
+                ]
+
+                Mood.objects.bulk_create(moods)
 
         except (csv.Error, json.JSONDecodeError) as e:
             form.add_error("file", f"Error reading file: {e}")
@@ -171,12 +155,28 @@ class MoodExportView(LoginRequiredMixin, FormView):
         if form.is_valid():
             moods = Mood.objects.filter(user=self.request.user).order_by("-timestamp")
             export_format = form.cleaned_data["export_format"]
+            current_date = datetime.now().strftime("%Y_%m_%d")
 
             if export_format == "json":
-                pass
+                data = [
+                    {
+                        "mood": mood.mood,
+                        "note_title": mood.note_title,
+                        "note": mood.note,
+                        "timestamp": mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
+                    }
+                    for mood in moods
+                ]
+
+                json_data = json.dumps(data, indent=2)
+                response = HttpResponse(json_data, content_type="application/json")
+                response[
+                    "Content-Disposition"
+                ] = f'attachment; filename="moodmo_export_{current_date}.json"'
+
+                return response
             else:
                 response = HttpResponse(content_type="text/csv")
-                current_date = datetime.now().strftime("%Y_%m_%d")
                 response[
                     "Content-Disposition"
                 ] = f'attachment; filename="moodmo_export_{current_date}.csv"'
@@ -186,7 +186,12 @@ class MoodExportView(LoginRequiredMixin, FormView):
 
                 writer.writerows(
                     [
-                        [mood.mood, mood.note_title, mood.note, mood.timestamp]
+                        [
+                            mood.mood,
+                            mood.note_title,
+                            mood.note,
+                            mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
+                        ]
                         for mood in moods
                     ]
                 )
