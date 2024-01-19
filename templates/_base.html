@@ -22,19 +22,49 @@
 
   <body
     class="bg-stone-50"
-    x-data="{ commandOpen: false }"
+    x-data="{
+            commandOpen: false,
+            menuOpen: false,
+            userAuthenticated: {% if user.is_authenticated %} true {% else %} false {% endif %},
+
+            togglePalette() {
+            if (!this.userAuthenticated) {
+            return;
+            }
+
+            this.commandOpen = !this.commandOpen;
+            this.menuOpen = false;
+            },
+
+            toggleMenu() {
+            this.commandOpen = false;
+            this.menuOpen = !this.menuOpen;
+            },
+            }"
     x-init="
             $watch('commandOpen', function(value){
             if(value === true){
             document.body.classList.add('overflow-hidden');
-            $nextTick(() => { window.dispatchEvent(new CustomEvent('command-input-focus', {})); });
-            }else{
+            $nextTick(() => {
+            window.dispatchEvent(new CustomEvent('command-input-focus', {}));
+            });
+            } else {
             document.body.classList.remove('overflow-hidden');
             }
-            })
+            });
+            $watch('menuOpen', function(value){
+            if(value === true){
+            document.body.classList.add('overflow-hidden');
+            $nextTick(() => {
+            window.dispatchEvent(new CustomEvent('command-input-focus', {}));
+            });
+            } else {
+            document.body.classList.remove('overflow-hidden');
+            }
+            });
            "
-    @keyup.ctrl.space="commandOpen = !commandOpen"
-    @keydown.escape.window="commandOpen = false"
+    @keyup.ctrl.space="togglePalette;"
+    @keydown.escape.window="() => {commandOpen = false; menuOpen = false}"
   >
     {% block content %}
     {% endblock content %}

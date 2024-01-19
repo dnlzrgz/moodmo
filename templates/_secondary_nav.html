@@ -1,7 +1,8 @@
 <header>
-  <nav class="flex items-center justify-between w-full md:w-3/4 p-4 px-8 text-stone-900 text-lg mx-auto"
-       aria-label="Global">
-    <a href="{% url 'home' %}" class="font-bold text-xl"> MoodMo </a>
+  <nav
+    class="flex items-center justify-between w-full md:w-3/4 py-2 px-4 sm:py-4 sm:px-6 text-stone-900 text-xl mx-auto"
+    aria-label="Global">
+    <a href="{% url 'home' %}" class="font-bold"> MoodMo </a>
 
     {% if 'login' in request.path %}
       <a href="{% url 'account_signup' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
