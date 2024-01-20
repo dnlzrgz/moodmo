@@ -13,7 +13,7 @@
                 clip-rule="evenodd" />
         </svg>
       </a>
-    {% elif 'signup' in request.path %}
+    {% elif 'signup' in request.path or 'reset' in request.path %}
       <a href="{% url 'account_login' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
         Log in
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon" class="w-5 h-5">
