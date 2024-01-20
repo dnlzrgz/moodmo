@@ -3,26 +3,21 @@
 MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance.
 
 ## Features
+
 - Developed using Django 4.2 and Python >= 3.11.
-- Uses Tailwind CSS for clean and responsive styles.
+- Tailwind CSS for clean and responsive styles.
+- Dynamic user interactions provided by Alpine.js.
 - No need for Node.js or npm related work-arounds.
-- Smooth and dynamic user interactions provided by Alpine.js.
-- Infinite scrolling list for moods.
-- Command palette with full-search text functionality for moods.
-- Easy to export and import moods in CSV and JSON formats.
 - Easy to configure settings through environment variables.
 - Docker support with `docker-compose` for development and production environments.
-- Optimized `Dockerfile`s for production.
+- Optimized `Dockerfile` for production.
 - Integration with `Mailpit` for local email testing.
-- Registration functionality implemented with `django-allauth`.
+- Auth functionality via `django-allauth`.
+- Ready-to-go custom user model.
 - API endpoints powered by `django-ninja`.
 - Static files managed with `Whitenoise`.
-- Choose between PostgreSQL or SQLite as your prefered database.
-- Optional support for Redis.
-- Ready-to-go custom user model.
-- Ready to use `setup` command.
+- `Makefile` for setup and other common tasks.
 - Linting tools like `djhtml` and `ruff` are ready to use with `pre-commit`.
-- Follows conventional commits via `commitizen`.
 
 ## Roadmap - Future Features
 

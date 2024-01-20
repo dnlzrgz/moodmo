@@ -27,6 +27,9 @@
              @click="menuOpen = false">
             Moods
           </a>
+          <a href="#" class="{% if 'search' in request.path %} text-primary-500 underline {% endif %}">
+            Search
+          </a>
           <a href="#" class="{% if 'settings' in request.path %} text-primary-500 underline {% endif %}">
             Settings
           </a>
