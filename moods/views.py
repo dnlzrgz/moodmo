@@ -50,6 +50,7 @@ class MoodImportView(LoginRequiredMixin, FormView):
     form_class = UploadFileForm
     template_name = "moods/mood_import.html"
     success_url = reverse_lazy("mood_list")
+    max_upload_size = 2621440
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -66,6 +67,13 @@ class MoodImportView(LoginRequiredMixin, FormView):
         if not (file.name.endswith(".csv") or file.name.endswith(".json")):
             form.add_error("file", "Only CSV or JSON files are allowed.")
             return self.form_invalid(form)
+
+        if file.size > self.max_upload_size:
+            form.add_error(
+                "file",
+                f"Please keep filesize under {self.max_upload_size}. Current filesize {file.size}",
+            )
+
         try:
             if file.name.endswith(".csv"):
                 csv_data = file.read().decode("utf-8")

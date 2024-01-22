@@ -10,11 +10,11 @@
       Import your moods
     </h4>
 
-    <form method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data" x-data="{fileName: '', clearFileInput: function() { document.getElementById('id_file').value = ''; this.fileName = ''; },}">
+    <form id="mood_import" method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data" x-data="{files: []}">
       {% csrf_token %}
 
       <div class="mb-4">
-        <input id="id_file" name="file" type="file" class="hidden peer" x-on:change="fileName = $event.target.files[0].name"/>
+        <input id="id_file" name="file" type="file" class="hidden peer" accept=".csv,.json" x-on:change="files = $event.target.files"/>
 
         <label for="id_file" class="flex flex-col items-center justify-center text-stone-700 w-full h-64 pt-5 pb-7 border-2 border-stone-700 border-dashed select-none rounded-xl cursor-pointer bg-stone-50 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mb-2.5">
@@ -24,10 +24,10 @@
           <p>CSV or JSON</p>
         </label>
 
-        <template x-if="fileName">
-          <div class="flex items-center justify-between mt-4 text-lg border border-stone-300 rounded-xl px-2.5 py-2 text-stone-700">
-            <p class="truncate" x-text="fileName"></p>
-            <span x-on:click="clearFileInput" role="button">
+        <template x-for="file in files">
+          <div class="flex items-center justify-between gap-x-3.5 mt-4 text-lg border border-stone-300 rounded-xl px-2.5 py-2 text-stone-700">
+            <p class="truncate" x-text="file.name"></p>
+            <span role="button" x-on:click="() => { document.getElementById('mood_import').reset(); files = [];}">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
