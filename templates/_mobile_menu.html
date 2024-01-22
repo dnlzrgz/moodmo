@@ -21,7 +21,7 @@
         </button>
       </div>
 
-      <div class="flex flex-col items-center justify-around gap-y-3 pb-7 text-lg">
+      <div class="flex flex-col items-center justify-around gap-y-3 pb-7 text-xl">
         {% if user.is_authenticated %}
           <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 underline {% endif %}"
              @click="menuOpen = false">

@@ -100,15 +100,9 @@ class Command(BaseCommand):
         ]
         Mood.objects.bulk_create(moods)
 
-        # Update some moods with activities
-        all_moods = Mood.objects.all()
-        selected_moods = random.sample(list(all_moods), int(0.5 * n))
-
-        for mood in selected_moods:
+        # Assign random activities to each mood
+        for mood in moods:
             num_activities = random.randint(0, len(activities))
-            selected_activities = random.sample(activities, num_activities)
-            mood.activities.set(selected_activities)
-
-            mood.save()
+            mood.activities.set(random.sample(activities, num_activities))
 
         self.stdout.write(self.style.SUCCESS("Moods added to the database."))
