@@ -175,33 +175,14 @@
       </div>
     </template>
 
-    <!-- Go top button -->
-    <div
-      x-data="{ show: false }"
-      x-on:scroll.window="show = window.pageYOffset >= 1000"
-      class="hidden md:block md:fixed bottom-8 right-8"
-    >
-      <button
-        x-show="show"
-        x-transition
-        x-on:click="window.scrollTo({top: 0, behavior: 'smooth'})"
-        class="drop-shadow-sm shadow-stone-900 bg-white border border-stone-50 hover:border-primary-500 text-stone-900 hover:text-primary-500 p-4 rounded-full transition-colors"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-        </svg>
-      </button>
-    </div>
-
     <!-- Add mobile button -->
     <a href="{% url 'mood_create' %}"
-       class="md:hidden fixed bottom-8 right-8 bg-primary-500 text-white p-4 rounded-full"
+       class="md:hidden fixed bottom-8 right-8 bg-primary-500 text-white p-3 rounded-full"
        role="button"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-           data-slot="icon" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
+      <div class="w-8 h-8 flex items-center justify-center">
+        <i class="fa-solid fa-plus w-5 h-5"></i>
+      </div>
     </a>
   </main>
 {% endblock content %}

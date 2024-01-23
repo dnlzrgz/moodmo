@@ -16,13 +16,13 @@
                                                                                                {
                                                                                                title: 'New mood',
                                                                                                value: 'mood_create',
-                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m7.5-7.5h-15\'/></svg>',
+                                                                                               icon: 'fa-solid fa-face-smile',
                                                                                                default: true,
                                                                                                },
                                                                                                {
                                                                                                title: 'New activity',
                                                                                                value: 'activity_create',
-                                                                                               icon:'<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5\' /></svg>',
+                                                                                               icon: 'fa-solid fa-person-walking',
                                                                                                default: true,
                                                                                                },
                                                                                                ],
@@ -30,19 +30,19 @@
                                                                                                {
                                                                                                title: 'Export moods',
                                                                                                value: 'export',
-                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'currentColor\' class=\'w-5 h-5\'><path d=\'M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75\' /><path d=\'M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z\'/></svg>',
+                                                                                               icon: 'fa-solid fa-file-arrow-down',
                                                                                                default: true,
                                                                                                },
                                                                                                {
                                                                                                title: 'Import moods',
                                                                                                value: 'import',
-                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z\'/></svg>',
+                                                                                               icon: 'fa-solid fa-file-arrow-up',
                                                                                                default: true,
                                                                                                },
                                                                                                {
                                                                                                title: 'Sign Out',
                                                                                                value: 'signout',
-                                                                                               icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9\'/></svg>',
+                                                                                               icon: 'fa-solid fa-arrow-right-from-bracket',
                                                                                                default: true,
                                                                                                },
                                                                                                ],
@@ -196,12 +196,7 @@
 
         <!-- Search bar -->
         <div class="flex items-center border-b-2 border-stone-500">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
-               class="w-5 h-5 text-stone-900">
-            <path fill-rule="evenodd"
-                  d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                  clip-rule="evenodd" />
-          </svg>
+          <i class="fa-solid fa-magnifying-glass"></i>
 
           <input type="text" x-ref="commandInput" x-model="commandSearch"
                  class="w-full mr-2 text-lg bg-transparent border-0 outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-700"
@@ -228,7 +223,7 @@
                      @mousemove="commandItemActive=item"
                      :class="{ 'bg-primary-500 text-white' : commandItemIsActive(item) }"
                      class="flex items-center gap-x-2 py-0.5 px-1.5 mx-3 cursor-pointer select-none rounded-lg text-lg transition-colors">
-                  <span x-html="item.icon"></span>
+                  <i :class="item.icon"></i>
                   <span x-text="item.title"></span>
                 </div>
               </template>
@@ -246,25 +241,14 @@
             <!-- Loading indicator -->
             <template x-if="fetching && !errorFetching">
               <div class="flex justify-center p-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="text-stone-900 animate-spin w-5 h-5"
-                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
+                <i class="fa-solid fa-arrows-rotate animate-spin"></i>
               </div>
             </template>
 
             <!-- Search -->
             <template x-if="moods.length == 0 && !fetching && !errorFetching && commandSearch.length <= 0">
               <div class="flex items-center gap-x-2 py-0.5 px-1.5 mx-3 cursor-pointer select-none rounded-lg text-lg">
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-5 h-5 text-stone-900" viewBox="0 0 24 24"
-                       stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                  </svg>
-                </span>
-
+                <i class="fa-solid fa-magnifying-glass"></i>
                 <p>Start typing to search moods</p>
               </div>
             </template>
@@ -272,14 +256,8 @@
             <!-- Empty -->
             <template x-if="moods.length <= 0 && !fetching && !errorFetching && commandSearch.length > 0">
               <div class="flex items-center gap-x-2 py-0.5 px-1.5 mx-3 cursor-pointer select-none rounded-lg text-lg">
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="w-5 h-5 text-stone-700">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
-                  </svg>
-                </span>
-                <span>No moods found!</span>
+                <i class="fa-solid fa-face-frown"></i>
+                No moods found!
               </div>
             </template>
 
@@ -287,16 +265,8 @@
             <template x-if="errorFetching">
               <div
                 class="flex items-center justify-center gap-x-2 py-0.5 px-1.5 select-none text-sm text-red-500 text-semibold">
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="w-5 h-5 text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                  </svg>
-                </span>
-                <span>
-                  Something went wrong while fetching moods! Please try again
-                </span>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Something went wrong while fetching moods! Please try again
               </div>
             </template>
 

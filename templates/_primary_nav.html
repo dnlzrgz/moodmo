@@ -11,24 +11,14 @@
       {% if user.is_authenticated %}
         <button name="command" @click="togglePalette"
                 class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
-               class="w-6 h-6 text-stone-900">
-            <path fill-rule="evenodd"
-                  d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                  clip-rule="evenodd" />
-          </svg>
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
         <a href="{% url 'mood_create' %}"
            class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
            role="button" aria-label="command palette">
-          <span>
-            New mood
-          </span>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-               data-slot="icon" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
+          New mood
+          <i class="fa-solid fa-plus"></i>
         </a>
       {% else %}
         <a href="{% url 'account_login' %}"> Log in </a>
@@ -36,35 +26,23 @@
            class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
            role="button">
           Sign up
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
-               class="w-5 h-5 text-white">
-            <path fill-rule="evenodd"
-                  d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
-                  clip-rule="evenodd" />
-          </svg>
+
+          <i class="fa-solid fa-arrow-right-long"></i>
         </a>
       {% endif %}
     </div>
 
     <!-- Mobile menu -->
-    <div class="md:hidden">
+    <div class="md:hidden flex items-center justify-center gap-x-2">
       {% if user.is_authenticated %}
         <button name="command" @click="togglePalette"
                 class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon"
-               class="w-5 h-5 text-stone-900">
-            <path fill-rule="evenodd"
-                  d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                  clip-rule="evenodd" />
-          </svg>
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       {% endif %}
 
       <button class="px-3 py-3 rounded-full" @click="toggleMenu" name="menu">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-             class="w-5 h-5 text-stone-900">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
+        <i class="fa-solid fa-bars"></i>
       </button>
     </div>
   </nav>
