@@ -19,6 +19,12 @@
                                                                                                icon: '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' data-slot=\'icon\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M12 4.5v15m7.5-7.5h-15\'/></svg>',
                                                                                                default: true,
                                                                                                },
+                                                                                               {
+                                                                                               title: 'New activity',
+                                                                                               value: 'activity_create',
+                                                                                               icon:'<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke-width=\'1.5\' stroke=\'currentColor\' class=\'w-5 h-5\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5\' /></svg>',
+                                                                                               default: true,
+                                                                                               },
                                                                                                ],
                                                                                                settings: [
                                                                                                {
@@ -170,6 +176,8 @@
                                                                                                                    $watch('commandItemSelected', function(item){
                                                                                                                    if(item.value == 'mood_create'){
                                                                                                                    window.location.href = '{% url 'mood_create' %}';
+                                                                                                                   } else if (item.value == 'activity_create') {
+                                                                                                                   window.location.href = '{% url 'activity_create' %}';
                                                                                                                    } else if (item.value == 'signout') {
                                                                                                                    window.location.href = '{% url 'account_logout' %}';
                                                                                                                    } else if (item.value == 'export') {

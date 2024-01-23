@@ -27,6 +27,10 @@
              @click="menuOpen = false">
             Moods
           </a>
+          <a href="{% url 'activity_list' %}"
+             class="{% if 'activity' in request.path %} text-primary-500 underline {% endif %}" @click="menuOpen = false">
+            Activities
+          </a>
           <a href="#" class="{% if 'search' in request.path %} text-primary-500 underline {% endif %}">
             Search
           </a>

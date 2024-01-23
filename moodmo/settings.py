@@ -18,13 +18,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Keep the secret key used in production secret!
 SECRET_KEY = env.str(
     "DJANGO_SECRET_KEY",
     "django-insecure-j$@j_n_)1+ooetp8ufu%2iaca(f=g%!l_vp!-#!x8ex13jeagz",
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", [])
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "accounts",
     "pages",
     "moods",
+    "activities",
 ]
 
 if DEBUG:
