@@ -96,11 +96,17 @@
                role="button">
             <span x-text="emoji" class="text-5xl row-span-2"></span>
 
-            <div class="flex flex-col gap-y-1">
-              <time class="flex gap-x-1.5 text-sm text-white font-semibold">
-                <span class=" bg-stone-900 px-3 py-1 rounded-xl" x-text="formatDate(mood.timestamp)"></span>
-                <span class="bg-stone-900 px-3 py-1 rounded-xl" x-text="formatTime(mood.timestamp)"></span>
+            <div class="flex flex-col gap-y-1.5">
+              <time class="flex gap-x-1.5 text-sm text-white font-bold">
+                <span class=" bg-stone-900 px-3 py-1 rounded-full" x-text="formatDate(mood.timestamp)"></span>
+                <span class="bg-stone-900 px-3 py-1 rounded-full" x-text="formatTime(mood.timestamp)"></span>
               </time>
+
+              <div class="flex flex-wrap gap-x-1.5 gap-y-1.5">
+                <template x-for="activity in mood.activities.slice(0, 5)">
+                  <span class="block text-sm font-bold px-3 py-1 bg-primary-500 text-white rounded-full" x-text="activity.name"></span>
+                </template>
+              </div>
 
               <template x-if="mood.note_title">
                 <p class="text-stone-700 text-lg truncate" x-text="mood.note_title"></p>

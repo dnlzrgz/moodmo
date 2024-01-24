@@ -1,8 +1,12 @@
+from typing import List
 from ninja import ModelSchema
-from .models import Mood
+from moods.models import Mood
+from activities.schemas import ActivitySchema
 
 
 class MoodSchema(ModelSchema):
+    activities: List[ActivitySchema]
+
     class Meta:
         model = Mood
         fields = [
