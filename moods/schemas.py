@@ -10,5 +10,6 @@ class MoodSchema(ModelSchema):
             "mood",
             "note_title",
             "note",
+            "activities",
             "timestamp",
         ]

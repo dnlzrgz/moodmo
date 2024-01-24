@@ -25,7 +25,6 @@ class Mood(models.Model):
     note = models.TextField(blank=True)
     activities = models.ManyToManyField(
         Activity,
-        related_name="moods",
         blank=True,
     )
     timestamp = models.DateTimeField(default=timezone.now)

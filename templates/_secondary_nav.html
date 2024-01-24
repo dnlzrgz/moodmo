@@ -14,6 +14,11 @@
         Log in
         <i class="fa-solid fa-arrow-right-long"></i>
       </a>
+    {% elif 'activities' in request.path %}
+      <a href="{% url 'activity_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+        Activities
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
     {% else %}
       <a href="{% url 'mood_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
         Moods

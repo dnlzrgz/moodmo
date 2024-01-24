@@ -5,32 +5,9 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from faker import Faker
 
-from moods.models import Activity, Mood
+from moods.models import Mood
 
 fake = Faker()
-
-ACTIVITY_CHOICES = [
-    "meditating",
-    "running",
-    "reading",
-    "listening to music",
-    "painting",
-    "cooking",
-    "gardening",
-    "yoga",
-    "swimming",
-    "hiking",
-    "cycling",
-    "writing",
-    "photography",
-    "watching movies",
-    "gaming",
-    "dancing",
-    "traveling",
-    "singing",
-    "volunteering",
-    "coding",
-]
 
 
 class Command(BaseCommand):
@@ -73,16 +50,6 @@ class Command(BaseCommand):
         if username:
             user_queryset = user_queryset.filter(username=username)
 
-        # Create activities
-        activities = [
-            Activity(
-                user=random.choice(user_queryset),
-                name=activity,
-            )
-            for activity in ACTIVITY_CHOICES
-        ]
-        Activity.objects.bulk_create(activities)
-
         # Create moods
         moods = [
             Mood(
@@ -99,10 +66,5 @@ class Command(BaseCommand):
             for _ in range(n)
         ]
         Mood.objects.bulk_create(moods)
-
-        # Assign random activities to each mood
-        for mood in moods:
-            num_activities = random.randint(0, len(activities))
-            mood.activities.set(random.sample(activities, num_activities))
 
         self.stdout.write(self.style.SUCCESS("Moods added to the database."))

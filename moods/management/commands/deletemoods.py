@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
-from moods.models import Mood, Activity
+from moods.models import Mood
 
 
 class Command(BaseCommand):
@@ -28,13 +28,10 @@ class Command(BaseCommand):
                 return
 
             moods_to_delete = Mood.objects.filter(user=user_queryset.first())
-            activities_to_delete = Activity.objects.filter(user=user_queryset.first())
         else:
             moods_to_delete = Mood.objects.all()
-            activities_to_delete = Activity.objects.all()
 
         moods_to_delete.delete()
-        activities_to_delete.delete()
 
         if username:
             self.stdout.write(

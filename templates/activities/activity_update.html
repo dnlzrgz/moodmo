@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block title %}Activity - Update{% endblock %}
+
+{% block content %}
+  {% include "_secondary_nav.html" %}
+
+  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
+    <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
+      Edit your activity
+    </h4>
+
+    <form method="post" class="form" role="form" action="{% url 'activity_edit' activity.pk %}">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-4">
+          {{ field }}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
+        Update
+      </button>
+    </form>
+
+    <a href="{% url 'activity_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
+      Go back
+    </a>
+  </main>
+{% endblock content %}

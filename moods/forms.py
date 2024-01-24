@@ -1,5 +1,6 @@
 from django import forms
-from .models import Mood
+from moods.models import Mood
+from activities.models import Activity
 
 from django.core.exceptions import ValidationError
 
@@ -35,6 +36,11 @@ class MoodForm(forms.ModelForm):
         ),
         required=False,
     )
+    activities = forms.ModelMultipleChoiceField(
+        queryset=Activity.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
 
     class Meta:
         model = Mood
@@ -42,9 +48,13 @@ class MoodForm(forms.ModelForm):
             "mood",
             "note_title",
             "note",
-            # "activities",
+            "activities",
             "timestamp",
         ]
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["activities"].queryset = Activity.objects.filter(user=user)
 
 
 class UploadFileForm(forms.Form):

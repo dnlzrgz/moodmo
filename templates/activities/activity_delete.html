@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+
+{% block title %}Activity - Delete{% endblock %}
+
+{% block content %}
+  {% include "_secondary_nav.html" %}
+
+  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
+    <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
+      Delete activity
+    </h4>
+
+    <form method="post" class="form max-w-sm mx-auto" role="form" action="{% url 'activity_delete' activity.pk %}">
+      {% csrf_token %}
+
+      <button type="submit" class="py-3 text-lg text-white bg-red-600 rounded-full px-10 w-full">
+        Delete
+      </button>
+    </form>
+
+    <a href="{% url 'activity_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
+      Cancel
+    </a>
+  </main>
+{% endblock content %}
