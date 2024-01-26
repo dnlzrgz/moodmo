@@ -14,6 +14,8 @@ from activities.forms import ActivityForm
 class ActivityListView(LoginRequiredMixin, ListView):
     model = Activity
     template_name = "activities/activity_list.html"
+    context_object_name = "activities"
+    ordering = ["name"]
 
 
 class ActivityCreateView(LoginRequiredMixin, SetUserMixin, CreateView):

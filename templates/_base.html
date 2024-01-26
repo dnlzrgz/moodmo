@@ -20,10 +20,6 @@
       <link rel="stylesheet" href="{% static 'css/output.min.css' %}" />
     {% endif %}
 
-    <!-- FontAwesome -->
-    <script src="{% static 'fontawesomefree/js/fontawesome.js' %}" defer></script>
-    <script src="{% static 'fontawesomefree/js/solid.js' %}" defer></script>
-    <script src="{% static 'fontawesomefree/js/brands.js' %}" defer></script>
   </head>
 
   <body
@@ -79,6 +75,17 @@
     <script src="{% static 'js/focus.js' %}" defer></script>
     <script src="{% static 'js/intersect.js' %}" defer></script>
     <script src="{% static 'js/alpine.js' %}" defer></script>
+
+    <!-- FontAwesome -->
+    {% if debug %}
+      <script src="{% static 'fontawesomefree/js/fontawesome.js' %}" defer></script>
+      <script src="{% static 'fontawesomefree/js/solid.js' %}" defer></script>
+      <script src="{% static 'fontawesomefree/js/brands.js' %}" defer></script>
+    {% else %}
+      <script src="{% static 'fontawesomefree/js/fontawesome.min.js' %}" defer></script>
+      <script src="{% static 'fontawesomefree/js/solid.min.js' %}" defer></script>
+      <script src="{% static 'fontawesomefree/js/brands.min.js' %}" defer></script>
+    {% endif %}
 
     <script>
       const formatTime = (timestamp) => {

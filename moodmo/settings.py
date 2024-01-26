@@ -226,13 +226,18 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Model to represent a User
+# Auth user model
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-user-model
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
 ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
+
+# Security
+SESSION_COOKIE_HTTPONLY = env.bool("SESSION_COOKIE_HTTPONL", True)
+CSRF_COOKIE_HTTPONLY = env.bool("CSRF_COOKIE_HTTPONLY", True)
+
 
 # Django Ninja settings
 # https://django-ninja.dev/reference/settings/
@@ -257,3 +262,23 @@ EMAIL_BACKEND = env.str(
     "django.core.mail.backends.console.EmailBackend",
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", 5)
+
+# Logging
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "root": {"level": "INFO", "handlers": ["console"]},
+}
