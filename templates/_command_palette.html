@@ -141,7 +141,7 @@
                                                                                                window.location.href = url;
                                                                                                },
                                                                                                async fetchMoods(searchTerm) {
-                                                                                               fetch(`/moods/api/v1/search?q=${searchTerm}`)
+                                                                                               fetch(`/api/v1/moods/search?q=${searchTerm}`)
                                                                                                .then(response => {
                                                                                                if (response.status != 200) {
                                                                                                this.errorFetching = true;

@@ -1,5 +1,4 @@
 from django.urls import path
-from .api_views import api
 from .views import (
     MoodListView,
     MoodCreateView,
@@ -40,5 +39,4 @@ urlpatterns = [
         MoodImportView.as_view(),
         name="mood_import",
     ),
-    path("api/v1/", api.urls),
 ]

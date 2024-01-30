@@ -23,7 +23,7 @@
 
                 this.fetching = true;
 
-                fetch(`/moods/api/v1/list?page=${this.page}`)
+                fetch(`/api/v1/moods/list?page=${this.page}`)
                 .then(response => {
                 if (response.status != 200) {
                 this.fetching = false;
@@ -183,12 +183,10 @@
 
     <!-- Add mobile button -->
     <a href="{% url 'mood_create' %}"
-       class="md:hidden fixed bottom-8 right-8 bg-primary-500 text-white p-3 rounded-full"
+       class="md:hidden flex items-center justify-center fixed bottom-8 right-8 bg-primary-500 text-white p-6 rounded-full"
        role="button"
     >
-      <div class="w-8 h-8 flex items-center justify-center">
-        <i class="fa-solid fa-plus w-5 h-5"></i>
-      </div>
+      <i class="fa-solid fa-plus"></i>
     </a>
   </main>
 {% endblock content %}
