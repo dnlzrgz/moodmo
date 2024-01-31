@@ -1,49 +1,38 @@
-{% extends "_base.html" %}
+{% extends "_base_form.html" %}
+{% block title %}Sign up{% endblock %}
+{% block heading %}Sign up{% endblock %}
+{% block form_action %}{% url 'account_signup' %}{% endblock %}
+{% block form_body %}
+    {% for field in form %}
+        <div class="mb-4" >
+            {{ field }}
 
-{% block title %}Sign Up{% endblock title %}
-
-{% block content %}
-    {% include "_secondary_nav.html" %}
-    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-        <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-            Sign up
-        </h4>
-        <form class="form" method="post" id="signup_form" action="{% url 'account_signup' %}">
-            {% csrf_token %}
-
-            {% for field in form %}
-                <div class="mb-4" >
-                    {{ field }}
-
-                    <div class="mt-2.5">
-                        {% for error in field.errors %}
-                            <div class="text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-start justify-start gap-x-1.5">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                <p>{{ error }}</p>
-                            </div>
-                        {% endfor %}
+            <div class="mt-2.5">
+                {% for error in field.errors %}
+                    <div class="form__error">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>{{ error }}</p>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
 
-            {% for error in form.non_field_errors %}
-                <div class="text-red-500 mb-2.5 text-sm font-semibold flex items-start justify-start gap-x-1.5">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <p>{{ error }}</p>
-                </div>
-            {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="form__error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>{{ error }}</p>
+        </div>
+    {% endfor %}
 
-            <button type="submit"
-                    class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-                Sign Up
-            </button>
-        </form>
+    <button type="submit">
+        Sign Up
+    </button>
 
-        <p class="mt-2.5 text-lg text-center text-stone-700">
-            Already have an account?
-            <a href="{% url 'account_login' %}" class="text-primary-500 underline">
-                Log in
-            </a>
-        </p>
-    </main>
+    <p class="mt-2.5 text-lg text-center text-stone-700">
+        Already have an account?
+        <a href="{% url 'account_login' %}" class="text-primary-500 underline">
+            Log in
+        </a>
+    </p>
 {% endblock %}

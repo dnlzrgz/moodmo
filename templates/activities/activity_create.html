@@ -1,31 +1,18 @@
-{% extends "_base.html" %}
+{% extends "_base_form.html" %}
+{% block title %}Create activity{% endblock %}
+{% block heading %}Add a new activity{% endblock %}
+{% block form_action %}{% url 'activity_create' %}{% endblock %}
+{% block form_body %}
+  {% for field in form %}
+    <div class="mb-4">
+      {{ field }}
+    </div>
+  {% endfor %}
 
-{% block title %}Activities - Create{% endblock %}
-
-{% block content %}
-  {% include '_secondary_nav.html' %}
-
-  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-    <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-      Create a new activity
-    </h4>
-
-    <form class="form" method="post" role="form" action="{% url 'activity_create' %}">
-      {% csrf_token %}
-
-      {% for field in form %}
-        <div class="mb-4">
-          {{ field }}
-        </div>
-      {% endfor %}
-
-      <button type="submit" class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-        Add
-      </button>
-    </form>
-
-    <a href="{% url 'activity_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
-      Go back
-    </a>
-  </main>
-{% endblock content %}
+  <button type="submit">
+    Add
+  </button>
+  <a href="{% url 'activity_list' %}" class="form__link">
+    Go back
+  </a>
+{% endblock %}

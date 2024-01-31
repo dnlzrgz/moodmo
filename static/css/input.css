@@ -17,13 +17,25 @@
     font-family: "Nunito Sans", system-ui, sans-serif;
   }
 
-  .form input[type="text"],
-  .form input[type="email"],
-  .form input[type="password"] {
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"] {
     @apply border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500;
   }
 
-  .form textarea {
+  form textarea {
     @apply h-32 border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500;
+  }
+
+  .form__error {
+    @apply text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-center justify-start gap-x-1.5;
+  }
+
+  button[type="submit"] {
+    @apply flex justify-center gap-x-1.5 mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full;
+  }
+
+  .form__link {
+    @apply block mt-4 text-lg text-center text-primary-500 underline;
   }
 }

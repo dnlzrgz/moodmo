@@ -1,65 +1,52 @@
-{% extends "_base.html" %}
-
-{% block title %}Mood - Create{% endblock %}
-
-{% block content %}
-    {% include '_secondary_nav.html' %}
-
-    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-        <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-            How are you feeling?
-        </h4>
-
-        <form class="form" method="post" role="form" action="{% url 'mood_create' %}">
-            {% csrf_token %}
-
-            {% for field in form %}
-                {% if field.name == 'mood' %}
-                    <ul class="mb-4 grid w-full gap-x-1.5 grid-cols-5">
-                        <template x-for="(key, _) in Object.keys(moodToEmoji).sort()" :key="key">
-                            <li class="text-center">
-                                <input type="radio" :id="key" name="mood" :value="key" class="hidden peer" required>
-                                <label :for="key"
-                                       class="flex items-center justify-center w-full px-1 py-2 border border-stone-500 rounded-xl cursor-pointer peer-checked:border-primary-500 peer-checked:bg-primary-500 hover:bg-stone-100">
-                                    <div class="block">
-                                        <p class="w-full text-5xl" x-text="moodToEmoji[key]"></p>
-                                    </div>
-                                </label>
-                            </li>
-                        </template>
-                    </ul>
-                {% elif field.name == 'activities' %}
-                    <div class="mb-4 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
-                        {% for choice_id, choice_label in form.activities.field.choices %}
-                            <div>
-                                <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
-                                <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
-                                    {{ choice_label }}
-                                </label>
+{% extends "_base_form.html" %}
+{% block title %}Add mood{% endblock %}
+{% block heading %}How are you feeling?{% endblock %}
+{% block form_action %}{% url 'mood_create' %}{% endblock %}
+{% block form_body %}
+    {% for field in form %}
+        {% if field.name == 'mood' %}
+            <ul class="mb-4 grid w-full gap-x-1.5 grid-cols-5">
+                <template x-for="(key, _) in Object.keys(moodToEmoji).sort()" :key="key">
+                    <li class="text-center">
+                        <input type="radio" :id="key" name="mood" :value="key" class="hidden peer" required>
+                        <label :for="key"
+                               class="flex items-center justify-center w-full px-1 py-2 border border-stone-500 rounded-xl cursor-pointer peer-checked:border-primary-500 peer-checked:bg-primary-500 hover:bg-stone-100">
+                            <div class="block">
+                                <p class="w-full text-5xl" x-text="moodToEmoji[key]"></p>
                             </div>
-                        {% endfor %}
-
-                        <div>
-                            <a href="{% url 'activity_create' %}" class="select-none cursor-pointer text-stone-500 bg-white border border-stone-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center">
-                                Add activity
-                            </a>
-                        </div>
+                        </label>
+                    </li>
+                </template>
+            </ul>
+        {% elif field.name == 'activities' %}
+            <div class="mb-4 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
+                {% for choice_id, choice_label in form.activities.field.choices %}
+                    <div>
+                        <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
+                        <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
+                            {{ choice_label }}
+                        </label>
                     </div>
-                {% else %}
-                    <div class="mb-4">
-                        {{ field }}
-                    </div>
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
 
-            <button type="submit"
-                    class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-                Add
-            </button>
-        </form>
+                <div>
+                    <a href="{% url 'activity_create' %}" class="select-none cursor-pointer text-stone-500 bg-white border border-stone-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center">
+                        Add activity
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="mb-4">
+                {{ field }}
+            </div>
+        {% endif %}
+    {% endfor %}
 
-        <a href="{% url 'mood_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
-            Go back
-        </a>
-    </main>
-{% endblock content %}
+    <button type="submit">
+        Add
+    </button>
+
+    <a href="{% url 'mood_list' %}" class="form__link">
+        Go back
+    </a>
+{% endblock %}

@@ -1,54 +1,41 @@
-{% extends "_base.html" %}
+{% extends "_base_form.html" %}
+{% block title %}Import{% endblock %}
+{% block heading %}Import your moods{% endblock %}
+{% block form_extra %}enctype="multipart/form-data" x-data="{files: []}"{% endblock %}
+{% block form_action %}{% url 'mood_import' %}{% endblock %}
+{% block form_body %}
+  <div class="mb-4">
+    <input id="id_file" name="file" type="file" class="hidden peer" accept=".csv,.json" x-on:change="files = $event.target.files"/>
 
-{% block title %}Moods - Import{% endblock title %}
+    <label for="id_file" class="flex flex-col items-center justify-center text-stone-700 w-full h-64 pt-5 pb-7 border-2 border-stone-700 border-dashed select-none rounded-xl cursor-pointer bg-stone-50 transition-colors">
+      <i class="fa-solid fa-cloud-arrow-up text-6xl mb-2.5"></i>
+      <p><span class="font-semibold">Click to upload</span> or drag and drop</p>
+      <p>CSV or JSON</p>
+    </label>
 
-{% block content %}
-  {% include "_secondary_nav.html" %}
-
-  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-    <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-      Import your moods
-    </h4>
-
-    <form id="mood_import" method="post" role="form" action="{% url 'mood_import' %}" enctype="multipart/form-data" x-data="{files: []}">
-      {% csrf_token %}
-
-      <div class="mb-4">
-        <input id="id_file" name="file" type="file" class="hidden peer" accept=".csv,.json" x-on:change="files = $event.target.files"/>
-
-        <label for="id_file" class="flex flex-col items-center justify-center text-stone-700 w-full h-64 pt-5 pb-7 border-2 border-stone-700 border-dashed select-none rounded-xl cursor-pointer bg-stone-50 transition-colors">
-          <i class="fa-solid fa-cloud-arrow-up w-16 h-16 mb-2.5"></i>
-          <p><span class="font-semibold">Click to upload</span> or drag and drop</p>
-          <p>CSV or JSON</p>
-        </label>
-
-        <template x-for="file in files">
-          <div class="flex items-center justify-between gap-x-3.5 mt-4 text-lg border border-stone-300 rounded-xl px-2.5 py-2 text-stone-700">
-            <p class="truncate" x-text="file.name"></p>
-            <span role="button" x-on:click="() => { document.getElementById('mood_import').reset(); files = [];}">
-              <i class="fa-solid fa-xmark pr-1.5"></i>
-            </span>
-          </div>
-        </template>
+    <template x-for="file in files">
+      <div class="flex items-center justify-between gap-x-3.5 mt-4 text-lg border border-stone-300 rounded-xl px-2.5 py-2 text-stone-700">
+        <p class="truncate" x-text="file.name"></p>
+        <span role="button" x-on:click="() => { document.querySelector('form').reset(); files = [];}">
+          <i class="fa-solid fa-xmark pr-1.5"></i>
+        </span>
       </div>
+    </template>
+  </div>
 
-      {% for error in form.errors.file %}
-        <div class="text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-start justify-start gap-x-1.5">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <p>{{ error }}</p>
-        </div>
-        </div>
-      {% endfor %}
+  {% for error in form.errors.file %}
+    <div class="form__error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <p>{{ error }}</p>
+    </div>
+    </div>
+  {% endfor %}
 
-      <button type="submit"
-              class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-        Import
-      </button>
-    </form>
+  <button type="submit">
+    Import
+  </button>
 
-    <a href="{% url 'mood_list' %}" class="block mt-4 text-lg text-center text-primary-500 underline">
-      Go back
-    </a>
-  </main>
-
+  <a href="{% url 'mood_list' %}" class="form__link">
+    Go back
+  </a>
 {% endblock %}

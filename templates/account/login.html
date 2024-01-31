@@ -1,45 +1,33 @@
-{% extends "_base.html" %}
+{% extends "_base_form.html" %}
+{% block title %}Log in{% endblock %}
+{% block heading %}Log in{% endblock %}
+{% block form_action %}{% url 'account_login' %}{% endblock %}
+{% block form_body %}
+    {% for field in form %}
+        <div class="mb-4">
+            {{ field }}
+        </div>
+    {% endfor %}
 
-{% block title %}Log in{% endblock title %}
+    {% for error in form.non_field_errors %}
+        <div class="form__error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>{{ error }}</p>
+        </div>
+    {% endfor %}
 
-{% block content %}
-    {% include "_secondary_nav.html" %}
-    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-        <h4 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-            Log In
-        </h4>
+    <button type="submit">
+        Log In
+    </button>
 
-        <form class="form" method="post" id="login_form" role="form" action="{% url 'account_login' %}">
-            {% csrf_token %}
+    <a href="/accounts/password/reset/" class="form__link">
+        I forgot my password
+    </a>
 
-            {% for field in form %}
-                <div class="mb-4">
-                    {{ field }}
-                </div>
-            {% endfor %}
-
-            {% for error in form.non_field_errors %}
-                <div class="text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-start justify-start gap-x-1.5">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <p>{{ error }}</p>
-                </div>
-            {% endfor %}
-
-            <button type="submit"
-                    class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-                Log In
-            </button>
-        </form>
-
-        <a href="/accounts/password/reset/" class="block mt-4 text-lg text-center text-primary-500 underline">
-            I forgot my password
+    <p class="mt-1.5 text-lg text-center text-stone-700">
+        Want to create an account instead?
+        <a href="{% url 'account_signup' %}" class="text-primary-500 underline">
+            Create account
         </a>
-
-        <p class="mt-1.5 text-lg text-center text-stone-700">
-            Want to create an account instead?
-            <a href="{% url 'account_signup' %}" class="text-primary-500 underline">
-                Create account
-            </a>
-        </p>
-    </main>
+    </p>
 {% endblock %}

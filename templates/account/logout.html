@@ -1,28 +1,15 @@
-{% extends "_base.html" %}
+{% extends "_base_form.html" %}
+{% block title %}Sign out{% endblock %}
+{% block heading %}Sign out{% endblock %}
+{% block form_action %}{% url 'account_logout' %}{% endblock %}
+{% block form_body %}
+    <p class="w-full text-lg text-center text-stone-700">
+        Adiós for now! We'll miss you like a Wi-Fi signal in an elevator.
+    </p>
 
-{% block title %}Sign Out{% endblock title %}
+    {{ form.as_p }}
 
-{% block content %}
-    {% include '_secondary_nav.html' %}
-
-    <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-        <div>
-            <h4 class="w-full text-2xl font-bold text-stone-900 text-center">
-                Sign Out
-            </h4>
-            <p class="w-full text-lg text-center text-stone-700">
-                Adiós for now! We'll miss you like a Wi-Fi signal in an elevator.
-            </p>
-        </div>
-
-        <form class="form max-w-sm mx-auto" method="post" id="signout_form" role="form" action="{% url 'account_logout' %}">
-            {% csrf_token %}
-
-            {{ form.as_p }}
-
-            <button type="submit" class="mt-6 py-4 text-xl text-white bg-primary-500 rounded-full w-full">
-                Leave
-            </button>
-        </form>
-    </main>
+    <button type="submit">
+        Leave
+    </button>
 {% endblock %}

@@ -1,0 +1,49 @@
+{% extends "_base.html" %}
+
+{% block title %}Title{% endblock %}
+
+{% block content %}
+  <header>
+    <nav
+      class="flex items-center justify-between w-full md:w-3/4 py-2 px-4 sm:py-4 sm:px-6 text-stone-900 text-xl mx-auto"
+      aria-label="Global">
+      <a href="{% url 'home' %}" class="font-bold"> MoodMo </a>
+
+      {% if 'login' in request.path %}
+        <a href="{% url 'account_signup' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+          Sign up
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+      {% elif 'signup' in request.path or 'reset' in request.path %}
+        <a href="{% url 'account_login' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+          Log in
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+      {% elif 'activities' in request.path %}
+        <a href="{% url 'activity_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+          Activities
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+      {% else %}
+        <a href="{% url 'mood_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+          Moods
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
+    <h2 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
+      {% block heading %}Form heading{% endblock %}
+    </h2>
+
+    <form class="form" method="post" role="form" action="{% block form_action %}{% endblock %}" {% block form_extra %}{%endblock %}>
+      {% csrf_token %}
+
+      {% block form_body %}
+
+      {% endblock %}
+    </form>
+  </main>
+{% endblock %}
