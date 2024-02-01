@@ -46,8 +46,13 @@
 
     <!-- Alpine.js -->
     <script src="{% static 'js/focus.js' %}" defer></script>
-    <script src="{% static 'js/intersect.js' %}" defer></script>
     <script src="{% static 'js/alpine.js' %}" defer></script>
+
+    <!-- HTMX -->
+    <script src="{% static 'js/htmx.js' %}" defer></script>
+    {% if debug %}
+      <script src="{% static 'js/debug.js' %}" defer></script>
+    {% endif %}
 
     <script>
       const formatTime = (timestamp) => {
