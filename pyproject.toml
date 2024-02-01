@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "moodmo"
-version = "0.7.14"
+version = "0.7.15"
 description = "A user-friendly, self-hosted mood tracking application written in Django."
 license = "GPL-3.0"
 authors = ["dnlzrgz <24715931+dnlzrgz@users.noreply.github.com>"]
