@@ -3,7 +3,6 @@ import json
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     FormView,
@@ -142,7 +141,8 @@ class MoodExportView(LoginRequiredMixin, FormView):
             current_date = datetime.now().strftime("%Y_%m_%d")
 
             if export_format == "json":
-                return redirect("api-1.0.0:moods_export")
+                # TODO: reimplement
+                pass
             else:
                 response = HttpResponse(content_type="text/csv")
                 response["Content-Disposition"] = (

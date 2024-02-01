@@ -238,11 +238,6 @@ SESSION_COOKIE_HTTPONLY = env.bool("SESSION_COOKIE_HTTPONL", True)
 CSRF_COOKIE_HTTPONLY = env.bool("CSRF_COOKIE_HTTPONLY", True)
 
 
-# Django Ninja settings
-# https://django-ninja.dev/reference/settings/
-NINJA_PAGINATION_PER_PAGE = 32
-NINJA_PAGNATION_MAX_LIMIT = 100
-
 # Accounts related settings
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
