@@ -13,11 +13,9 @@
         {% for activity in activities %}
           <li class="flex items-center justify-between py-4 px-6 select-none cursor-pointer border-b border-b-stone-500 text-stone-900">
             <span class="flex items-center gap-x-1.5">
-              {% if activity.icon_class %}
-                <i class="{{ activity.icon_class }} text-sm"></i>
-              {% endif %}
               <p>{{activity.name}}</p>
             </span>
+
             <div x-data="{
                          popoverOpen: false,
                          popoverArrow: true,

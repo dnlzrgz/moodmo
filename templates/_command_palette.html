@@ -196,7 +196,7 @@
 
         <!-- Search bar -->
         <div class="flex items-center border-b-2 border-stone-500">
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <!-- TODO: Add icon -->
 
           <input type="text" x-ref="commandInput" x-model="commandSearch"
                  class="w-full mr-2 text-lg bg-transparent border-0 outline-none focus:outline-none focus:ring-0 focus:border-0 placeholder:text-stone-700"
@@ -223,7 +223,7 @@
                      @mousemove="commandItemActive=item"
                      :class="{ 'bg-primary-500 text-white' : commandItemIsActive(item) }"
                      class="flex items-center gap-x-2 py-0.5 px-1.5 mx-3 cursor-pointer select-none rounded-lg text-lg transition-colors">
-                  <i :class="item.icon"></i>
+                  <!-- TODO: Add icon -->
                   <span x-text="item.title"></span>
                 </div>
               </template>
@@ -256,7 +256,11 @@
             <!-- Empty -->
             <template x-if="moods.length <= 0 && !fetching && !errorFetching && commandSearch.length > 0">
               <div class="flex items-center gap-x-2 py-0.5 px-1.5 mx-3 cursor-pointer select-none rounded-lg text-lg">
-                <i class="fa-solid fa-face-frown"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
+                </svg>
                 No moods found!
               </div>
             </template>

@@ -19,13 +19,6 @@
     {% else %}
       <link rel="stylesheet" href="{% static 'css/output.min.css' %}" />
     {% endif %}
-
-    <!-- FontAwesome -->
-    {% if debug %}
-      <link href="{% static 'fontawesomefree/css/all.css' %}" rel="stylesheet" type="text/css">
-    {% else %}
-      <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    {% endif %}
   </head>
 
   <body
@@ -117,13 +110,6 @@
         '1': '🙂',
         '2': '🤩',
       };
-
-      fetch("{% static 'fontawesomefree/metadata/icon-families.json' %}")
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => console.error('Error fetching JSON:', error));
     </script>
   </body>
 </html>

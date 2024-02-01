@@ -9,25 +9,24 @@
     <!-- Desktop menu -->
     <div class="hidden md:flex items-center justify-center gap-x-4">
       {% if user.is_authenticated %}
-        <button name="command" @click="togglePalette"
-                class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white">
-          <i class="fa-solid fa-magnifying-glass"></i>
+        <button name="command" @click="togglePalette" class="inline-flex items-center justify-center bg-white rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 text-stone-900">
+            <path fill="currentColor"
+                  d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+          </svg>
         </button>
 
         <a href="{% url 'mood_create' %}"
-           class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+           class="text-center px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
            role="button" aria-label="command palette">
           New mood
-          <i class="fa-solid fa-plus"></i>
         </a>
       {% else %}
         <a href="{% url 'account_login' %}"> Log in </a>
         <a href="{% url 'account_signup' %}"
-           class="flex items-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+           class="text-center gap-x-1.5 px-6 py-3 text-white bg-stone-900 rounded-full hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
            role="button">
           Sign up
-
-          <i class="fa-solid fa-arrow-right-long"></i>
         </a>
       {% endif %}
     </div>
@@ -35,14 +34,19 @@
     <!-- Mobile menu -->
     <div class="md:hidden flex items-center justify-center gap-x-2">
       {% if user.is_authenticated %}
-        <button name="command" @click="togglePalette"
-                class="inline-flex items-center justify-center bg-white rounded-lg active:bg-white">
-          <i class="fa-solid fa-magnifying-glass"></i>
+        <button name="command" @click="togglePalette" class="inline-flex items-center justify-center bg-white rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 text-stone-900">
+            <path fill="currentColor"
+                  d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+          </svg>
         </button>
       {% endif %}
 
       <button class="px-3 py-3 rounded-full" @click="toggleMenu" name="menu">
-        <i class="fa-solid fa-bars"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 text-stone-900">
+          <path fill="currentColor"
+                d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+        </svg>
       </button>
     </div>
   </nav>

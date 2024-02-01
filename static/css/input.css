@@ -28,7 +28,7 @@
   }
 
   .form__error {
-    @apply text-red-500 text-sm font-semibold px-4 mb-2.5 flex items-center justify-start gap-x-1.5;
+    @apply text-red-500 text-sm font-bold px-4 mb-2.5 flex items-start justify-start gap-x-2;
   }
 
   button[type="submit"] {
