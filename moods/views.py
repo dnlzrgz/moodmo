@@ -19,6 +19,15 @@ from moods.models import Mood
 class MoodListView(LoginRequiredMixin, ListView):
     model = Mood
     template_name = "moods/mood_list.html"
+    context_object_name = "moods"
+    paginate_by = 30
+
+    def get_queryset(self):
+        return (
+            Mood.objects.filter(user=self.request.user)
+            .order_by("-timestamp")
+            .prefetch_related("activities")
+        )
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
