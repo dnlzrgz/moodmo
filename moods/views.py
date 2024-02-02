@@ -22,6 +22,14 @@ class MoodListView(LoginRequiredMixin, ListView):
     context_object_name = "moods"
     paginate_by = 30
 
+    def get(self, request, *args, **kwargs):
+        if request.headers.get("HX-Request"):
+            self.template_name = "moods/hx_mood_list.html"
+        else:
+            self.template_name = "moods/mood_list.html"
+
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         return (
             Mood.objects.filter(user=self.request.user)

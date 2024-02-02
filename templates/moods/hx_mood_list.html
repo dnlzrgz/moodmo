@@ -1,0 +1,24 @@
+{% for mood in moods %}
+  <li x-data="{ moodEmoji: moodToEmoji[{{ mood.mood }}] }">
+    <span x-text="moodEmoji"></span>
+
+    <time>
+      <span x-text="formatDate('{{ mood.timestamp|date:"c" }}')"></span>
+      <span x-text="formatTime('{{ mood.timestamp|date:"c" }}')"></span>
+    </time>
+
+    <ul>
+      {% for activity in mood.activities.all %}
+        <li>{{ activity.name }}</li>
+      {% endfor %}
+    </ul>
+
+    <p>{{ mood.note_title }}</p>
+  </li>
+{% endfor %}
+
+{% if page_obj.has_next %}
+  <span hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="revealed" hx-swap="afterend">
+  </span>
+  </ul>
+{% endif %}
