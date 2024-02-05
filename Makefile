@@ -121,6 +121,24 @@ prod-logs:
 	docker-compose -f prod.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
+# Start local Docker compose using PyPy
+local-pypy-start:
+	@echo "🚀 Starting local Docker compose with PyPy..."
+	docker-compose -f local-pypy.yaml up -d --build
+	@echo "✨ Local Docker compose with PyPy started!"
+
+# Stop local Docker compose with PyPy
+local-pypy-stop:
+	@echo "🛑 Stopping local Docker compose with PyPy..."
+	docker-compose -f local-pypy.yaml down
+	@echo "✨ Local Docker compose with PyPy stopped!"
+
+# Watch local Docker compose with PyPy logs
+local-pypy-logs:
+	@echo "👀 Watching container logs..."
+	docker-compose -f local.yaml logs -f
+	@echo "✨ Watching container logs finished!"
+
 # Setup project with dependencies, Tailwind CSS and Alpine.js for local development
 setup:
 	@make download-tailwind

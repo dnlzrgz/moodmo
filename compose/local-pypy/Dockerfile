@@ -1,8 +1,8 @@
-# Alias for the specific Python version
-FROM python:3.12.1-slim-bookworm as python
+# Alias for the specific PyPy version
+FROM pypy:3.10-7.3.15-slim-bookworm as pypy
 
 # Build stage
-FROM python as build-stage
+FROM pypy as build-stage
 
 # Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -14,9 +14,10 @@ COPY ./requirements.dev.txt .
 # Create Python dependency wheels.
 RUN pip wheel --wheel-dir /wheels \
   -r requirements.dev.txt
+RUN pip wheel --wheel-dir /wheels psycopg
 
 # Run stage
-FROM python as run-stage
+FROM pypy as run-stage
 
 # Set env variables
 ENV APP_HOME /app
@@ -31,6 +32,7 @@ WORKDIR $APP_HOME
 
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
+  libpq5 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
@@ -45,4 +47,5 @@ RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
 COPY . ${APP_HOME}
 
 # Entrypoint
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["pypy3", "manage.py", "runserver", "0.0.0.0:8000"]
+
