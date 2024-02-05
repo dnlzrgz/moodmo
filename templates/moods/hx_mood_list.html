@@ -1,24 +1,89 @@
 {% for mood in moods %}
-  <li x-data="{ moodEmoji: moodToEmoji[{{ mood.mood }}] }">
-    <span x-text="moodEmoji"></span>
+  <li class="relative" x-data="{
+                               emoji: moodToEmoji[{{ mood.mood }}],
+                               popoverOpen: false,
+                               popoverArrow: true,
+                               popoverPosition: 'bottom',
+                               popoverHeight: 0,
+                               popoverOffset: 8,
+                               popoverHeightCalculate() {
+                               this.$refs.popover.classList.add('invisible');
+                               this.popoverOpen=true;
+                               let that=this;
+                               $nextTick(function(){
+                               that.popoverHeight = that.$refs.popover.offsetHeight;
+                               that.popoverOpen=false;
+                               that.$refs.popover.classList.remove('invisible');
+                               that.$refs.popoverInner.setAttribute('x-transition', '');
+                               that.popoverPositionCalculate();
+                               });
+                               },
+                               popoverPositionCalculate(){
+                               if(window.innerHeight < (this.$refs.popoverButton.getBoundingClientRect().top + this.$refs.popoverButton.offsetHeight + this.popoverOffset + this.popoverHeight)){
+                               this.popoverPosition = 'top';
+                               } else {
+                               this.popoverPosition = 'bottom';
+                               }
+                               }
+                               }" x-init="
+                                                that = this;
+                                                window.addEventListener('resize', function(){
+                                                popoverPositionCalculate();
+                                                });
+                                                $watch('popoverOpen', function(value){
+                                                if(value){ popoverPositionCalculate() }
+                                                });
+                                               ">
 
-    <time>
-      <span x-text="formatDate('{{ mood.timestamp|date:"c" }}')"></span>
-      <span x-text="formatTime('{{ mood.timestamp|date:"c" }}')"></span>
-    </time>
+    <div x-ref="popoverButton" @click="popoverOpen=!popoverOpen"
+         class="flex items-center gap-x-2 py-4 px-6 bg-white border border-stone-50 drop-shadow-sm shadow-stone-900 rounded-xl select-none cursor-pointer"
+         role="button">
+      <span x-text="emoji" class="text-5xl row-span-2">
+      </span>
+      <div class="flex flex-col gap-y-1.5">
+        <time class="flex gap-x-1.5 text-sm text-white font-bold">
+          <span class=" bg-stone-900 px-3 py-1 rounded-full" x-text="formatDate('{{mood.timestamp|date:"c"}}')">
+          </span>
+          <span class="bg-stone-900 px-3 py-1 rounded-full" x-text="formatTime('{{mood.timestamp|date:"c"}}')">
+          </span>
+        </time>
 
-    <ul>
-      {% for activity in mood.activities.all %}
-        <li>{{ activity.name }}</li>
-      {% endfor %}
-    </ul>
+        {% if mood.activities.all %}
+          <ul class="flex gap-x-1.5 text-sm font-bold">
+            {% for activity in mood.activities.all %}
+              <li class="text-primary-500"> #{{ activity.name }}&nbsp;</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
-    <p>{{ mood.note_title }}</p>
+        {% if mood.note_title != "" %}
+          <p class="text-stone-900 text-lg truncate">{{mood.note_title}}</p>
+        {% endif %}
+      </div>
+    </div>
+
+  <!-- Popover -->
+    <div x-ref="popover" x-show="popoverOpen" x-init="setTimeout(function(){ popoverHeightCalculate(); }, 100);"
+         x-trap.inert="popoverOpen" @click.away="popoverOpen=false;" @keydown.escape.window="popoverOpen=false"
+         :class="{ 'top-0 mt-12' : popoverPosition == 'bottom', 'bottom-0 mb-12' : popoverPosition == 'top' }"
+         class="absolute w-44 max-w-lg -translate-x-1/2 left-1/2 z-50" x-cloak>
+      <div x-ref="popoverInner" x-show="popoverOpen"
+           class="w-44 p-3.5 bg-white rounded-md drop-shadow-md border border-stone-100">
+        <div class="flex flex-col gap-1.5 text-lg text-stone-900">
+          <a href="{% url 'mood_edit' mood.pk %}">
+            Edit
+          </a>
+          <a class="text-red-600" href="{% url 'mood_delete' mood.pk %}">
+            Delete
+          </a>
+        </div>
+      </div>
+    </div>
   </li>
 {% endfor %}
 
 {% if page_obj.has_next %}
-  <span hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="revealed" hx-swap="afterend">
+  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="revealed"
+        hx-swap="afterend">
   </span>
-  </ul>
 {% endif %}

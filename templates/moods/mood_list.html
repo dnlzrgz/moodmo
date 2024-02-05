@@ -7,33 +7,25 @@
     {% include "_primary_nav.html" %}
   </header>
 
-  <main class="mt-32 mb-12 mx-3.5 md:w-2/4 md:mx-auto"
-        <ul id="moodList">
-    {% for mood in moods %}
-      <li x-data="{ moodEmoji: moodToEmoji[{{ mood.mood }}] }">
-        <span x-text="moodEmoji"></span>
+  <main class="mt-32 mb-12 mx-3.5 md:w-2/4 md:mx-auto">
+    <ul id="moodList" class="flex flex-col gap-y-3">
+      {% include 'moods/hx_mood_list.html' %}
+    </ul>
 
-        <time>
-          <span x-text="formatDate('{{ mood.timestamp|date:"c" }}')"></span>
-          <span x-text="formatTime('{{ mood.timestamp|date:"c" }}')"></span>
-        </time>
-
-        <ul>
-          {% for activity in mood.activities.all %}
-            <li> {{ activity.name }}</li>
-          {% endfor %}
-        </ul>
-
-        <p>{{ mood.note_title }}</p>
-      </li>
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-      <span
-        hx-get="/moods/?page=2" hx-trigger="revealed" hx-swap="afterend">
-      </span>
-      </ul>
-    {% endif %}
+    <div id="loading" class="htmx-indicator flex flex-col gap-y-3">
+      {% for i in "01234"|make_list %}
+        <li class="htmx-indicator flex items-center gap-x-2 mb-1.5 py-4 px-6 bg-white border border-stone-50 drop-shadow-sm shadow-stone-900 rounded-xl">
+          <div class="w-16 h-16 bg-stone-300 rounded-full animate-pulse min-w-16"></div>
+          <div class="flex flex-col gap-y-1 w-full">
+            <div class="flex gap-x-1.5">
+              <span class=" bg-stone-300 px-3 py-1 w-16 rounded-xl animate-pulse">&nbsp;</span>
+              <span class="bg-stone-300 px-3 py-1 w-24 rounded-xl animate-pulse">&nbsp;</span>
+            </div>
+            <p class="bg-stone-300 w-full rounded-xl animate-pulse">&nbsp;</p>
+          </div>
+        </li>
+      {% endfor %}
+    </div>
 
   </main>
 {% endblock content %}
