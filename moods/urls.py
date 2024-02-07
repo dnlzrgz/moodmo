@@ -4,6 +4,8 @@ from .views import (
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,
+    MoodSearchView,
+    MoodSearchResultsView,
     MoodImportView,
     MoodExportView,
 )
@@ -28,6 +30,16 @@ urlpatterns = [
         "delete/<int:pk>",
         MoodDeleteView.as_view(),
         name="mood_delete",
+    ),
+    path(
+        "search/",
+        MoodSearchView.as_view(),
+        name="mood_search",
+    ),
+    path(
+        "search/results/",
+        MoodSearchResultsView.as_view(),
+        name="mood_search_results",
     ),
     path(
         "export/",

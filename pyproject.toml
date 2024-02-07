@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "moodmo"
-version = "0.7.19"
+version = "0.7.20"
 description = "A user-friendly, self-hosted mood tracking application written in Django."
 license = "GPL-3.0"
 authors = ["dnlzrgz <24715931+dnlzrgz@users.noreply.github.com>"]
@@ -21,7 +21,7 @@ brotli = "^1.1.0"
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.12.0"
 pre-commit = "^3.5.0"
-ruff = "^0.1.13"
+ruff = "^0.2.1"
 django-debug-toolbar = "^4.2.0"
 djhtml = "^3.0.6"
 django-browser-reload = "^1.12.1"

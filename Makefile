@@ -88,55 +88,55 @@ test-pages:
 # Start local Docker compose
 local-start:
 	@echo "🚀 Starting local Docker compose..."
-	docker-compose -f local.yaml up -d --build
+	docker compose -f local.yaml up -d --build
 	@echo "✨ Local Docker compose started!"
 
 # Stop local Docker compose
 local-stop:
 	@echo "🛑 Stopping local Docker compose..."
-	docker-compose -f local.yaml down
+	docker compose -f local.yaml down
 	@echo "✨ Local Docker compose stopped!"
 
 # Watch local Docker compose logs
 local-logs:
 	@echo "👀 Watching container logs..."
-	docker-compose -f local.yaml logs -f
+	docker compose -f local.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
 # Start prod Docker compose
 prod-start:
 	@echo "🚀 Starting prod Docker compose..."
-	docker-compose -f prod.yaml up -d --build
+	docker compose -f prod.yaml up -d --build
 	@echo "✨ Prod Docker compose started!"
 
 # Stop prod Docker compose
 prod-stop:
 	@echo "🛑 Stopping prod Docker compose..."
-	docker-compose -f prod.yaml down
+	docker compose -f prod.yaml down
 	@echo "✨ Prod Docker compose stopped!"
 
 # Watch production Docker compose logs
 prod-logs:
 	@echo "👀 Watching container logs..."
-	docker-compose -f prod.yaml logs -f
+	docker compose -f prod.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
 # Start local Docker compose using PyPy
 local-pypy-start:
 	@echo "🚀 Starting local Docker compose with PyPy..."
-	docker-compose -f local-pypy.yaml up -d --build
+	docker compose -f local-pypy.yaml up -d --build
 	@echo "✨ Local Docker compose with PyPy started!"
 
 # Stop local Docker compose with PyPy
 local-pypy-stop:
 	@echo "🛑 Stopping local Docker compose with PyPy..."
-	docker-compose -f local-pypy.yaml down
+	docker compose -f local-pypy.yaml down
 	@echo "✨ Local Docker compose with PyPy stopped!"
 
 # Watch local Docker compose with PyPy logs
 local-pypy-logs:
 	@echo "👀 Watching container logs..."
-	docker-compose -f local.yaml logs -f
+	docker compose -f local-pypy.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
 # Setup project with dependencies, Tailwind CSS and Alpine.js for local development

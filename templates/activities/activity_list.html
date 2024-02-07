@@ -52,7 +52,9 @@
                                                     " class="relative">
               <button x-ref="popoverButton" @click="popoverOpen=!popoverOpen"
                       class="flex items-center justify-center w-10 h-10 cursor-pointer">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" class="w-5 h-5">
+                  <path fill="currentColor" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/>
+                </svg>
               </button>
 
               <div x-ref="popover" x-show="popoverOpen" x-init="setTimeout(function(){ popoverHeightCalculate(); }, 100);"

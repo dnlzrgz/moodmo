@@ -1,0 +1,86 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+    <header>
+        {% include "_primary_nav.html" %}
+    </header>
+
+    <main class="mt-32 mb-12 mx-3.5 md:w-3/4 md:mx-auto">
+        <form
+            hx-get="{% url 'mood_search_results' %}"
+            hx-target="#moodList"
+            hx-trigger="keyup delay:500ms, change"
+            hx-vals="{
+                     mood: document.getElementById('mood').value
+                     search_term: document.getElementById('searchTerm').value,
+                     start_date: document.getElementById('startDate').value,
+                     end_Date: document.getElementById('endDate').value,
+                     }"
+            hx-indicator="#loading"
+            hx-push-url="true"
+            class="w-full lg:w-3/4 lg:mx-auto max-w-6xl py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50 mb-16"
+        >
+            {% csrf_token %}
+            <div class="flex flex-col md:flex-row gap-y-4 justify-between gap-x-2.5 mb-4">
+                <input
+                    id="mood"
+                    class="border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 px-6 py-4 placeholder:text-stone-500"
+                    type="number"
+                    name="mood"
+                    min="-2"
+                    max="2"
+                    placeholder="Mood"
+                />
+                <div class="flex items-center text-lg gap-x-2.5">
+                    <input
+                        id="startDate"
+                        class="border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500"
+                        type="date"
+                        name="start_date"
+                        placeholder="Start date"
+                    />
+                    <p>to</p>
+                    <input
+                        id="endDate"
+                        class="border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500"
+                        type="date"
+                        name="end_date"
+                        placeholder="End date"
+                    />
+                </div>
+            </div>
+            <input
+                id="searchTerm"
+                class="border border-stone-500 text-stone-900 text-lg rounded-xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-4 placeholder:text-stone-500"
+                type="search"
+                name="search_term"
+                placeholder="Start typing to search moods"
+            />
+        </form>
+
+        <ul id="moodList" class="flex flex-col gap-y-3 mx-3.5 md:w-3/4 max-w-2xl md:mx-auto">
+            {% include 'moods/hx_mood_list.html' %}
+        </ul>
+
+        <div id="loading" class="htmx-indicator flex flex-col gap-y-3 mx-3.5 md:w-3/4 max-w-2xl md:mx-auto">
+            {% for i in "01234"|make_list %}
+                <li class="htmx-indicator flex items-center gap-x-2 mb-1.5 py-4 px-6 bg-white border border-stone-50 drop-shadow-sm shadow-stone-900 rounded-xl">
+                    <div class="w-16 h-16 bg-stone-300 rounded-full animate-pulse min-w-16"></div>
+                    <div class="flex flex-col gap-y-1 w-full">
+                        <div class="flex gap-x-1.5">
+                            <span class=" bg-stone-300 px-3 py-1 w-16 rounded-xl animate-pulse">&nbsp;</span>
+                            <span class="bg-stone-300 px-3 py-1 w-24 rounded-xl animate-pulse">&nbsp;</span>
+                        </div>
+                        <p class="bg-stone-300 w-full rounded-xl animate-pulse">&nbsp;</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </div>
+    </main>
+
+  <!-- Custom JS -->
+    <script src="{% static 'js/custom.js' %}" defer></script>
+{% endblock %}

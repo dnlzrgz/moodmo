@@ -1,4 +1,6 @@
 {% extends "_base_form.html" %}
+{% load static %}
+
 {% block title %}Update mood{% endblock %}
 {% block heading %}Update your mood{% endblock %}
 {% block form_action %}{% url 'mood_edit' mood.pk %}{% endblock %}
@@ -52,4 +54,7 @@
     <a href="{% url 'mood_list' %}" class="form__link">
         Go back
     </a>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/custom.js' %}" defer></script>
 {% endblock %}

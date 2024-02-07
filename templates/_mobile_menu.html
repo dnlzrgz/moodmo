@@ -27,18 +27,13 @@
              @click="menuOpen = false">
             Moods
           </a>
-          <a href="{% url 'activity_list' %}"
-             class="{% if 'activity' in request.path %} text-primary-500 underline {% endif %}" @click="menuOpen = false">
-            Activities
-          </a>
-          <a href="#" class="{% if 'search' in request.path %} text-primary-500 underline {% endif %}">
+          <a href="{% url 'mood_search' %}"
+             class="{% if 'search' in request.path %} text-primary-500 underline {% endif %}">
             Search
           </a>
           <a href="#" class="{% if 'settings' in request.path %} text-primary-500 underline {% endif %}">
             Settings
           </a>
-          <a href="{% url 'mood_export' %}"> Export </a>
-          <a href="{% url 'mood_import' %}"> Import </a>
           <a href="{% url 'account_logout' %}"> Sign out </a>
         {% else %}
           <a href="{% url 'home' %}"> Home </a>
