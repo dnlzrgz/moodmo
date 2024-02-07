@@ -125,28 +125,19 @@ WSGI_APPLICATION = "moodmo.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if env.bool("USE_POSTGRES", False):
-    DATABASES = {
-        "default": {
-            "ENGINE": env.str(
-                "POSTGRES_ENGINE",
-                "django.db.backends.postgresql",
-            ),
-            "NAME": env.str("POSTGRES_DB", "moodmo_dev"),
-            "USER": env.str("POSTGRES_USER", "django"),
-            "PASSWORD": env.str("POSTGRES_PASSWORD", "root"),
-            "HOST": env.str("POSTGRES_HOST", "postgres"),
-            "PORT": env.str("POSTGRES_PORT", "5432"),
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": env.str(
+            "POSTGRES_ENGINE",
+            "django.db.backends.postgresql",
+        ),
+        "NAME": env.str("POSTGRES_DB", "moodmo"),
+        "USER": env.str("POSTGRES_USER", "django"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD", "root"),
+        "HOST": env.str("POSTGRES_HOST", "postgres"),
+        "PORT": env.str("POSTGRES_PORT", "5432"),
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "data/db.sqlite3",
-        }
-    }
-
+}
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
