@@ -9,4 +9,5 @@ python manage.py collectstatic --no-input
 echo 'Creating superuser...'
 python manage.py createsuperuser --noinput --username $DJANGO_SUPERUSER_USERNAME --email $DJANGO_SUPERUSER_EMAIL
 
-exec "$@"
+echo 'Starting application...'
+gunicorn moodmo.wsgi:application --bind 0.0.0.0:$PORT --workers 4

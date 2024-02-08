@@ -12,7 +12,6 @@ services:
       dockerfile: ./compose/prod/django/Dockerfile
     image: moodmo_prod_django
     container_name: moodmo_prod_django
-    command: gunicorn moodmo.wsgi:application --bind 0.0.0.0:8000 --workers 3
     depends_on:
       - postgres
       - mailpit

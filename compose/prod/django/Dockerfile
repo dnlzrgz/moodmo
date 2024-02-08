@@ -37,7 +37,6 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PORT 8000
 
-# Expose default port
 EXPOSE ${PORT}
 
 # Set working directory
