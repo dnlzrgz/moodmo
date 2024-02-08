@@ -225,9 +225,47 @@ LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
 ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
 
 # Security
-SESSION_COOKIE_HTTPONLY = env.bool("SESSION_COOKIE_HTTPONL", True)
-CSRF_COOKIE_HTTPONLY = env.bool("CSRF_COOKIE_HTTPONLY", True)
-
+if not DEBUG:
+    SECURE_HSTS_SECONDS = env.int(
+        "DJANGO_SECURE_HSTS_SECONDS",
+        31536000,
+    )  # 1 year by default
+    SECURE_SSL_REDIRECT = env.bool(
+        "DJANGO_SECURE_SSL_REDIRECT",
+        True,
+    )
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
+        "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS",
+        True,
+    )
+    SECURE_HSTS_PRELOAD = env.bool(
+        "DJANGO_SECURE_HSTS_PRELOAD",
+        True,
+    )
+    SECURE_BROWSER_XSS_FILTER = env.bool(
+        "DJANGO_SECURE_BROWSER_XSS_FILTER",
+        True,
+    )
+    SESSION_COOKIE_SECURE = env.bool(
+        "DJANGO_SESSION_COOKIE_SECURE",
+        True,
+    )
+    SESSION_COOKIE_HTTPONLY = env.bool(
+        "DJANGO_SESSION_COOKIE_HTTPONLY",
+        True,
+    )
+    CSRF_COOKIE_HTTPONLY = env.bool(
+        "DJANGO_CSRF_COOKIE_HTTPONLY",
+        True,
+    )
+    CSRF_COOKIE_SECURE = env.bool(
+        "DJANGO_CSRF_COOKIE_SECURE",
+        True,
+    )
+    CSRF_TRUSTED_ORIGINS = env.list(
+        "DJANGO_CSRF_TRUSTED_ORIGINS",
+        [],
+    )
 
 # Accounts related settings
 ACCOUNT_EMAIL_REQUIRED = True
