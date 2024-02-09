@@ -3,7 +3,6 @@ version: "3.8"
 volumes:
   moodmo_prod_postgres_data: {}
   moodmo_prod_postgres_data_backups: {}
-  moodmo_prod_redis_data: {}
 
 services:
   django:
@@ -33,12 +32,6 @@ services:
   redis:
     image: "redis:7.2.4-alpine3.19"
     container_name: moodmo_prod_redis
-    expose:
-      - "6379"
-    environment:
-      - REDIS_REPLICATION_MODE=master
-    volumes:
-      - moodmo_prod_redis_data:/data
     depends_on:
       - postgres
 

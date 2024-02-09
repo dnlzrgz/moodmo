@@ -10,4 +10,4 @@ echo 'Creating superuser...'
 python manage.py createsuperuser --noinput --username $DJANGO_SUPERUSER_USERNAME --email $DJANGO_SUPERUSER_EMAIL
 
 echo 'Starting application...'
-gunicorn moodmo.wsgi:application --bind 0.0.0.0:$PORT --workers 4
+gunicorn moodmo.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --threads 4

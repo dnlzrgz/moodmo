@@ -148,9 +148,9 @@ if env.bool("USE_REDIS", False):
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": env.list(
+            "LOCATION": env.str(
                 "REDIS_LOCATION",
-                "redis://redis:6379",
+                "redis://redis:6379/0",
             ),
         }
     }
@@ -267,13 +267,17 @@ if not DEBUG:
         [],
     )
 
+
 # Accounts related settings
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 7200  # 2 hours
 
 # Email backend
 # https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
