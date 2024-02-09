@@ -41,45 +41,6 @@ class MoodListView(LoginRequiredMixin, ListView):
         )
 
 
-class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
-    model = Mood
-    form_class = MoodForm
-    template_name = "moods/mood_create.html"
-    success_url = reverse_lazy("mood_list")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
-
-
-class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateView):
-    model = Mood
-    form_class = MoodForm
-    template_name = "moods/mood_update.html"
-    success_url = reverse_lazy("mood_list")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
-
-
-class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
-    model = Mood
-    template_name = "moods/mood_delete.html"
-    success_url = reverse_lazy("mood_list")
-    context_object_name = "mood"
-
-
 class MoodSearchView(LoginRequiredMixin, TemplateView):
     template_name = "moods/mood_search.html"
 
@@ -117,6 +78,45 @@ class MoodSearchResultsView(LoginRequiredMixin, ListView):
 
         moods = moods.order_by("-timestamp").prefetch_related("activities")
         return moods
+
+
+class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
+    model = Mood
+    form_class = MoodForm
+    template_name = "moods/mood_create.html"
+    success_url = reverse_lazy("mood_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+
+class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateView):
+    model = Mood
+    form_class = MoodForm
+    template_name = "moods/mood_update.html"
+    success_url = reverse_lazy("mood_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+
+class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
+    model = Mood
+    template_name = "moods/mood_delete.html"
+    success_url = reverse_lazy("mood_list")
+    context_object_name = "mood"
 
 
 class MoodImportView(LoginRequiredMixin, FormView):
