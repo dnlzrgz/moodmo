@@ -1,23 +1,26 @@
 # MoodMo - A Self-Hosted Mood Tracking App
 
-MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance.
+MoodMo is an Open-Source, Self-Hosted mood tracking application made to be simple to use and deploy.
 
-## Features
-
-- Developed using Django 4.2 and Python >= 3.11.
-- Tailwind CSS for clean and responsive styles.
-- Dynamic user interactions provided by Alpine.js.
-- No need for Node.js or npm related work-arounds.
-- Easy to configure settings through environment variables.
-- Docker support with `docker-compose` for development and production environments.
-- Optimized `Dockerfile` for production.
-- Integration with `Mailpit` for local email testing.
-- Auth functionality via `django-allauth`.
-- Ready-to-go custom user model.
-- API endpoints powered by `django-ninja`.
+## Key Features
+### Usage
+- Record your mood easily with just a few clicks or taps.
+- Correlate mood fluctuations with specific activities and routines.
+- Quickly find past mood entries or activities using MoodMo's robust search.
+- Navigate seamlessly across all devices thanks to MoodMo's fluid and intuitive design.
+- Enjoy a clutter-free interface that prioritizes ease of use above all else.
+### Development
+- Developed with Django 4.2 and Python >= 3.11.
+- Utilizes TailwindCSS for clean and responsive styles.
+- No need for Node.js or npm work-arounds.
+- Dynamic user interactions provided by Alpine.js + htmx.
+- Easily configurable settings through environment variables.
+- Docker support with `docker-compose` for development and production environments, including a *testing* version with `PyPy` as the Python interpreter.
+- Support for `Mailpit` for local email testing and `AnyMail` for production email.
+- Robust auth functionality provided by `django-allauth`, with a ready-to-go custom user model.
 - Static files managed with `Whitenoise`.
-- `Makefile` for setup and other common tasks.
-- Linting tools like `djhtml` and `ruff` are ready to use with `pre-commit`.
+- Includes a `Makefile` for simplified setup and common tasks along with pre-configured linting tools like `djhtml` and `ruff` ready to use with `pre-commit`.
+
 
 ## Roadmap - Future Features
 
@@ -26,7 +29,7 @@ MoodMo is an Open-Source, Self-Hosted mood tracking application designed for sim
 - [ ] Dark mode.
 - [ ] Custom user themes.
 - [ ] Support for custom moods.
-- [ ] Activities.
+- [ ] Weather integration.
 - [ ] Journaling.
 
 ## Help Not Wanted but Attention Is Appreciated
