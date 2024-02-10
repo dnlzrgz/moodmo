@@ -17,7 +17,7 @@ class MoodFormTest(TestCase):
             "mood": 1,
             "timestamp": datetime.utcnow(),
         }
-        form = MoodForm(data)
+        form = MoodForm(user=self.user, data=data)
 
         self.assertTrue(form.is_valid())
 
@@ -25,7 +25,7 @@ class MoodFormTest(TestCase):
         data = {
             "timestamp": datetime.utcnow(),
         }
-        form = MoodForm(data)
+        form = MoodForm(user=self.user, data=data)
 
         self.assertFalse(form.is_valid())
 
@@ -36,7 +36,7 @@ class MoodFormTest(TestCase):
             "note": "Test",
             "timestamp": datetime.utcnow(),
         }
-        form = MoodForm(data=data)
+        form = MoodForm(user=self.user, data=data)
         self.assertTrue(form.is_valid())
 
         form.instance.user = self.user

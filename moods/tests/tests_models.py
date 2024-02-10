@@ -6,6 +6,7 @@ from django.utils import timezone
 from moods.models import Mood
 
 
+# TODO: Update
 class MoodModelTest(TestCase):
     def setUp(self) -> None:
         self.user = get_user_model().objects.create(
