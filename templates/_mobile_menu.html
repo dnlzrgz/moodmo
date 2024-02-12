@@ -1,44 +1,51 @@
 <template x-teleport="body">
   <div x-show="menuOpen"
-       class="fixed top-0 left-0 z-50 flex items-start justify-center w-screen h-screen px-4 py-2 backdrop-blur-sm"
+       class="fixed top-0 left-0 z-50 flex items-start justify-center w-screen h-screen px-6 py-3 backdrop-blur-sm"
        x-cloak>
     <div x-show="menuOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-300"
          x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="toggleMenu"
-         class="absolute inset-0 w-full h-full bg-stone-900 bg-opacity-40"></div>
+         class="absolute inset-0 w-full h-full bg-primary-900 bg-opacity-30"></div>
     <div x-show="menuOpen" x-trap.inert.noscroll="menuOpen" x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
          x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-         class="box-border p-3.5 w-full overflow-hidden bg-white rounded-xl border border-stone-50 drop-shadow-md shadow-stone-900">
-      <div class="flex items-center justify-end mb-6">
-        <button @click="menuOpen = false" class="flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-5 h-5 text-stone-900">
+         class="box-border p-3 w-full overflow-hidden bg-white rounded-xl border border-stone-50 drop-shadow-md shadow-stone-900">
+      <div class="flex items-center justify-end mb-3">
+        <button @click="menuOpen = false" class="p-3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-6 h-6 text-black">
             <path fill="currentColor"
                   d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
           </svg>
         </button>
       </div>
 
-      <div class="flex flex-col items-center justify-around gap-y-3 pb-7 text-xl">
+      <div class="flex flex-col items-center justify-around gap-y-6 pb-6 font-bold uppercase">
         {% if user.is_authenticated %}
-          <a href="{% url 'mood_list' %}" class="{% if 'moods' in request.path %} text-primary-500 underline {% endif %}"
-             @click="menuOpen = false">
+          <a href="{% url 'mood_list' %}" @click="menuOpen = false">
             Moods
           </a>
-          <a href="{% url 'mood_search' %}"
-             class="{% if 'search' in request.path %} text-primary-500 underline {% endif %}">
+          <a href="{% url 'activity_list' %}" @click="menuOpen = false">
+            Activities
+          </a>
+          <a href="{% url 'mood_search' %}">
             Search
           </a>
-          <a href="#" class="{% if 'settings' in request.path %} text-primary-500 underline {% endif %}">
+          <a href="#">
             Settings
           </a>
-          <a href="{% url 'account_logout' %}"> Sign out </a>
+          <a href="{% url 'account_logout' %}">
+            Sign out
+          </a>
         {% else %}
-          <a href="{% url 'home' %}"> Home </a>
+          <a href="/#what" @click="menuOpen = false">About</a>
+          <a href="/#why" @click="menuOpen = false">Motivation</a>
+          <a href="/#features" @click="menuOpen = false">Features</a>
+          <a href="/#faq" @click="menuOpen = false">FAQ</a>
           <a href="{% url 'account_login' %}"> Log in </a>
-          <a href="{% url 'account_signup' %}"> Sign up </a>
+          <a href="{% url 'account_signup' %}" class="bg-periwinkle-500 py-3 px-6 rounded-full"> Sign up
+          </a>
         {% endif %}
       </div>
     </div>

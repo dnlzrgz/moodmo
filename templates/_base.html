@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth scroll-pt-32 text-base">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,9 +9,12 @@
     <!-- Basic Meta Tags -->
     <title>{% block title %}MoodMo - A Self-Hosted Mood Tracking App{% endblock title %}</title>
     <meta name="description" content="MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance." />
-    <meta name="keywords" content="MoodMo, mood tracking, self-hosted app, Django, Tailwind CSS, Python, Alpine.js" />
+    <meta name="keywords" content="Mood tracking, Journaling, Emotions, Self-care, Mental health, Well-being, Self-reflection, Open Source, Privacy, Self-hosted" />
     <meta name="author" content="dnlzrgz" />
-    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico '%}">
+
+    <!-- Fav icon -->
+    <link rel="icon" href="{% static 'images/favicon.ico '%}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
 
     <!-- Tailwind CSS -->
     {% if debug %}
@@ -22,10 +25,9 @@
   </head>
 
   <body
-    class="bg-stone-50"
+    class="bg-white"
     x-data="{
             menuOpen: false,
-            userAuthenticated: {% if user.is_authenticated %} true {% else %} false {% endif %},
             }"
     x-init="
             $watch('menuOpen', function(value){

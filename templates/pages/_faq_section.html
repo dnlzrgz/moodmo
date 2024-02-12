@@ -1,0 +1,71 @@
+<section id="faq" x-data="{
+                          faqs: [
+                          {
+                          question: 'What is MoodMo?',
+                          answer: 'MoodMo is a self-hosted and open-source mood tracking and journal application crafted for privacy and simplicity. With MoodMo, you can keep track of your mood and journal your thoughts, gaining invaluable insights into your emotional fluctuations and patterns.',
+                          },
+                          {
+                          question: 'How does MoodMo prioritize privacy?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'Where can I use MoodMo?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'Is MoodMo free to use?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'Can I export my data from MoodMo?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'Is MoodMo suitable for individuals with mental health problems?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'Why is mood tracking important?' ,
+                          answer: '',
+                          },
+                          {
+                          question: 'How can I provide feeback or suggestions for MoodMo?' ,
+                          answer: '',
+                          },
+                          ],
+                          }">
+  <header>
+    <h1 class="font-bold text-center text-5xl">
+      FAQ
+    </h1>
+  </header>
+  <main class="max-w-screen-md mt-9 md:mx-auto">
+    <template x-for="(faq, index) in faqs" :key="index">
+      <div x-data="{ expanded: false }" class="my-3 border-b-2 border-b-black">
+        <h2>
+          <button :id="'faq-title-' + (index + 1)" type="button"
+                  class="flex items-center justify-between font-bold text-xl md:text-2xl text-left uppercase py-3 px-1.5 w-full"
+                  @click="expanded = !expanded" :aria-expanded="expanded" :aria-controls="'faq-text-' + (index + 1)">
+            <p x-text="faq.question"></p>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                 class="min-w-6 min-h-6 h-6 w-6 transition-transform duration-300 ease-in-out"
+                 :class="expanded ? '-rotate-180' : 'rotate-0'">
+              <path fill="currentColor"
+                    d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+            </svg>
+
+          </button>
+        </h2>
+
+        <div :id="'faq-text-' + (index + 1)" role="region" :aria-labelledby="'faq-title-' + (index + 1)"
+             class="grid overflow-hidden transition-all duration-300 ease-in-out"
+             :class="expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
+          <div class="overflow-hidden">
+            <p class="mb-3 px-1.5 text-black text-lg sm:text-xl md:text-2xl" x-text="faq.answer"></p>
+          </div>
+        </div>
+      </div>
+    </template>
+  </main>
+</section>

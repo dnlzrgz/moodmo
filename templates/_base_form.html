@@ -5,24 +5,24 @@
 {% block content %}
   <header>
     <nav
-      class="flex items-center justify-between w-full lg:w-3/4 max-w-6xl py-2 px-4 sm:py-4 sm:px-6 text-stone-900 text-xl mx-auto"
+      class="flex items-center justify-between w-full lg:w-3/4 max-w-6xl py-3 px-4 sm:py-4 sm:px-6 text-stone-900 text-xl mx-auto"
       aria-label="Global">
-      <a href="{% url 'home' %}" class="font-bold"> MoodMo </a>
+      <a href="{% url 'home' %}" class="font-bold py-3"> MoodMo </a>
 
       {% if 'login' in request.path %}
-        <a href="{% url 'account_signup' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+        <a href="{% url 'account_signup' %}" class="flex items-center  text-stone-900 rounded-full">
           Sign up
         </a>
       {% elif 'signup' in request.path or 'reset' in request.path %}
-        <a href="{% url 'account_login' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+        <a href="{% url 'account_login' %}" class="flex items-center text-stone-900 rounded-full">
           Log in
         </a>
       {% elif 'activities' in request.path %}
-        <a href="{% url 'activity_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+        <a href="{% url 'activity_list' %}" class="flex items-center text-stone-900 rounded-full">
           Activities
         </a>
       {% else %}
-        <a href="{% url 'mood_list' %}" class="flex items-center px-6 py-3 gap-x-1.5 text-stone-900 rounded-full">
+        <a href="{% url 'mood_list' %}" class="flex items-center text-stone-900 rounded-full">
           Moods
         </a>
       {% endif %}

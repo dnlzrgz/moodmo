@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block content %}
+  <header>
+    {% include "_primary_nav.html" %}
+  </header>
+
+  <main class="flex flex-col gap-y-56 mb-44 max-w-screen-2xl mx-3 sm:mx-6 md:mx-auto">
+    {% include "pages/_hero.html" %}
+    {% include "pages/_about_section.html" %}
+    {% include "pages/_motivation_section.html" %}
+    {% include "pages/_features_section.html" %}
+    {% include "pages/_faq_section.html" %}
+  </main>
+  {% include "_footer.html" %}
+{% endblock %}
