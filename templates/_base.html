@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Basic Meta Tags -->
-    <title>{% block title %}MoodMo - A Self-Hosted Mood Tracking App{% endblock title %}</title>
-    <meta name="description" content="MoodMo is an Open-Source, Self-Hosted mood tracking application designed for simplicity in deployment, usage and maintenance." />
+    <title>{% block title %}MoodMo - Mood Tracking & Journal{% endblock title %}</title>
+    <meta name="description" content="MoodMo is a self-hosted and open-source mood tracking and journal application crafted for privacy and simplicity. Keep track of your mood and journal your thoughts, gaining invaluable insights into your emotional fluctuations and patterns"/>
     <meta name="keywords" content="Mood tracking, Journaling, Emotions, Self-care, Mental health, Well-being, Self-reflection, Open Source, Privacy, Self-hosted" />
     <meta name="author" content="dnlzrgz" />
 
@@ -21,6 +21,13 @@
       <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     {% else %}
       <link rel="stylesheet" href="{% static 'css/output.min.css' %}" />
+    {% endif %}
+
+    <!-- FA -->
+    {% if debug %}
+      <link href="{% static 'fontawesomefree/css/all.css' %}" rel="stylesheet" type="text/css">
+    {% else %}
+      <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
     {% endif %}
   </head>
 

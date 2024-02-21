@@ -1,45 +1,48 @@
 {% extends "_base.html" %}
-
 {% block title %}Title{% endblock %}
-
 {% block content %}
-  <header>
-    <nav
-      class="flex items-center justify-between w-full lg:w-3/4 max-w-6xl py-3 px-4 sm:py-4 sm:px-6 text-stone-900 text-xl mx-auto"
-      aria-label="Global">
-      <a href="{% url 'home' %}" class="font-bold py-3"> MoodMo </a>
-
-      {% if 'login' in request.path %}
-        <a href="{% url 'account_signup' %}" class="flex items-center  text-stone-900 rounded-full">
-          Sign up
-        </a>
-      {% elif 'signup' in request.path or 'reset' in request.path %}
-        <a href="{% url 'account_login' %}" class="flex items-center text-stone-900 rounded-full">
-          Log in
-        </a>
-      {% elif 'activities' in request.path %}
-        <a href="{% url 'activity_list' %}" class="flex items-center text-stone-900 rounded-full">
-          Activities
+  <nav class="fixed w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
+    <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between p-3 text-lg font-bold uppercase">
+      {% if user.is_authenticated %}
+        <a href="{% url 'mood_list' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-color">
+          <i class="fa-solid fa-arrow-left"></i>
+          Go back
         </a>
       {% else %}
-        <a href="{% url 'mood_list' %}" class="flex items-center text-stone-900 rounded-full">
-          Moods
+        <a href="{% url 'home' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-colors">
+          <i class="fa-solid fa-arrow-left"></i>
+          Go back
         </a>
       {% endif %}
+
+      <div class="flex items-center gap-x-6 p-3">
+        {% if request.path == '/accounts/login/' %}
+          <a
+            href="{% url 'account_signup' %}"
+            class="hover:text-primary-500 transition-colors">
+            Sign up
+          </a>
+        {% elif request.path == '/accounts/signup' %}
+          <a
+            href="{% url 'account_login' %}"
+            class="hover:text-primary-500 transition-colors">
+            Log in
+          </a>
+        {% endif %}
+      </div>
     </nav>
-  </header>
 
-  <main class="max-w-md mx-auto py-4 px-6 bg-white rounded-2xl drop-shadow-sm shadow-stone-900 border border-stone-50">
-    <h2 class="w-full text-2xl font-bold text-stone-900 text-center py-4">
-      {% block heading %}Form heading{% endblock %}
-    </h2>
+    <main class="h-screen flex items-center bg-white justify-center">
+      <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
+        <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+          {% block heading %}Form heading{% endblock %}
+        </h2>
 
-    <form class="form" method="post" role="form" action="{% block form_action %}{% endblock %}" {% block form_extra %}{%endblock %}>
-      {% csrf_token %}
-
-      {% block form_body %}
-
-      {% endblock %}
-    </form>
-  </main>
+        <form class="form" method="post" role="form" action="{% block form_action %}{% endblock %}" {% block form_extra %}{%endblock %}>
+          {% csrf_token %}
+          {% block form_body %}
+          {% endblock %}
+        </form>
+      </div>
+    </main>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "_base_form.html" %}
-{% block title %}Delete mood{% endblock %}
+{% block title %}MoodMo - Delete mood{% endblock %}
 {% block heading %}Delete your mood{% endblock %}
 {% block form_action %}{% url 'mood_delete' mood.pk %}{% endblock %}
 {% block form_body %}
@@ -8,7 +8,9 @@
     </button>
     </form>
 
-    <a href="{% url 'mood_list' %}" class="form__link">
-        Cancel
-    </a>
+    <div class="mt-3 text-xl flex justify-center">
+        <a href="{% url 'mood_list' %}" class="form__link">
+            Cancel
+        </a>
+    </div>
 {% endblock  %}

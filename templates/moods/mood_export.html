@@ -1,26 +1,26 @@
 {% extends "_base_form.html" %}
-{% block title %}Export{% endblock %}
+{% block title %}MoodMo - Export{% endblock %}
 {% block heading %}Export your moods{% endblock %}
 {% block form_action %}{% url 'mood_export' %}{% endblock %}
 {% block form_body %}
-  <ul class="mb-4 grid w-full gap-4 md:grid-cols-2">
+  <ul class="mb-9 grid w-full gap-3 md:grid-cols-2">
     <li class="text-center">
       <input type="radio" id="id_export_csv" name="export_format" value="csv" class="hidden peer" required checked>
       <label for="id_export_csv"
-             class="flex items-center justify-center w-full py-4 px-6 text-stone-500 bg-white border border-stone-500 rounded-lg cursor-pointer peer-checked:border-primary-500 peer-checked:text-primary-500 hover:text-stone-700 hover:bg-stone-100 peer-disabled:cursor-not-allowed">
+             class="h-full flex items-center justify-center w-full py-9 px-6 text-black bg-white border-2 border-black rounded-3xl cursor-pointer peer-checked:border-primary-500 peer-checked:text-primary-500 hover:text-primary-500 hover:bg-primary-50 hover:border-primary-500 peer-disabled:cursor-not-allowed">
         <div class="block">
-          <p class="text-xl font-bold mb-2">CSV</p>
-          <p>Data in spreadsheet format</p>
+          <p class="text-2xl font-bold mb-1.5">CSV</p>
+          <p class="text-lg">Data in spreadsheet format</p>
         </div>
       </label>
     </li>
     <li class="text-center">
       <input type="radio" id="id_export_json" name="export_format" value="json" class="hidden peer">
       <label for="id_export_json"
-             class="flex items-center justify-center w-full py-4 px-6 text-stone-500 bg-white border border-stone-500 rounded-lg cursor-pointer peer-checked:border-primary-600 peer-checked:text-primary-500 hover:text-primary-500 hover:bg-stone-100 peer-disabled:cursor-not-allowed">
+             class="h-full flex items-center justify-center w-full py-9 px-6 text-black bg-white border-2 border-black rounded-3xl cursor-pointer peer-checked:border-primary-500 peer-checked:text-primary-500 hover:text-primary-500 hover:bg-primary-50 hover:border-primary-500 peer-disabled:cursor-not-allowed">
         <div class="block">
-          <p class="text-xl font-bold mb-2">JSON</p>
-          <p>Data for versatile applications</p>
+          <p class="text-2xl font-bold mb-1.5">JSON</p>
+          <p class="text-lg">Data for versatile applications</p>
         </div>
       </label>
     </li>
@@ -29,7 +29,10 @@
   <button type="submit">
     Export
   </button>
-  <a href="{% url 'mood_list' %}" class="form__link">
-    Go back
-  </a>
+
+  <div class="mt-3 text-xl flex justify-center">
+    <a href="{% url 'mood_list' %}" class="form__link">
+      Go back
+    </a>
+  </div>
 {% endblock %}

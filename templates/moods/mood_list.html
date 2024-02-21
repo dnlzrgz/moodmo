@@ -1,38 +1,36 @@
 {% extends "_base.html" %}
 {% load static %}
-
-{% block title %}Moods{% endblock title %}
-
+{% block title %}MoodMo - Moods{% endblock title %}
 {% block content %}
   <header>
     {% include "_primary_nav.html" %}
   </header>
 
-  <main class="mt-32 mb-12 mx-3.5 md:w-3/4 max-w-2xl md:mx-auto">
-    <ul id="moodList" class="flex flex-col gap-y-3">
+  <main class="flex flex-col mb-44 w-full max-w-screen-md px-3 sm:px-6 md:px-0 mx-auto">
+    <ul id="moodList" class="mt-32 sm:mt-36 flex flex-col">
       {% include 'moods/hx_mood_list.html' %}
     </ul>
 
-    <a href="{% url 'mood_create' %}" class="fixed md:hidden bottom-5 right-5 bg-primary-500 hover:bg-primary-600 py-5 px-5 rounded-full drop-shadow-lg shadow-stone-900 z-50" role="button">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 text-white">
-        <path fill="currentColor" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
-      </svg>
-    </a>
-
     <div id="loading" class="htmx-indicator flex flex-col gap-y-3">
       {% for i in "01234"|make_list %}
-        <li class="htmx-indicator flex items-center gap-x-2 mb-1.5 py-4 px-6 bg-white border border-stone-50 drop-shadow-sm shadow-stone-900 rounded-xl">
-          <div class="w-16 h-16 bg-stone-300 rounded-full animate-pulse min-w-16"></div>
+        <li class="htmx-indicator flex items-center gap-x-2 mb-1.5 py-6 px-3 bg-white last-of-type:border-none border-b-2 border-b-primary-300">
+          <div class="w-16 h-16 bg-primary-300 rounded-full animate-pulse6"></div>
           <div class="flex flex-col gap-y-1 w-full">
             <div class="flex gap-x-1.5">
-              <span class=" bg-stone-300 px-3 py-1 w-16 rounded-xl animate-pulse">&nbsp;</span>
-              <span class="bg-stone-300 px-3 py-1 w-24 rounded-xl animate-pulse">&nbsp;</span>
+              <span class="bg-primary-300 px-3 py-1 w-16 rounded-xl animate-pulse">&nbsp;</span>
+              <span class="bg-primary-300 px-3 py-1 w-24 rounded-xl animate-pulse">&nbsp;</span>
             </div>
-            <p class="bg-stone-300 w-full rounded-xl animate-pulse">&nbsp;</p>
+            <p class="bg-primary-300 w-full rounded-xl animate-pulse">&nbsp;</p>
           </div>
         </li>
       {% endfor %}
     </div>
+
+    <a
+      href="{% url 'mood_create' %}"
+      class="flex items-center justify-center lg:hidden p-7 bg-primary-500 fixed bottom-8 right-8 rounded-full">
+      <i class="fa-solid fa-plus text-xl text-black"></i>
+    </a>
   </main>
 
   <!-- Custom JS -->

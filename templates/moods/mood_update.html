@@ -1,27 +1,26 @@
 {% extends "_base_form.html" %}
 {% load static %}
-
-{% block title %}Update mood{% endblock %}
+{% block title %}MoodMo - Update mood{% endblock %}
 {% block heading %}Update your mood{% endblock %}
 {% block form_action %}{% url 'mood_edit' mood.pk %}{% endblock %}
 {% block form_body %}
     {% for field in form %}
         {% if field.name == 'mood' %}
             <ul class="mb-4 grid w-full gap-x-1.5 grid-cols-5" x-data="{selectedMood: {{mood.mood}}}">
-                <template x-for="(key, _) in Object.keys(moodToEmoji).sort()" :key="key">
+                <template x-for="(key, _) in Object.keys(moodToIcon).sort()" :key="key">
                     <li class="text-center">
                         <input type="radio" :id="key" name="mood" :value="key" x-model="selectedMood" class="hidden peer" required>
                         <label :for="key"
                                class="flex items-center justify-center w-full px-1 py-2 border border-stone-500 rounded-xl cursor-pointer peer-checked:border-primary-500 peer-checked:bg-primary-500 hover:bg-stone-100">
                             <div class="block">
-                                <p class="w-full text-5xl" x-text="moodToEmoji[key]"></p>
+                                <i class="text-6xl" :class="moodToIcon[key]"></i>
                             </div>
                         </label>
                     </li>
                 </template>
             </ul>
         {% elif field.name == 'activities' %}
-            <div class=" mb-4 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
+            <div class="max-h-56 h-full overflow-y-scroll p-3 my-6 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
                 {% for choice_id, choice_label in form.activities.field.choices %}
                     <div>
                         {% if choice_id in form.activities.value %}

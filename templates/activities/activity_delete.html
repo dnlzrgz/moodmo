@@ -1,5 +1,5 @@
 {% extends "_base_form.html" %}
-{% block title %}Delete activity{% endblock %}
+{% block title %}MoodMo - Delete activity{% endblock %}
 {% block heading %}Delete your activity{% endblock %}
 {% block form_action %}{% url 'activity_delete' activity.pk %}{% endblock %}
 {% block form_body %}
@@ -7,7 +7,9 @@
     Delete
   </button>
 
-  <a href="{% url 'activity_list' %}" class="form__link">
-    Cancel
-  </a>
+  <div class="mt-3 text-xl flex justify-center">
+    <a href="{% url 'activity_list' %}" class="form__link">
+      Cancel
+    </a>
+  </div>
 {% endblock %}

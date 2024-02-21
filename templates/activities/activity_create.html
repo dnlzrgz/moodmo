@@ -1,10 +1,10 @@
 {% extends "_base_form.html" %}
-{% block title %}Create activity{% endblock %}
+{% block title %}MoodMo - Create activity{% endblock %}
 {% block heading %}Add a new activity{% endblock %}
 {% block form_action %}{% url 'activity_create' %}{% endblock %}
 {% block form_body %}
   {% for field in form %}
-    <div class="mb-4">
+    <div class="mb-3">
       {{ field }}
     </div>
   {% endfor %}
@@ -12,7 +12,10 @@
   <button type="submit">
     Add
   </button>
-  <a href="{% url 'activity_list' %}" class="form__link">
-    Go back
-  </a>
+
+  <div class="mt-3 text-xl flex justify-center">
+    <a href="{% url 'activity_list' %}" class="form__link">
+      Go back
+    </a>
+  </div>
 {% endblock %}
