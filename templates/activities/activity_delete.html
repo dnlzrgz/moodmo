@@ -1,7 +1,7 @@
 {% extends "_base_form.html" %}
 {% block title %}MoodMo - Delete activity{% endblock %}
 {% block heading %}Delete your activity{% endblock %}
-{% block form_action %}{% url 'activity_delete' activity.pk %}{% endblock %}
+{% block form_action %}{% url 'activity_delete' activity.sqid %}{% endblock %}
 {% block form_body %}
   <button type="submit">
     Delete

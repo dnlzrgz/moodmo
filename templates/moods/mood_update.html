@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}MoodMo - Update mood{% endblock %}
 {% block heading %}Update your mood{% endblock %}
-{% block form_action %}{% url 'mood_edit' mood.pk %}{% endblock %}
+{% block form_action %}{% url 'mood_edit' mood.sqid %}{% endblock %}
 {% block form_body %}
     {% for field in form %}
         {% if field.name == 'mood' %}
