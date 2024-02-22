@@ -18,12 +18,12 @@ urlpatterns = [
         name="activity_create",
     ),
     path(
-        "edit/<int:pk>",
+        "edit/<slug>",
         ActivityUpdateView.as_view(),
         name="activity_edit",
     ),
     path(
-        "delete/<int:pk>",
+        "delete/<slug>",
         ActivityDeleteView.as_view(),
         name="activity_delete",
     ),

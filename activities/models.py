@@ -1,9 +1,11 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django_sqids import SqidsField
 
 
 class Activity(models.Model):
+    sqid = SqidsField(real_field_name="id")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

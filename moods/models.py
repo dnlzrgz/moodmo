@@ -4,11 +4,13 @@ from django.contrib.postgres.search import SearchVectorField
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
+from django_sqids import SqidsField
 
 from activities.models import Activity
 
 
 class Mood(models.Model):
+    sqid = SqidsField(real_field_name="id")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

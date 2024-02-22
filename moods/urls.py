@@ -22,12 +22,12 @@ urlpatterns = [
         name="mood_create",
     ),
     path(
-        "edit/<int:pk>",
+        "edit/<slug>",
         MoodUpdateView.as_view(),
         name="mood_edit",
     ),
     path(
-        "delete/<int:pk>",
+        "delete/<slug>",
         MoodDeleteView.as_view(),
         name="mood_delete",
     ),

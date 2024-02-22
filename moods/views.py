@@ -101,6 +101,7 @@ class MoodUpdateView(LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateV
     form_class = MoodForm
     template_name = "moods/mood_update.html"
     success_url = reverse_lazy("mood_list")
+    slug_field = "sqid"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -117,6 +118,7 @@ class MoodDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     template_name = "moods/mood_delete.html"
     success_url = reverse_lazy("mood_list")
     context_object_name = "mood"
+    slug_field = "sqid"
 
 
 class MoodImportView(LoginRequiredMixin, FormView):

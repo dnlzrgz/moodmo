@@ -36,6 +36,7 @@ class ActivityUpdateView(
     form_class = ActivityForm
     template_name = "activities/activity_update.html"
     success_url = reverse_lazy("activity_list")
+    slug_field = "sqid"
 
 
 class ActivityDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
@@ -43,3 +44,4 @@ class ActivityDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     template_name = "activities/activity_delete.html"
     success_url = reverse_lazy("activity_list")
     context_object_name = "activity"
+    slug_field = "sqid"

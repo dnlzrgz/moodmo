@@ -75,10 +75,10 @@
       <div x-ref="popoverInner" x-show="popoverOpen"
            class="w-44 p-3.5 bg-white rounded-md drop-shadow-md border border-stone-100">
         <div class="flex flex-col gap-1.5 text-lg text-black">
-          <a href="{% url 'mood_edit' mood.pk %}">
+          <a href="{% url 'mood_edit' mood.sqid %}">
             Edit
           </a>
-          <a class="text-red-500" href="{% url 'mood_delete' mood.pk %}">
+          <a class="text-red-500" href="{% url 'mood_delete' mood.sqid %}">
             Delete
           </a>
         </div>

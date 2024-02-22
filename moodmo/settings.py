@@ -293,6 +293,12 @@ EMAIL_BACKEND = env.str(
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", 5)
 
+# Sqids
+# https://github.com/julianwachholz/django-sqids
+
+DJANGO_SQIDS_MIN_LENGTH = 8
+DJANGO_SQIDS_MIN_ALPHABET = "Sq1dm5Xf9GhTzCv6RjKu0bPwY3eL4aDocVg2r7nBpO8IyHmMJxZ"
+
 # Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/
 LOGGING = {
