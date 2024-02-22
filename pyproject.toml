@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "moodmo"
-version = "0.7.57"
+version = "0.7.58"
 description = "A user-friendly, self-hosted mood tracking application written in Django."
 license = "GPL-3.0"
 authors = ["dnlzrgz <24715931+dnlzrgz@users.noreply.github.com>"]
@@ -16,7 +16,6 @@ whitenoise = { extras = ["brotli"], version = "^6.6.0" }
 gunicorn = "^21.2.0"
 redis = { extras = ["hiredis"], version = "^5.0.1" }
 brotli = "^1.1.0"
-fontawesomefree = "^6.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
