@@ -103,6 +103,11 @@ local-logs:
 	docker compose -f local.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
+# Remove and restart local Docker compose
+local-restart:
+	@make local-stop
+	@make local-start
+
 # Start prod Docker compose
 prod-start:
 	@echo "🚀 Starting prod Docker compose..."

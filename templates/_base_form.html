@@ -32,7 +32,7 @@
       </div>
     </nav>
 
-    <main class="h-screen flex items-center bg-white justify-center">
+    <main class="min-h-screen bg-white flex items-center justify-center {% block wrapper %}{% endblock %}">
       <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
         <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
           {% block heading %}Form heading{% endblock %}

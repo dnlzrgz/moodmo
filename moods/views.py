@@ -14,7 +14,11 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from moods.forms import MoodForm, UploadFileForm, ExportOptionsForm
+from moods.forms import (
+    MoodForm,
+    UploadFileForm,
+    ExportOptionsForm,
+)
 from moods.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.models import Mood
 

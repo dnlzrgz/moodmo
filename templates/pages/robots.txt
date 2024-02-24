@@ -1,7 +1,5 @@
 User-Agent: *
 DISALLOW: /moods/
+DISALLOW: /feelings/
 DISALLOW: /activities/
 DISALLOW: /accounts/
-
-User-Agent: GPTBot
-Disallow: /

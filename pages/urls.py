@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic.base import TemplateView
-from pages.views import HomePageView, SettingsPageView
+from pages.views import HomePageView, SettingsPageView, StatisticsPageView
 
 urlpatterns = [
     path(
@@ -12,6 +12,11 @@ urlpatterns = [
         "settings",
         SettingsPageView.as_view(),
         name="settings",
+    ),
+    path(
+        "stats",
+        StatisticsPageView.as_view(),
+        name="statistics",
     ),
     path(
         "robots.txt",

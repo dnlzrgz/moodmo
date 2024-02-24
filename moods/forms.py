@@ -3,7 +3,6 @@ from moods.models import Mood
 from activities.models import Activity
 
 
-
 class MoodForm(forms.ModelForm):
     note_title = forms.CharField(
         widget=forms.TextInput(

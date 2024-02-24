@@ -15,3 +15,7 @@ class HomePageView(TemplateView):
 
 class SettingsPageView(LoginRequiredMixin, TemplateView):
     template_name = "pages/settings.html"
+
+
+class StatisticsPageView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/statistics.html"
