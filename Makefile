@@ -85,6 +85,29 @@ test-pages:
 	python manage.py test pages
 	@echo "✨ Pages app tests complete!"
 
+# Start development Docker compose
+dev-start:
+	@echo "🚀 Starting development Docker compose..."
+	docker compose -f dev.yaml up -d --build
+	@echo "✨ Development Docker compose started!"
+
+# Stop development Docker compose
+dev-stop:
+	@echo "🛑 Stopping development Docker compose..."
+	docker compose -f dev.yaml down
+	@echo "✨ Local Docker compose stopped!"
+
+# Watch development Docker compose logs
+dev-logs:
+	@echo "👀 Watching containers logs..."
+	docker compose -f dev.yaml logs -f
+	@echo "✨ Watching containers logs finished!"
+
+# Remove and restart development Docker compose
+dev-restart:
+	@make dev-stop
+	@make dev-start
+
 # Start local Docker compose
 local-start:
 	@echo "🚀 Starting local Docker compose..."
@@ -102,11 +125,6 @@ local-logs:
 	@echo "👀 Watching container logs..."
 	docker compose -f local.yaml logs -f
 	@echo "✨ Watching container logs finished!"
-
-# Remove and restart local Docker compose
-local-restart:
-	@make local-stop
-	@make local-start
 
 # Start prod Docker compose
 prod-start:
@@ -153,3 +171,13 @@ setup:
 	pre-commit install
 	pre-commit run --all-files
 	@echo "✨ Project setup complete!"
+
+# Start development environment
+dev:
+	@make dev-restart
+	@make dev-logs
+
+# Start local environment
+local:
+	@make local-restart
+	@make local-logs

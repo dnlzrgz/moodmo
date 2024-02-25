@@ -1,20 +1,22 @@
 version: "3.8"
 
 volumes:
-  moodmo_local_postgres_data: {}
-  moodmo_local_postgres_data_backups: {}
+  moodmo_dev_postgres_data: {}
+  moodmo_dev_postgres_data_backups: {}
 
 services:
   django:
     build:
       context: .
-      dockerfile: ./compose/prod/django/Dockerfile
-    image: moodmo_local_django
-    container_name: moodmo_local_django
+      dockerfile: ./compose/dev/Dockerfile
+    image: moodmo_dev_django
+    container_name: moodmo_dev_django
     depends_on:
       - postgres
       - mailpit
       - redis
+    volumes:
+      - .:/app
     env_file:
       - ./.env
     ports:
@@ -22,16 +24,16 @@ services:
 
   postgres:
     image: postgres:16.1-alpine3.19
-    container_name: moodmo_local_postgres
+    container_name: moodmo_dev_postgres
     volumes:
-      - moodmo_local_postgres_data:/var/lib/postgresql/data
-      - moodmo_local_postgres_data_backups:/backups
+      - moodmo_dev_postgres_data:/var/lib/postgresql/data
+      - moodmo_dev_postgres_data_backups:/backups
     env_file:
       - ./.env
 
   redis:
     image: "redis:7.2.4-alpine3.19"
-    container_name: moodmo_local_redis
+    container_name: moodmo_dev_redis
     env_file:
       - ./.env
     depends_on:
@@ -39,6 +41,6 @@ services:
 
   mailpit:
     image: axllent/mailpit:v1.13.1
-    container_name: moodmo_local_mailpit
+    container_name: moodmo_dev_mailpit
     ports:
       - "8025:8025"

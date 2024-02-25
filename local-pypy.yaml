@@ -3,21 +3,18 @@ version: "3.8"
 volumes:
   moodmo_local_postgres_data: {}
   moodmo_local_postgres_data_backups: {}
-  moodmo_local_redis_data: {}
 
 services:
   django:
     build:
       context: .
-      dockerfile: ./compose/local-pypy/Dockerfile
+      dockerfile: ./compose/prod/django-pypy/Dockerfile
     image: moodmo_local_pypy_django
     container_name: moodmo_local_pypy_django
     depends_on:
       - postgres
       - mailpit
       - redis
-    volumes:
-      - .:/app
     env_file:
       - ./.env
     ports:
@@ -41,8 +38,6 @@ services:
       - REDIS_REPLICATION_MODE=master
     env_file:
       - ./.env
-    volumes:
-      - moodmo_local_redis_data:/data
     depends_on:
       - postgres
 
