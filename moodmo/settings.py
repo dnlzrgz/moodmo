@@ -219,13 +219,6 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Auth user model
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-user-model
-
-AUTH_USER_MODEL = "accounts.CustomUser"
-
-LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
-ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
 
 # Security
 if not DEBUG:
@@ -271,16 +264,28 @@ if not DEBUG:
     )
 
 
-# Accounts related settings
+# Auth user model
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-user-model
+
+AUTH_USER_MODEL = "accounts.CustomUser"
+
+LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
+ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
+
+
+# All-auth settings
+# https://docs.allauth.org/en/latest/account/configuration.html
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SESSION_REMEMBER = env.bool("DJANGO_ACCOUNT_SESSION_REMEMBER ", True)
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 7200  # 2 hours
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = env.int("DJANGO_ACCOUNT_LOGIN_ATTEMPTS_LIMIT ", 5)
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = env.int("DJANGO_ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT", 7200)
+ACCOUNT_EMAIL_VERIFICATION = env.str("DJANGO_ACCOUNT_EMAIL_VERIFICATION", "optional")
+
 
 # Email backend
 # https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
@@ -293,11 +298,13 @@ EMAIL_BACKEND = env.str(
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", 5)
 
+
 # Sqids
 # https://github.com/julianwachholz/django-sqids
 
 DJANGO_SQIDS_MIN_LENGTH = 8
 DJANGO_SQIDS_MIN_ALPHABET = "Sq1dm5Xf9GhTzCv6RjKu0bPwY3eL4aDocVg2r7nBpO8IyHmMJxZ"
+
 
 # Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/
