@@ -17,6 +17,9 @@ class ActivityListView(LoginRequiredMixin, ListView):
     context_object_name = "activities"
     ordering = ["name"]
 
+    def get_queryset(self):
+        return Activity.objects.filter(user=self.request.user)
+
 
 class ActivityCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
     model = Activity
