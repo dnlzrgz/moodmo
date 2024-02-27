@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>http://moodmo.up.railway.app/</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/accounts/login/</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/accounts/signup/</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/#what</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/#why</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/#features</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/#faq</loc>
+</url>
+<url>
+  <loc>http://moodmo.up.railway.app/accounts/password/reset/</loc>
+</url>
+</urlset>
