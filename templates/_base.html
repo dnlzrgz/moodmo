@@ -8,9 +8,13 @@
 
     <!-- Basic Meta Tags -->
     <title>{% block title %}MoodMo - Mood Tracking & Journal{% endblock title %}</title>
-    <meta name="description" content="MoodMo is a self-hosted and open-source mood tracking and journal application crafted for privacy and simplicity. Keep track of your mood and journal your thoughts, gaining invaluable insights into your emotional fluctuations and patterns"/>
+    <meta name="description" content="MoodMo: Your private mood tracker & journal. Track emotions, jot down thoughts, gain insights. Open-source and self-hosted for privacy."/>
     <meta name="keywords" content="Mood tracking, Journaling, Emotions, Self-care, Mental health, Well-being, Self-reflection, Open Source, Privacy, Self-hosted" />
     <meta name="author" content="dnlzrgz" />
+
+    {% if canonical_url %}
+      <link rel="canonical" href="{{ canonical_url }}">
+    {% endif %}
 
     <!-- OG tags -->
     <meta property="og:site_name" content="MoodMo" />

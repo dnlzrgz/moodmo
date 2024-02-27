@@ -31,6 +31,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", [])
 
 DJANGO_ADMIN_URL = env.str("DJANGO_ADMIN_URL", "admin/")
 
+CANONICAL_URL = env.str("CANONICAL_URL", "")
 
 INTERNAL_IPS = [
     "127.0.0.1",

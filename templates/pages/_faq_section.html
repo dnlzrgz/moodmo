@@ -27,14 +27,14 @@
                           ],
                           }">
   <header>
-    <h1 class="font-bold text-center text-5xl">
+    <h2 class="font-bold text-center text-5xl">
       FAQ
-    </h1>
+    </h2>
   </header>
   <main class="max-w-screen-md mt-9 md:mx-auto">
     <template x-for="(faq, index) in faqs" :key="index">
       <div x-data="{ expanded: false }" class="my-3 border-b-2 border-b-black">
-        <h2>
+        <h3>
           <button :id="'faq-title-' + (index + 1)" type="button"
                   class="flex items-center justify-between font-bold text-xl md:text-2xl text-left uppercase py-3 px-1.5 w-full"
                   @click="expanded = !expanded" :aria-expanded="expanded" :aria-controls="'faq-text-' + (index + 1)">
@@ -48,7 +48,7 @@
             </svg>
 
           </button>
-        </h2>
+        </h3>
 
         <div :id="'faq-text-' + (index + 1)" role="region" :aria-labelledby="'faq-title-' + (index + 1)"
              class="grid overflow-hidden transition-all duration-300 ease-in-out"
