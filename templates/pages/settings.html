@@ -5,14 +5,66 @@
     {% include "_primary_nav.html" %}
   </header>
 
-  <main class="h-screen flex items-center bg-naples-500 justify-center">
-    <div class="max-w-md w-full mx-auto py-9 px-6 rounded-3xl">
-      <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
-        Oops!
-      </h2>
-      <p class="w-full text-lg text-center text-black">
-        We're sorry but this page is still in construction!
-      </p>
+  <main class="flex flex-col mb-44 w-full max-w-screen-md px-3 sm:px-6 md:px-0 mx-auto">
+    <div id="moodList" class="mt-32 mb-16 sm:mt-36 flex flex-col">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight">
+        Settings
+      </h1>
     </div>
+
+    <!-- Account details -->
+    <section class="text-black text-xl flex flex-col gap-y-6">
+      <div class="grid sm:grid-cols-2 items-start px-1.5 py-12 border-b-2 border-b-black">
+        <p class="text-3xl mb-6 sm:mb-0 font-bold">Account</p>
+
+        <div class="flex flex-col items-start gap-y-3">
+          <a href="{% url 'account_email' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Manage email
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="{% url 'account_change_password' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Change password
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="{% url 'account_reset_password' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Reset password
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="{% url 'account_delete' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-red-500 transition-colors">
+            Delete account
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Manage -->
+      <div class="grid sm:grid-cols-2 items-start px-1.5 py-12 border-b-2 border-b-black">
+        <p class="text-3xl mb-6 sm:mb-0 font-bold">Manage</p>
+
+        <div class="flex flex-col items-start gap-y-3">
+          <a href="{% url 'activity_list' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Activities
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+
+      <!-- Data -->
+      <div class="grid sm:grid-cols-2 items-start px-1.5 py-12">
+        <p class="text-3xl mb-6 sm:mb-0 font-bold">Data</p>
+
+        <div class="flex flex-col items-start gap-y-3">
+          <a href="{% url 'mood_export' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Export
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="{% url 'mood_import' %}" class="flex items-center justify-center gap-x-3 uppercase text-lg font-bold hover:text-primary-500 transition-colors">
+            Import
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 {% endblock %}

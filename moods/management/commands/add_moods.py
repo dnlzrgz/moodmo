@@ -19,7 +19,7 @@ class Command(BaseCommand):
             "-n",
             type=int,
             help="Number of moods to add",
-            default="100",
+            default=100,
         )
         parser.add_argument(
             "--username",

@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}MoodMo - Manage email{% endblock %}
+{% block content %}
+    <nav class="fixed w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
+        <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between p-3 text-lg font-bold uppercase">
+            <a href="{% url 'mood_list' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-color">
+                <i class="fa-solid fa-arrow-left"></i>
+                Go back
+            </a>
+        </div>
+    </nav>
+    <main class="min-h-screen bg-white flex flex-col items-center justify-center py-24">
+        <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
+            <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+                Manage your emails
+            </h2>
+
+            <form method="post" action="{% url 'account_email' %}" class="mb-9">
+                {% csrf_token %}
+                <p class="text-xl text-center mb-3.5">The following email addresses are associated with your account:</p>
+                <ul class="mb-6 text-xl text-black">
+                    {% for radio in emailaddress_radios %}
+                        <div class="flex items-center justify-center gap-x-1.5 mb-1.5">
+                            <i class="fa-solid fa-circle text-[6px]"></i>
+                            <li class="flex items-center gap-x-1.5">
+                                <label for="email_radio_{{ forloop.counter0 }}">{{ radio.emailaddress }}</label><br>
+                                <input type="radio" id="email_radio_{{ forloop.counter0 }}" name="email" value="{{ radio.emailaddress}}" {% if radio.checked %}checked{% endif %} class="w-6 h-6 text-primary-500 focus:ring-primary-500">
+                            </li>
+                        </div>
+                    {% endfor %}
+                </ul>
+
+                <div class="mb-6 flex justify-between gap-x-3 text-sm font-bold">
+                    <input name="action_primary" type="submit" value="Make primary" class="uppercase bg-primary-500 py-2.5 px-3.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer">
+                    <!-- <input name="action_send" type="submit" value="Send verification" class="uppercase bg-primary-500 py-2.5 px-3.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer"> -->
+                    <input name="action_remove" type="submit" value="Remove" class="uppercase bg-primary-500 py-2.5 px-3.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer">
+                </div>
+            </form>
+
+            <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+                Add a new email
+            </h2>
+            <form method="post" action="/accounts/email/">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email address" required="">
+
+                <button name="action_add" type="submit">
+                    Add Email
+                </button>
+            </form>
+            {% for message in messages %}
+                <div class="w-full text-center mx-3 my-3 text-black text-lg font-bold">
+                    <i class="fa-solid fa-bell"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

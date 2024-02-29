@@ -8,101 +8,102 @@
                 <i class="fa-solid fa-arrow-left"></i>
                 Go back
             </a>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="min-h-screen bg-white flex items-center justify-center py-24">
-            <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
-                <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
-                    Update your mood
-                </h2>
-                <form class="form" method="post" role="form" action="{% url 'mood_edit' mood.sqid %}">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        {% if field.name == 'mood' %}
-                            <ul class="mb-3 flex items-center justify-evenly gap-x-3" x-data="{selectedMood: {{ mood.mood }}}">
-                                <li>
-                                    <input type="radio" id="-2" name="mood" value="-2" class="hidden peer" x-model="selectedMood" required>
-                                    <label for="-2"
-                                           class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-cinnabar-500 peer-checked:bg-cinnabar-500 transition-colors">
-                                        <i class="w-full text-6xl fa-regular fa-face-sad-tear"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="-1" name="mood" value="-1" class="hidden peer" x-model="selectedMood" required>
-                                    <label for="-1"
-                                           class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-navajo-500 peer-checked:bg-navajo-500 transition-colors">
-                                        <i class="w-full text-6xl fa-regular fa-face-frown"></i>
-                                    </label>
-                                </li>
+    <main class="min-h-screen bg-white flex items-center justify-center py-24">
+        <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
+            <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+                Update your mood
+            </h2>
+            <form class="form" method="post" role="form" action="{% url 'mood_edit' mood.sqid %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name == 'mood' %}
+                        <ul class="mb-3 flex items-center justify-evenly gap-x-3" x-data="{selectedMood: {{ mood.mood }}}">
+                            <li>
+                                <input type="radio" id="-2" name="mood" value="-2" class="hidden peer" x-model="selectedMood" required>
+                                <label for="-2"
+                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-cinnabar-500 peer-checked:bg-cinnabar-500 transition-colors">
+                                    <i class="w-full text-6xl fa-regular fa-face-sad-tear"></i>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="-1" name="mood" value="-1" class="hidden peer" x-model="selectedMood" required>
+                                <label for="-1"
+                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-navajo-500 peer-checked:bg-navajo-500 transition-colors">
+                                    <i class="w-full text-6xl fa-regular fa-face-frown"></i>
+                                </label>
+                            </li>
 
-                                <li>
-                                    <input type="radio" id="0" name="mood" value="0" class="hidden peer" x-model="selectedMood" required>
-                                    <label for="0"
-                                           class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-primary-500 peer-checked:bg-primary-500 transition-colors">
-                                        <i class="w-full text-6xl fa-regular fa-face-meh "></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="1" name="mood" value="1" class="hidden peer" x-model="selectedMood" required>
-                                    <label for="1"
-                                           class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-zomp-500 peer-checked:bg-zomp-500 transition-colors">
-                                        <i class="w-full text-6xl fa-regular fa-face-smile"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="2" name="mood" value="2" class="hidden peer" x-model="selectedMood" required>
-                                    <label for="2"
-                                           class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-naples-500 peer-checked:bg-naples-500 transition-colors">
-                                        <i class="w-full text-6xl fa-regular fa-face-grin-stars"></i>
-                                    </label>
-                                </li>
+                            <li>
+                                <input type="radio" id="0" name="mood" value="0" class="hidden peer" x-model="selectedMood" required>
+                                <label for="0"
+                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-primary-500 peer-checked:bg-primary-500 transition-colors">
+                                    <i class="w-full text-6xl fa-regular fa-face-meh "></i>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="1" name="mood" value="1" class="hidden peer" x-model="selectedMood" required>
+                                <label for="1"
+                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-zomp-500 peer-checked:bg-zomp-500 transition-colors">
+                                    <i class="w-full text-6xl fa-regular fa-face-smile"></i>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="2" name="mood" value="2" class="hidden peer" x-model="selectedMood" required>
+                                <label for="2"
+                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-naples-500 peer-checked:bg-naples-500 transition-colors">
+                                    <i class="w-full text-6xl fa-regular fa-face-grin-stars"></i>
+                                </label>
+                            </li>
 
-                            </ul>
+                        </ul>
 
-                        {% elif field.name == 'activities' %}
-                            <div class="max-h-56 h-full overflow-y-scroll p-3 my-3 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
-                                {% for choice_id, choice_label in form.activities.field.choices %}
-                                    <div>
-                                        {% if choice_id in form.activities.value %}
-                                            <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" checked />
-                                        {% else %}
-                                            <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
-                                        {% endif %}
-                                        <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
-                                            {{ choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-
+                    {% elif field.name == 'activities' %}
+                        <div class="max-h-56 h-full overflow-y-scroll p-3 my-3 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
+                            {% for choice_id, choice_label in form.activities.field.choices %}
                                 <div>
-                                    <a href="{% url 'activity_create' %}"
-                                       class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
-                                        Add activity
-                                    </a>
+                                    {% if choice_id in form.activities.value %}
+                                        <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" checked />
+                                    {% else %}
+                                        <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
+                                    {% endif %}
+                                    <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
+                                        {{ choice_label }}
+                                    </label>
                                 </div>
-                            </div>
-                        {% else %}
-                            <div class="mb-3">
-                                {{ field }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                            {% endfor %}
 
-                    <button type="submit">
-                        Update
-                    </button>
+                            <div>
+                                <a href="{% url 'activity_create' %}"
+                                   class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
+                                    Add activity
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mb-3">
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
-                    <div class="mt-3 text-xl flex justify-center">
-                        <a href="{% url 'mood_list' %}" class="form__link">
-                            Go back
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </main>
+                <button type="submit">
+                    Update
+                </button>
+
+                <div class="mt-3 text-xl flex justify-center">
+                    <a href="{% url 'mood_list' %}" class="form__link">
+                        Go back
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
 
        <!-- Custom JS -->
-        <script src="{% static 'js/custom.js' %}" defer></script>
+    <script src="{% static 'js/custom.js' %}" defer></script>
 {% endblock %}
         <!--     <ul class="mb-4 grid w-full gap-x-1.5 grid-cols-5" > -->
         <!--         <template x-for="(key, _) in Object.keys(moodToIcon).sort()" :key="key"> -->
