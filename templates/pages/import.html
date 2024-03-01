@@ -2,7 +2,7 @@
 {% block title %}MoodMo - Import{% endblock %}
 {% block heading %}Import your moods{% endblock %}
 {% block form_extra %}enctype="multipart/form-data" x-data="{files: []}"{% endblock %}
-{% block form_action %}{% url 'mood_import' %}{% endblock %}
+{% block form_action %}{% url 'import' %}{% endblock %}
 {% block form_body %}
   <div class="mb-4">
     <input id="id_file" name="file" type="file" class="hidden peer" accept=".csv,.json" x-on:change="files = $event.target.files"/>

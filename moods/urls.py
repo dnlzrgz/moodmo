@@ -6,8 +6,6 @@ from .views import (
     MoodDeleteView,
     MoodSearchView,
     MoodSearchResultsView,
-    MoodImportView,
-    MoodExportView,
 )
 
 urlpatterns = [
@@ -40,15 +38,5 @@ urlpatterns = [
         "search/results/",
         MoodSearchResultsView.as_view(),
         name="mood_search_results",
-    ),
-    path(
-        "export/",
-        MoodExportView.as_view(),
-        name="mood_export",
-    ),
-    path(
-        "import/",
-        MoodImportView.as_view(),
-        name="mood_import",
     ),
 ]
