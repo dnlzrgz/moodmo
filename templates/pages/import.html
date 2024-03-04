@@ -32,7 +32,7 @@
   {% for error in form.errors.file %}
     <div class="mx-3 my-3 text-red-500 text-lg font-bold">
       <i class="fa-solid fa-triangle-exclamation"></i>
-      <p>{{ error }}</p>
+      {{ error }}
     </div>
   {% endfor %}
 
