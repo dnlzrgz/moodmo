@@ -271,7 +271,7 @@ if not DEBUG:
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL", "mood_list")
-ACCOUNT_LOGOUT_REDIRECT_URL = env.str("ACCOUNT_LOGOUT_REDIRECT_URL", "home")
+ACCOUNT_LOGOUT_REDIRECT_URL = env.str("LOGOUT_REDIRECT_URL", "home")
 
 
 # All-auth settings

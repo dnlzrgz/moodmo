@@ -88,7 +88,7 @@
 {% endfor %}
 
 {% if page_obj.has_next %}
-  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="revealed"
+  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="intersect once delay:1s"
         hx-swap="afterend">
   </span>
 {% endif %}
