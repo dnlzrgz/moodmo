@@ -7,6 +7,14 @@
     <div class="mb-3">
       {{ field }}
     </div>
+
+    {% for error in field.errors %}
+      <div class="mx-3 my-3 text-red-500 text-lg font-bold">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        {{ error }}
+      </div>
+    {% endfor %}
+
   {% endfor %}
 
   <button type="submit">
@@ -14,7 +22,7 @@
   </button>
 
   <div class="mt-3 text-xl flex justify-center">
-    <a href="{% url 'activity_list' %}" class="form__link">
+    <a href="#" @click="goBack" class="form__link">
       Go back
     </a>
   </div>

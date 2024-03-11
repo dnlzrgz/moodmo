@@ -29,6 +29,13 @@ class ActivityCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        if Activity.objects.filter(
+            name=form.instance.name,
+            user=self.request.user,
+        ).exists():
+            form.add_error("name", "An activity with this name already exists.")
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
 
