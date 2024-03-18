@@ -6,6 +6,7 @@ from django.utils import timezone
 from faker import Faker
 
 from moods.models import Mood
+from activities.models import Activity
 
 fake = Faker()
 
@@ -66,5 +67,15 @@ class Command(BaseCommand):
             for _ in range(n)
         ]
         Mood.objects.bulk_create(moods)
+
+        # Check if there are any activites
+        activities = Activity.objects.all()
+        if activities.exists():
+            for mood in moods:
+                activities_to_add = random.randint(0, activities.count())
+                random_activities = random.sample(list(activities), activities_to_add)
+                mood.activities.add(
+                    *Activity.objects.filter(name__in=random_activities)
+                )
 
         self.stdout.write(self.style.SUCCESS("Moods added to the database."))

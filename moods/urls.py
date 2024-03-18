@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (
+from moods.views import (
     MoodListView,
     MoodCreateView,
     MoodUpdateView,
