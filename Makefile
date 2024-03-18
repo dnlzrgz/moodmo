@@ -85,6 +85,12 @@ test-pages:
 	python manage.py test pages
 	@echo "✨ Pages app tests complete!"
 
+# Run activities app tests
+test-activities:
+	@echo "🧪 Running pages app tests..."
+	python manage.py test activities
+	@echo "✨ Pages app tests complete!"
+
 # Start development Docker compose
 dev-start:
 	@echo "🚀 Starting development Docker compose..."
@@ -124,24 +130,6 @@ local-stop:
 local-logs:
 	@echo "👀 Watching container logs..."
 	docker compose -f local.yaml logs -f
-	@echo "✨ Watching container logs finished!"
-
-# Start prod Docker compose
-prod-start:
-	@echo "🚀 Starting prod Docker compose..."
-	docker compose -f prod.yaml up -d --build
-	@echo "✨ Prod Docker compose started!"
-
-# Stop prod Docker compose
-prod-stop:
-	@echo "🛑 Stopping prod Docker compose..."
-	docker compose -f prod.yaml down
-	@echo "✨ Prod Docker compose stopped!"
-
-# Watch production Docker compose logs
-prod-logs:
-	@echo "👀 Watching container logs..."
-	docker compose -f prod.yaml logs -f
 	@echo "✨ Watching container logs finished!"
 
 # Start local Docker compose using PyPy
