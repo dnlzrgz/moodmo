@@ -44,9 +44,7 @@
 
   <body
     class="bg-white"
-    x-data="{
-            menuOpen: false,
-            }"
+    x-data="{ menuOpen: false }"
     x-init="
             $watch('menuOpen', function(value){
             if(value === true){
@@ -57,9 +55,7 @@
             } else {
             document.body.classList.remove('overflow-hidden');
             }
-            });
-           "
-    @keydown.escape.window="() => {menuOpen = false}"
+            });"
   >
     {% block content %}
     {% endblock content %}

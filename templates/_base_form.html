@@ -3,17 +3,10 @@
 {% block content %}
   <nav class="fixed w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
     <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between p-3 text-lg font-bold uppercase">
-      {% if user.is_authenticated %}
-        <a href="{% url 'mood_list' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-color">
-          <i class="fa-solid fa-arrow-left"></i>
-          Go back
-        </a>
-      {% else %}
-        <a href="{% url 'home' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-colors">
-          <i class="fa-solid fa-arrow-left"></i>
-          Go back
-        </a>
-      {% endif %}
+      <a href="{% url 'home' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+        Go home
+      </a>
 
       <div class="flex items-center gap-x-6 p-3">
         {% if request.path == '/accounts/login/' %}
@@ -32,7 +25,7 @@
       </div>
     </nav>
 
-    <main class="min-h-screen bg-white flex items-center justify-center {% block wrapper %}{% endblock %}">
+    <main class="min-h-screen bg-white flex items-center justify-center">
       <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
         <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
           {% block heading %}Form heading{% endblock %}

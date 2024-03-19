@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     # Local
     "accounts",
     "pages",
+    "settings",
     "moods",
     "activities",
 ]
@@ -213,6 +214,19 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# File upload
+# https://docs.djangoproject.com/en/4.2/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
+# https://docs.djangoproject.com/en/4.2/ref/settings/#data-upload-max-number-fields
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = env.int(
+    "FILE_UPLOAD_MAX_MEMORY_SIZE",
+    2621440,  # 2.5MB
+)
+DATA_UPLOAD_MAX_NUMBER_FIELDS = env.int(
+    "DATA_UPLOAD_MAX_NUMBER_FIELDS",
+    10,
+)
 
 
 # Default primary key field type
