@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class AccountDeleteView(LoginRequiredMixin, TemplateView):
-    template_name = "pages/delete_account.html"
+    template_name = "account/delete.html"
 
     def post(self, request, *args, **kwargs):
         user = request.user
