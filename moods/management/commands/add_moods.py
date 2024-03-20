@@ -3,12 +3,18 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from faker import Faker
 
 from moods.models import Mood
 from activities.models import Activity
 
-fake = Faker()
+try:
+    from faker import Faker
+
+    fake = Faker()
+except ImportError:
+    raise ImportError(
+        "Faker package is required for this command. Maybe you're in the wrong environment."
+    )
 
 
 class Command(BaseCommand):
@@ -58,7 +64,7 @@ class Command(BaseCommand):
                 mood=random.choice(Mood.MOOD_CHOICES)[0],
                 note_title=fake.sentence(),
                 note=fake.paragraph(),
-                timestamp=fake.date_time_between(
+                timestamp=fake.date_time_between_dates(
                     start_date=start_date,
                     end_date=end_date,
                     tzinfo=timezone.get_current_timezone(),
