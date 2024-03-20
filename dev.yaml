@@ -23,7 +23,7 @@ services:
       - "8000:8000"
 
   postgres:
-    image: postgres:16.1-alpine3.19
+    image: postgres:16.2-alpine3.19
     container_name: moodmo_dev_postgres
     volumes:
       - moodmo_dev_postgres_data:/var/lib/postgresql/data
@@ -40,7 +40,7 @@ services:
       - postgres
 
   mailpit:
-    image: axllent/mailpit:v1.13.1
+    image: axllent/mailpit:v1.15
     container_name: moodmo_dev_mailpit
     ports:
       - "8025:8025"
