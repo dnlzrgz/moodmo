@@ -1,5 +1,3 @@
-version: "3.8"
-
 volumes:
   moodmo_local_postgres_data: {}
   moodmo_local_postgres_data_backups: {}
