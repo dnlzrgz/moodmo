@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.conf import settings
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
 from django_sqids import SqidsField
 
 from activities.models import Activity
@@ -29,7 +29,8 @@ class Mood(models.Model):
         Activity,
         blank=True,
     )
-    timestamp = models.DateTimeField(default=timezone.now)
+    date = models.DateField(default=timezone.now)
+    time = models.TimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
 
     search_vector = SearchVectorField(null=True)
@@ -38,9 +39,10 @@ class Mood(models.Model):
         return reverse("mood_detail", kwargs={"pk": self.pk})
 
     def __str__(self) -> str:
-        return f"Mood added on {self.timestamp}"
+        return f"Mood added on {self.date} at {self.time}"
 
     class Meta:
         indexes = [
             GinIndex(fields=["search_vector"]),
         ]
+        ordering = ["-date", "-time"]

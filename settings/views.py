@@ -76,10 +76,8 @@ class ImportView(LoginRequiredMixin, FormView):
                 mood=row["mood"],
                 note_title=row["note_title"],
                 note=row["note"],
-                timestamp=timezone.datetime.strptime(
-                    row["timestamp"],
-                    "%Y-%m-%d %H:%M:%S %z",
-                ),
+                date=timezone.datetime.strptime(row["date"], "%Y-%m-%d").date(),
+                time=timezone.datetime.strptime(row["time"], "%H:%M:%S").time(),
             )
             mood.activities.set(activities)
 
@@ -92,9 +90,8 @@ class ImportView(LoginRequiredMixin, FormView):
                     mood=item["mood"],
                     note_title=item["note_title"],
                     note=item["note"],
-                    timestamp=timezone.datetime.strptime(
-                        item["timestamp"], "%Y-%m-%d %H:%M:%S %z"
-                    ),
+                    date=timezone.datetime.strptime(item["date"], "%Y-%m-%d").date(),
+                    time=timezone.datetime.strptime(item["time"], "%H:%M:%S").time(),
                 )
 
                 activities = item.get("activities", [])
@@ -120,10 +117,8 @@ class ExportView(LoginRequiredMixin, FormView):
         return self.form_invalid(form)
 
     def create_export(self, export_format):
-        moods = (
-            Mood.objects.filter(user=self.request.user)
-            .order_by("-timestamp")
-            .prefetch_related("activities")
+        moods = Mood.objects.filter(user=self.request.user).prefetch_related(
+            "activities"
         )
 
         if export_format == "json":
@@ -138,7 +133,8 @@ class ExportView(LoginRequiredMixin, FormView):
                 "note_title": mood.note_title,
                 "note": mood.note,
                 "activities": [activity.name for activity in mood.activities.all()],
-                "timestamp": mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
+                "date": mood.date.strftime("%Y-%m-%d"),
+                "time": mood.time.strftime("%H:%M:%S"),
             }
             for mood in moods
         ]
@@ -158,17 +154,16 @@ class ExportView(LoginRequiredMixin, FormView):
         )
 
         writer = csv.writer(response)
-        writer.writerow(["mood", "note_title", "note", "activities", "timestamp"])
+        writer.writerow(["mood", "note_title", "note", "activities", "date", "time"])
         for mood in moods:
             writer.writerow(
-                {
-                    "mood": mood.mood,
-                    "note_title": mood.note_title,
-                    "note": mood.note,
-                    "activities": ", ".join(
-                        [activity.name for activity in mood.activities.all()]
-                    ),
-                    "timestamp": mood.timestamp.strftime("%Y-%m-%d %H:%M:%S %z"),
-                }
+                [
+                    mood.mood,
+                    mood.note_title,
+                    mood.note,
+                    ", ".join([activity.name for activity in mood.activities.all()]),
+                    mood.date.strftime("%Y-%m-%d"),
+                    mood.time.strftime("%H:%M:%S"),
+                ]
             )
         return response

@@ -44,9 +44,10 @@
 
       <div>
         <time class="text-base sm:text-lg font-bold">
-          <span x-text="formatDate('{{mood.timestamp|date:"c"}}')">
+          <span> {{ mood.date}}
           </span> at
-          <span x-text="formatTime('{{mood.timestamp|date:"c"}}')">
+          <span>
+            {{ mood.time|time:"g:i A" }}
           </span>
         </time>
 

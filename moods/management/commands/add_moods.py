@@ -58,20 +58,24 @@ class Command(BaseCommand):
             user_queryset = user_queryset.filter(username=username)
 
         # Create moods
-        moods = [
-            Mood(
-                user=random.choice(user_queryset),
-                mood=random.choice(Mood.MOOD_CHOICES)[0],
-                note_title=fake.sentence(),
-                note=fake.paragraph(),
-                timestamp=fake.date_time_between_dates(
-                    start_date=start_date,
-                    end_date=end_date,
-                    tzinfo=timezone.get_current_timezone(),
-                ),
+        moods = []
+        for _ in range(n):
+            fake_dt = fake.date_time_between_dates(
+                datetime_start=start_date,
+                datetime_end=end_date,
+                tzinfo=timezone.get_current_timezone(),
             )
-            for _ in range(n)
-        ]
+            moods.append(
+                Mood(
+                    user=random.choice(user_queryset),
+                    mood=random.choice(Mood.MOOD_CHOICES)[0],
+                    note_title=fake.sentence(),
+                    note=fake.paragraph(),
+                    date=fake_dt.date(),
+                    time=fake_dt.time(),
+                )
+            )
+
         Mood.objects.bulk_create(moods)
 
         # Check if there are any activites

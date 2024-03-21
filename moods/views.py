@@ -30,10 +30,8 @@ class MoodListView(LoginRequiredMixin, ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return (
-            Mood.objects.filter(user=self.request.user)
-            .order_by("-timestamp")
-            .prefetch_related("activities")
+        return Mood.objects.filter(user=self.request.user).prefetch_related(
+            "activities"
         )
 
 
@@ -67,12 +65,12 @@ class MoodSearchResultsView(LoginRequiredMixin, ListView):
             moods = moods.filter(search_vector=search_term)
         if start_date:
             start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
-            moods = moods.filter(timestamp__gte=start_date - timedelta(days=1))
+            moods = moods.filter(date__gte=start_date - timedelta(days=1))
         if end_date:
             end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
-            moods = moods.filter(timestamp__lte=end_date + timedelta(days=1))
+            moods = moods.filter(date__lte=end_date + timedelta(days=1))
 
-        moods = moods.order_by("-timestamp").prefetch_related("activities")
+        moods = moods.prefetch_related("activities")
         return moods
 
 

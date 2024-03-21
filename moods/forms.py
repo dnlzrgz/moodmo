@@ -33,7 +33,8 @@ class MoodForm(forms.ModelForm):
             "note_title",
             "note",
             "activities",
-            "timestamp",
+            "date",
+            "time",
         ]
 
     def __init__(self, user, *args, **kwargs):
