@@ -1,25 +1,58 @@
 {% extends "_base.html" %}
 {% load static %}
-{% block title %}MoodMo - New mood{% endblock %}
+
+{% block title %}MoodMo - New Mood{% endblock %}
 {% block content %}
     <nav class="fixed w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
         <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between p-3 text-lg font-bold uppercase">
-            <a href="{% url 'mood_list' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-color">
+            <a href="{% url 'home' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-colors">
                 <i class="fa-solid fa-arrow-left"></i>
-                Go back
+                Go home
             </a>
-        </div>
-    </nav>
 
-    <main class="min-h-screen bg-white flex items-center justify-center py-24">
-        <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
-            <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
-                How are you feeling?
-            </h2>
-            <form class="form" method="post" role="form" action="{% url 'mood_create' %}">
-                {% csrf_token %}
-                {% for field in form %}
-                    {% if field.name == 'mood' %}
+            <div class="flex items-center gap-x-6 p-3">
+            </div>
+        </nav>
+
+        <main class="min-h-screen bg-white flex items-center justify-center"
+              x-data="{
+                      currentDate: new Date().toISOString().slice(0, 10),
+                      currentTime: new Date().toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'}),
+                      activities: [],
+                      noteModal: false,
+                      activitiesModal: false,
+                      }"
+              x-init="
+                      $watch('noteModal', function(value){
+                      if(value === true){
+                      document.body.classList.add('overflow-hidden');
+                      }else{
+                      document.body.classList.remove('overflow-hidden');
+                      }
+                      }),
+                      $watch('activitiesModal', function(value){
+                      if(value === true){
+                      document.body.classList.add('overflow-hidden');
+                      }else{
+                      document.body.classList.remove('overflow-hidden');
+                      }
+                      })
+                     "
+        >
+            <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl">
+                <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+                    How are you feeling?
+                </h2>
+
+                <form class="form" method="post" role="form" action="{% url 'mood_create' %}">
+                    {% csrf_token %}
+
+                    <fieldset class="flex justify-between mb-9">
+                        <input type="date" name="date" x-model="currentDate"/>
+                        <input type="time" name="time" x-model="currentTime"/>
+                    </fieldset>
+
+                    <fieldset>
                         <ul class="mb-3 flex items-center justify-evenly gap-x-1 sm:gap-x-3">
                             <li>
                                 <input type="radio" id="-2" name="mood" value="-2" class="hidden peer" required>
@@ -58,45 +91,103 @@
                                 </label>
                             </li>
                         </ul>
+                    </fieldset>
 
-                    {% elif field.name == 'activities' %}
-                        <div class="max-h-56 h-full overflow-y-scroll p-3 my-3 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
-                            {% for choice_id, choice_label in form.activities.field.choices %}
-                                <div>
-                                    <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
-                                    <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
-                                        {{ choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
+                    <fieldset>
+                        <input type="text" name="note_title" placeholder="Add a note">
+                        <button @click.prevent="noteModal=true"
+                                class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
+                            Add note
+                        </button>
 
-                            <div>
-                                <a href="{% url 'activity_create' %}"
-                                   class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
-                                    Add activity
-                                </a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="mb-3">
-                            {{ field }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                        <button @click.prevent="activitiesModal=true"
+                                class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
+                            Activities
+                        </button>
+                    </fieldset>
 
-                <button type="submit">
-                    Add mood
-                </button>
+                    <fieldset class="hidden">
+                        {% for choice_id, choice_label in form.activities.field.choices %}
+                            <input type="checkbox" name="activities" x-model="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" />
+                            <label for="id_activities_{{choice_id}}">
+                                {{ choice_label }}
+                            </label>
+                        {% endfor %}
+                    </fieldset>
 
-                <div class="mt-3 text-xl flex justify-center">
-                    <a href="{% url 'mood_list' %}" class="form__link">
-                        Go back
-                    </a>
+                    <button type="submit">
+                        Add
+                    </button>
+                </form>
+            </div>
+
+            <!-- Note modal -->
+            <template x-teleport="body">
+                <div
+                    x-show="noteModal"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-100"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="flex fixed inset-0 z-[99] w-screen h-screen bg-white"
+                >
+                    <button @click="noteModal=false" class="absolute top-0 right-0 z-30 flex items-center justify-center px-3 py-2 mt-3 mr-3 space-x-1 text-xs font-medium uppercase border rounded-md border-neutral-200 text-neutral-600 hover:bg-neutral-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <span>Close</span>
+                    </button>
                 </div>
-            </form>
-        </div>
-    </main>
+            </template>
 
-       <!-- Custom JS -->
-    <script src="{% static 'js/custom.js' %}" defer></script>
+            <!-- Activities modal -->
+            <template x-teleport="body">
+                <div x-show="activitiesModal" class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen" x-cloak>
+                    <div x-show="activitiesModal"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="ease-in duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="activitiesModal=false" class="absolute inset-0 w-full h-full bg-black bg-opacity-10 backdrop-blur-sm"></div>
+                    <div x-show="activitiesModal"
+                         x-trap.inert.noscroll="activitiesModal"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-90"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-90"
+                         class="relative w-full py-6 bg-white shadow-md px-7 drop-shadow-md backdrop-blur-sm sm:max-w-lg sm:rounded-lg">
+                        <div class="flex items-center justify-between pb-3">
+                            <h3 class="text-lg font-semibold">Add activities</h3>
+                            <button @click="activitiesModal=false" class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="relative flex flex-wrap items-center justify-center gap-x-1 gap-y-3 w-auto pb-8">
+                            {% for choice_id, choice_label in form.activities.field.choices %}
+                                <input type="checkbox" name="activities" x-model="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="hidden peer" />
+                                <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center transition-colors"
+                                       x-bind:class="{ 'peer-checked:bg-primary-500 peer-checked:text-white': activities.includes('{{ choice_id }}') }"
+                                >
+                                    {{ choice_label }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        <div class="flex flex-col-reverse sm:flex-row sm:justify-between sm:space-x-2">
+                            <a href="{% url 'activity_create' %}"
+                               class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
+                                Add activity
+                            </a>
+                            <button @click="activitiesModal=false" type="button" class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white transition-colors border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 bg-neutral-950 hover:bg-black">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Custom JS -->
+            <script src="{% static 'js/custom.js' %}" defer></script>
+        </main>
 {% endblock %}

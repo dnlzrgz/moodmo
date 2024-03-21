@@ -223,10 +223,6 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = env.int(
     "FILE_UPLOAD_MAX_MEMORY_SIZE",
     2621440,  # 2.5MB
 )
-DATA_UPLOAD_MAX_NUMBER_FIELDS = env.int(
-    "DATA_UPLOAD_MAX_NUMBER_FIELDS",
-    10,
-)
 
 
 # Default primary key field type

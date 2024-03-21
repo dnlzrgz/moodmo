@@ -21,7 +21,7 @@ class MoodForm(forms.ModelForm):
         required=False,
     )
     activities = forms.ModelMultipleChoiceField(
-        queryset=Activity.objects.none(),
+        queryset=None,
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
