@@ -17,14 +17,22 @@
     font-family: "Nunito Sans", system-ui, sans-serif;
   }
 
+  form {
+    @apply accent-primary-500;
+  }
+
   form input[type="text"],
   form input[type="email"],
+  form input[type="date"],
+  form input[type="time"],
+  form input[type="number"],
+  form input[type="search"],
   form input[type="password"] {
-    @apply border-2 border-black text-black text-xl rounded-3xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-6 placeholder:text-black placeholder:opacity-70;
+    @apply border-2 border-black text-black text-xl rounded-full focus:ring-primary-500 focus:border-primary-500 px-6 py-4 w-full placeholder:text-black placeholder:opacity-60;
   }
 
   form textarea {
-    @apply h-32 border-2 border-black text-black text-xl rounded-3xl focus:ring-primary-500 focus:border-primary-500 w-full px-6 py-6 placeholder:text-black placeholder:opacity-70;
+    @apply h-32 border-2 border-black text-black text-xl rounded-2xl focus:ring-primary-500 focus:border-primary-500 w-full p-3 placeholder:text-black placeholder:opacity-60;
   }
 
   button[type="submit"] {
