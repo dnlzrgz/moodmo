@@ -1,107 +1,186 @@
 {% extends "_base.html" %}
 {% load static %}
-{% block title %}MoodMo - Update mood{% endblock %}
+
+{% block title %}MoodMo - Update Mood{% endblock %}
 {% block content %}
-    <nav class="fixed w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
+    <nav class="w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
         <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between p-3 text-lg font-bold uppercase">
-            <a href="{% url 'mood_list' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-color">
+            <a href="{% url 'home' %}" class="flex items-center justify-center gap-x-3 hover:text-primary-500 transition-colors">
                 <i class="fa-solid fa-arrow-left"></i>
-                Go back
+                Go home
             </a>
-        </div>
-    </nav>
 
-    <main class="min-h-screen bg-white flex items-center justify-center py-24">
-        <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl ">
-            <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
-                Update your mood
-            </h2>
-            <form class="form" method="post" role="form" action="{% url 'mood_edit' mood.sqid %}">
-                {% csrf_token %}
-                {% for field in form %}
-                    {% if field.name == 'mood' %}
-                        <ul class="mb-3 flex items-center justify-evenly gap-x-3" x-data="{selectedMood: {{ mood.mood }}}">
+            <div class="flex items-center gap-x-6 p-3">
+            </div>
+        </nav>
+
+        <main class="mt-32 bg-white flex items-center justify-center"
+              x-data="{
+                      noteTitle: '{{mood.note_title}}',
+                      note: '{{mood.note}}',
+                      currentMood: {{mood.mood}},
+                      noteModal: false,
+                      }"
+              x-init="
+                      $watch('noteModal', function(value){
+                      if(value === true){
+                      document.body.classList.add('overflow-hidden');
+                      }else{
+                      document.body.classList.remove('overflow-hidden');
+                      }
+                      });
+                     "
+        >
+            <div class="max-w-md w-full mx-auto py-9 px-6 bg-white rounded-3xl">
+                <h2 class="w-full text-4xl font-bold text-black text-center mb-9">
+                    Update your mood
+                </h2>
+
+                <form class="form" method="post" role="form" action="{% url 'mood_edit' mood.sqid %}">
+                    {% csrf_token %}
+
+                    <fieldset class="grid grid-cols-[1fr_auto] gap-x-6 sm:gap-x-12 mb-6">
+                        <input type="date" name="date" value="{{ mood.date|date:"Y-m-d"}}"/>
+                        <input type="time" name="time" value="{{ mood.time|time:"H:i" }}"/>
+                    </fieldset>
+
+                    <fieldset class="mb-6">
+                        <ul class="items-center justify-evenly flex gap-x-1 sm:gap-x-3">
                             <li>
-                                <input type="radio" id="-2" name="mood" value="-2" class="hidden peer" x-model="selectedMood" required>
+                                <input type="radio" id="-2" name="mood" value="-2" class="hidden peer" x-model="currentMood" required>
                                 <label for="-2"
-                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-cinnabar-500 peer-checked:bg-cinnabar-500 transition-colors">
-                                    <i class="w-full text-6xl fa-regular fa-face-sad-tear"></i>
+                                       class="flex items-center justify-center p-1.5 rounded-full cursor-pointer hover:bg-cinnabar-500 peer-checked:bg-cinnabar-500 transition-colors">
+                                    <i class="w-full text-5xl sm:text-6xl fa-regular fa-face-sad-tear"></i>
                                 </label>
                             </li>
                             <li>
-                                <input type="radio" id="-1" name="mood" value="-1" class="hidden peer" x-model="selectedMood" required>
+                                <input type="radio" id="-1" name="mood" value="-1" class="hidden peer" x-model="currentMood" required>
                                 <label for="-1"
-                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-navajo-500 peer-checked:bg-navajo-500 transition-colors">
-                                    <i class="w-full text-6xl fa-regular fa-face-frown"></i>
+                                       class="flex items-center justify-center p-1.5 rounded-full cursor-pointer hover:bg-navajo-500 peer-checked:bg-navajo-500 transition-colors">
+                                    <i class="w-full text-5xl sm:text-6xl fa-regular fa-face-frown"></i>
                                 </label>
                             </li>
 
                             <li>
-                                <input type="radio" id="0" name="mood" value="0" class="hidden peer" x-model="selectedMood" required>
+                                <input type="radio" id="0" name="mood" value="0" class="hidden peer" x-model="currentMood" required>
                                 <label for="0"
-                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-primary-500 peer-checked:bg-primary-500 transition-colors">
-                                    <i class="w-full text-6xl fa-regular fa-face-meh "></i>
+                                       class="flex items-center justify-center p-1.5 rounded-full cursor-pointer hover:bg-primary-500 peer-checked:bg-primary-500 transition-colors">
+                                    <i class="w-full text-5xl sm:text-6xl fa-regular fa-face-meh "></i>
                                 </label>
                             </li>
                             <li>
-                                <input type="radio" id="1" name="mood" value="1" class="hidden peer" x-model="selectedMood" required>
+                                <input type="radio" id="1" name="mood" value="1" class="hidden peer" x-model="currentMood" required>
                                 <label for="1"
-                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-zomp-500 peer-checked:bg-zomp-500 transition-colors">
-                                    <i class="w-full text-6xl fa-regular fa-face-smile"></i>
+                                       class="flex items-center justify-center p-1.5 rounded-full cursor-pointer hover:bg-zomp-500 peer-checked:bg-zomp-500 transition-colors">
+                                    <i class="w-full text-5xl sm:text-6xl fa-regular fa-face-smile"></i>
                                 </label>
                             </li>
                             <li>
-                                <input type="radio" id="2" name="mood" value="2" class="hidden peer" x-model="selectedMood" required>
+                                <input type="radio" id="2" name="mood" value="2" class="hidden peer" x-model="currentMood" required>
                                 <label for="2"
-                                       class="flex items-center justify-center p-2 rounded-full cursor-pointer hover:bg-naples-500 peer-checked:bg-naples-500 transition-colors">
-                                    <i class="w-full text-6xl fa-regular fa-face-grin-stars"></i>
+                                       class="flex items-center justify-center p-1.5 rounded-full cursor-pointer hover:bg-naples-500 peer-checked:bg-naples-500 transition-colors">
+                                    <i class="w-full text-5xl sm:text-6xl fa-regular fa-face-grin-stars"></i>
                                 </label>
                             </li>
-
                         </ul>
+                    </fieldset>
 
-                    {% elif field.name == 'activities' %}
-                        <div class="max-h-56 h-full overflow-y-scroll p-3 my-3 flex flex-wrap justify-center gap-x-1.5 gap-y-4">
-                            {% for choice_id, choice_label in form.activities.field.choices %}
-                                <div>
-                                    {% if choice_id in form.activities.value %}
-                                        <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" checked />
-                                    {% else %}
-                                        <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
-                                    {% endif %}
-                                    <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
-                                        {{ choice_label }}
-                                    </label>
-                                </div>
-                            {% endfor %}
+                    <fieldset class="mt-3">
+                        <div class="flex items-center gap-x-1.5 justify-end mb-1.5">
+                            <span class="text-black text-lg" x-show="!note">Add a</span>
+                            <span class="text-black text-lg" x-show="note">Edit your</span>
+                            <button @click.prevent="noteModal=true"
+                                    class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-base px-3 py-1.5 text-center">
+                                full note
+                            </button>
+                        </div>
 
+                        <input type="text" name="note_title" x-model="noteTitle" placeholder="Add a quick note">
+                    </fieldset>
+
+                    <fieldset class="mt-6 flex flex-wrap items-center justify-center gap-x-1 gap-y-3">
+                        {% for choice_id, choice_label in form.activities.field.choices %}
                             <div>
-                                <a href="{% url 'activity_create' %}"
-                                   class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-sm px-3 py-1.5 text-center">
-                                    Add activity
-                                </a>
+                                {% if choice_id in form.activities.value %}
+                                    <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" checked />
+                                {% else %}
+                                    <input type="checkbox" name="activities" id="id_activities_{{choice_id}}" value="{{ choice_id }}" class="peer hidden" />
+                                {% endif %}
+                                <label for="id_activities_{{choice_id}}" class="select-none cursor-pointer text-primary-500 bg-white border border-primary-500 hover:bg-primary-500 hover:text-white hover:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 font-bold rounded-full text-sm px-3 py-1.5 text-center peer-checked:bg-primary-500 peer-checked:text-white transition-colors">
+                                    {{ choice_label }}
+                                </label>
                             </div>
-                        </div>
-                    {% else %}
-                        <div class="mb-3">
-                            {{ field }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                        {% empty %}
+                            <div class="text-xl text-black text-center w-full">
+                                <p class="">
+                                    You don't have any activities!
+                                </p>
+                            </div>
+                        {% endfor %}
+                        <a href="{% url 'activity_create' %}"
+                           class="select-none cursor-pointer text-black bg-primary-500 border border-primary-500 hover:bg-black hover:text-white hover:border-black font-bold rounded-full text-base px-3 py-1.5 text-center">
+                            Add activity
+                        </a>
+                    </fieldset>
 
-                <button type="submit">
-                    Update
-                </button>
+                    <fieldset class="hidden">
+                        <textarea name="note" x-model="note"></textarea>
+                    </fieldset>
 
-                <div class="mt-3 text-xl flex justify-center">
-                    <a href="{% url 'mood_list' %}" class="form__link">
-                        Go back
-                    </a>
+                    <button type="submit">
+                        Update
+                    </button>
+                </form>
+            </div>
+
+            <!-- Note modal -->
+            <template x-teleport="body">
+                <div x-show="noteModal" class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen" x-cloak>
+                    <div x-show="noteModal"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="ease-in duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="noteModal=false" class="absolute inset-0 w-full h-full bg-black bg-opacity-20 backdrop-blur-sm"></div>
+                    <div x-show="noteModal"
+                         x-trap.inert.noscroll="noteModal"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0 scale-90"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-90"
+                         class="relative m-3 sm:m-0 p-3 bg-white w-full max-w-lg rounded-3xl">
+                        <div class="flex items-center justify-between p-3 mb-6 font-bold text-xl">
+                            <p>Add a note</p>
+                            <button @click="noteModal=false" class="flex items-center justify-center w-6 h-6 rounded-full text-black">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-y-3">
+                            <input type="text" x-model="noteTitle" placeholder="Note title" class="border-2 border-black text-black text-xl rounded-3xl focus:ring-primary-500 focus:border-primary-500 px-6 py-4 w-full placeholder:text-black placeholder:opacity-60"/>
+                            <textarea
+                                id="note"
+                                name="note"
+                                class="h-56 p-4 pb-6 w-full border-2 border-black text-black text-xl rounded-3xl focus:ring-primary-500 focus:border-primary-500 placeholder:text-black resize-none"
+                                x-model="note"
+                            >
+                            </textarea>
+                        </div>
+                        <div class="flex items-center justify-center m-6">
+                            <button
+                                @click.prevent="noteModal=false"
+                                class="flex items-center justify-center uppercase text-sm font-bold bg-primary-500 py-3 px-9 rounded-full hover:bg-black hover:text-white transition-colors">
+                                Save
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </main>
+            </template>
 
-       <!-- Custom JS -->
-    <script src="{% static 'js/custom.js' %}" defer></script>
+            <!-- Custom JS -->
+            <script src="{% static 'js/custom.js' %}" defer></script>
+        </main>
 {% endblock %}
