@@ -6,15 +6,16 @@
     {% include "_primary_nav.html" %}
   </header>
 
-  <main class="flex flex-col mb-44 w-full max-w-screen-md px-3 sm:px-6 md:px-0 mx-auto">
-    <ul id="moodList" class="mt-32 flex flex-col">
+  <main class="w-full max-w-screen-md px-3 mb-24 sm:px-6 md:px-0 mx-auto"
+        x-data="{scrolled: false}" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 100 })">
+    <ul id="moodList" class="flex flex-col">
       {% include 'moods/hx_mood_list.html' %}
     </ul>
 
     <div id="loading" class="htmx-indicator flex flex-col gap-y-3">
-      {% for i in "01234"|make_list %}
-        <li class="htmx-indicator flex items-center gap-x-2 mb-1.5 py-6 px-3 bg-white last-of-type:border-none border-b-2 border-b-primary-300">
-          <div class="w-16 h-16 bg-primary-300 rounded-full animate-pulse"></div>
+      {% for i in "012"|make_list %}
+        <li class="flex items-center gap-x-2 mb-1.5 py-6 px-3 bg-white last-of-type:border-none border-b-2 border-b-primary-300">
+          <div class="w-20 h-20 bg-primary-300 rounded-full animate-pulse">&nbsp;</div>
           <div class="flex flex-col gap-y-1 w-full">
             <div class="flex gap-x-1.5">
               <span class="bg-primary-300 px-3 py-1 w-16 rounded-xl animate-pulse">&nbsp;</span>
@@ -26,10 +27,16 @@
       {% endfor %}
     </div>
 
+    <button
+      x-show="scrolled" @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="fixed bottom-5 left-5 lg:left-20 bg-white border-2 border-black rounded-full w-12 h-12">
+      <i class="fa-solid fa-arrow-up m-3 text-lg text-black"></i>
+    </button>
+
     <a
       href="{% url 'mood_create' %}"
-      class="flex items-center justify-center lg:hidden p-7 bg-primary-500 fixed bottom-8 right-8 rounded-full">
-      <i class="fa-solid fa-plus text-xl text-black"></i>
+      class="lg:hidden flex items-center justify-center fixed bottom-5 right-5 bg-primary-500 rounded-full w-20 h-20">
+      <i class="fa-solid fa-plus text-2xl text-black"></i>
     </a>
   </main>
 

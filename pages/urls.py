@@ -24,12 +24,4 @@ urlpatterns = [
         ),
         name="robots",
     ),
-    path(
-        "sitemap.xml",
-        TemplateView.as_view(
-            template_name="pages/sitemap.xml",
-            content_type="text/xml",
-        ),
-        name="sitemap",
-    ),
 ]

@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="w-full fixed bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
+<nav class="w-full bg-white p-3 border-b-2 border-b-black z-50" aria-label="Global">
   <div class="w-full max-w-screen-2xl mx-auto flex items-center justify-between">
     {% if user.is_authenticated %}
       <a href="{% url 'mood_list' %}" class="font-bold text-2xl p-3"> MoodMo </a>

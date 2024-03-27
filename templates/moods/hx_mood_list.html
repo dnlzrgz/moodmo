@@ -3,7 +3,6 @@
                                                                                   emoji: moodToIcon[{{ mood.mood }}],
                                                                                   color: moodToColor[{{ mood.mood }}],
                                                                                   popoverOpen: false,
-                                                                                  popoverArrow: true,
                                                                                   popoverPosition: 'bottom',
                                                                                   popoverHeight: 0,
                                                                                   popoverOffset: 8,
@@ -72,10 +71,10 @@
     <div x-ref="popover" x-show="popoverOpen" x-init="setTimeout(function(){ popoverHeightCalculate(); }, 100);"
          x-trap.inert="popoverOpen" @click.away="popoverOpen=false;" @keydown.escape.window="popoverOpen=false"
          :class="{ 'top-0 mt-12' : popoverPosition == 'bottom', 'bottom-0 mb-12' : popoverPosition == 'top' }"
-         class="absolute w-44 max-w-lg -translate-x-1/2 left-1/2 z-50" x-cloak>
+         class="absolute w-44 max-w-md -translate-x-1/2 left-1/2 z-50" x-cloak>
       <div x-ref="popoverInner" x-show="popoverOpen"
-           class="w-44 p-3.5 bg-white rounded-md drop-shadow-md border border-stone-100">
-        <div class="flex flex-col gap-1.5 text-lg text-black">
+           class="w-44 p-3.5 bg-white rounded-md">
+        <div class="flex flex-col gap-2.5 text-lg text-black">
           <a href="{% url 'mood_edit' mood.sqid %}">
             Edit
           </a>
@@ -89,7 +88,7 @@
 {% endfor %}
 
 {% if page_obj.has_next %}
-  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="intersect once"
+  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="intersect throttle:3s"
         hx-swap="afterend">
   </span>
 {% endif %}
