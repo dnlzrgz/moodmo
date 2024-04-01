@@ -146,14 +146,18 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # Cache
 # https://docs.djangoproject.com/en/4.2/topics/cache/
 
-if env.bool("USE_REDIS", False):
+if env.str("REDIS_LOCATION", ""):
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": env.str(
-                "REDIS_LOCATION",
-                "redis://redis:6379/0",
-            ),
+            "LOCATION": env.str("REDIS_LOCATION"),
+        }
+    }
+elif env.str("MEMCACHED_LOCATION", ""):
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+            "LOCATION": env.str("MEMCACHED_LOCATION"),
         }
     }
 else:
@@ -162,6 +166,7 @@ else:
             "BACKEND": "django.core.cache.backends.dummy.DummyCache",
         }
     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
