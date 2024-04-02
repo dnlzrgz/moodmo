@@ -1,88 +1,43 @@
 {% for mood in moods %}
-  <li class="relative last-of-type:border-none border-b-2 border-b-black" x-data="{
-                                                                                  emoji: moodToIcon[{{ mood.mood }}],
-                                                                                  color: moodToColor[{{ mood.mood }}],
-                                                                                  popoverOpen: false,
-                                                                                  popoverPosition: 'bottom',
-                                                                                  popoverHeight: 0,
-                                                                                  popoverOffset: 8,
-                                                                                  popoverHeightCalculate() {
-                                                                                  this.$refs.popover.classList.add('invisible');
-                                                                                  this.popoverOpen=true;
-                                                                                  let that=this;
-                                                                                  $nextTick(function(){
-                                                                                  that.popoverHeight = that.$refs.popover.offsetHeight;
-                                                                                  that.popoverOpen=false;
-                                                                                  that.$refs.popover.classList.remove('invisible');
-                                                                                  that.$refs.popoverInner.setAttribute('x-transition', '');
-                                                                                  that.popoverPositionCalculate();
-                                                                                  });
-                                                                                  },
-                                                                                  popoverPositionCalculate(){
-                                                                                  if(window.innerHeight < (this.$refs.popoverButton.getBoundingClientRect().top + this.$refs.popoverButton.offsetHeight + this.popoverOffset + this.popoverHeight)){
-                                                                                  this.popoverPosition = 'top';
-                                                                                  } else {
-                                                                                  this.popoverPosition = 'bottom';
-                                                                                  }
-                                                                                  }
-                                                                                  }" x-init="
-                                                                                                   that = this;
-                                                                                                   window.addEventListener('resize', function(){
-                                                                                                   popoverPositionCalculate();
-                                                                                                   });
-                                                                                                   $watch('popoverOpen', function(value){
-                                                                                                   if(value){ popoverPositionCalculate() }
-                                                                                                   });
-                                                                                                  ">
+  <li
+    class="relative last-of-type:border-none border-b-2 border-b-black flex items-center gap-x-3 py-6 px-1.5 bg-white text-black select-none cursor-pointer"
+    role=""
+    x-data="{
+            emoji: moodToIcon[{{ mood.mood }}],
+            color: moodToColor[{{ mood.mood }}],
+            }"
+    hx-get="{% url 'mood_edit' mood.sqid %}"
+    hx-trigger="click"
+    hx-target="body"
+  >
 
-    <div x-ref="popoverButton" @click="popoverOpen=!popoverOpen"
-         class="flex items-center gap-x-3 py-6 px-1.5 bg-white text-black select-none cursor-pointer" role="button">
-      <div :class="color" class="p-3 flex items-center justify-center rounded-full">
-        <i :class="emoji" class="text-4xl sm:text-6xl"></i>
-      </div>
-
-      <div>
-        <time class="text-base sm:text-lg font-bold">
-          <span> {{ mood.date}}
-          </span> at
-          <span>
-            {{ mood.time|time:"g:i A" }}
-          </span>
-        </time>
-
-        {% if mood.activities.all %}
-          <ul class="flex flex-wrap gap-x-2.5 gap-y-0.5 text-base text-primary-500 underline font-bold lg:max-w-xl">
-            {% for activity in mood.activities.all|slice:":5" %}
-              <li>#{{ activity.name }}</li>
-            {% endfor %}
-            {% if mood.activities.all|length > 5 %}
-              <li>&#8230;</li>
-            {% endif %}
-          </ul>
-        {% endif %}
-
-        {% if mood.note_title != "" %}
-          <p class="text-lg text-truncate line-clamp-2">{{mood.note_title}}</p>
-        {% endif %}
-      </div>
+    <div :class="color" class="p-3 flex items-center justify-center rounded-full">
+      <i :class="emoji" class="text-4xl sm:text-6xl"></i>
     </div>
 
-  <!-- Popover -->
-    <div x-ref="popover" x-show="popoverOpen" x-init="setTimeout(function(){ popoverHeightCalculate(); }, 100);"
-         x-trap.inert="popoverOpen" @click.away="popoverOpen=false;" @keydown.escape.window="popoverOpen=false"
-         :class="{ 'top-0 mt-12' : popoverPosition == 'bottom', 'bottom-0 mb-12' : popoverPosition == 'top' }"
-         class="absolute w-44 max-w-md -translate-x-1/2 left-1/2 z-50" x-cloak>
-      <div x-ref="popoverInner" x-show="popoverOpen"
-           class="w-44 p-3.5 bg-white rounded-md">
-        <div class="flex flex-col gap-2.5 text-lg text-black">
-          <a href="{% url 'mood_edit' mood.sqid %}">
-            Edit
-          </a>
-          <a class="text-red-500" href="{% url 'mood_delete' mood.sqid %}">
-            Delete
-          </a>
-        </div>
-      </div>
+    <div>
+      <time class="text-base sm:text-lg font-bold">
+        <span> {{ mood.date}}
+        </span> at
+        <span>
+          {{ mood.time|time:"g:i A" }}
+        </span>
+      </time>
+
+      {% if mood.activities.all %}
+        <ul class="flex flex-wrap gap-x-2.5 gap-y-0.5 text-base text-primary-500 underline font-bold lg:max-w-xl">
+          {% for activity in mood.activities.all|slice:":5" %}
+            <li>#{{ activity.name }}</li>
+          {% endfor %}
+          {% if mood.activities.all|length > 5 %}
+            <li>&#8230;</li>
+          {% endif %}
+        </ul>
+      {% endif %}
+
+      {% if mood.note_title != "" %}
+        <p class="text-lg text-truncate line-clamp-2">{{mood.note_title}}</p>
+      {% endif %}
     </div>
   </li>
 {% endfor %}

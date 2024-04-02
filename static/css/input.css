@@ -26,9 +26,8 @@
   form input[type="date"],
   form input[type="time"],
   form input[type="number"],
-  form input[type="search"],
   form input[type="password"] {
-    @apply border-2 border-black text-black text-xl rounded-full focus:ring-primary-500 focus:border-primary-500 px-6 py-4 w-full placeholder:text-black placeholder:opacity-60;
+    @apply border-2 border-black text-black text-xl rounded-xl focus:ring-primary-500 focus:border-primary-500 px-6 py-4 w-full placeholder:text-black placeholder:opacity-60;
   }
 
   form textarea {
