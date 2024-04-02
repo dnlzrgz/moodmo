@@ -8,7 +8,7 @@ clean:
 # Lint using Ruff
 lint:
 	@echo "🔍 Linting..."
-	ruff . --fix
+	ruff check . --fix
 	djhtml .
 	@echo "✨ Linting complete!"
 
