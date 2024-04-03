@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from moods.mixins import UserIsOwnerMixin, SetUserMixin
+from utils.mixins import UserIsOwnerMixin, SetUserMixin
 from activities.models import Activity
 from activities.forms import ActivityForm
 
