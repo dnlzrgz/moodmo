@@ -10,8 +10,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from utils.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.forms import MoodForm
-from moods.mixins import UserIsOwnerMixin, SetUserMixin
 from moods.models import Mood
 
 

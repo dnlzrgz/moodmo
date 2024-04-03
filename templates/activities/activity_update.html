@@ -1,6 +1,12 @@
 {% extends "_base_form.html" %}
 {% block title %}MoodMo - Update activity{% endblock %}
 {% block heading %}Update your activity{% endblock %}
+{% block navbar %}
+  <a href="{% url 'activity_delete' activity.sqid %}" class="flex items-center justify-center gap-x-3 hover:text-red-500 transition-colors">
+    <i class="fa-solid fa-trash"></i>
+    Delete
+  </a>
+{% endblock %}
 {% block form_action %}{% url 'activity_edit' activity.sqid %}{% endblock %}
 {% block form_body %}
   {% for field in form %}
