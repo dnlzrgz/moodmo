@@ -1,35 +1,40 @@
-# MoodMo - A Self-Hosted Mood Tracking App
+<div align="center">
 
-MoodMo is an Open-Source, Self-Hosted mood tracking application made to be simple to use and deploy.
+  # MoodMo - Self-Hosted Mood Tracking App  
 
-## Key Features
-### Usage
-- Record your mood easily with just a few clicks or taps.
-- Correlate mood fluctuations with specific activities and routines.
-- Quickly find past mood entries or activities using MoodMo's robust search.
-- Navigate seamlessly across all devices thanks to MoodMo's fluid and intuitive design.
-- Enjoy a clutter-free interface that prioritizes ease of use above all else.
-### Development
-- Developed with Django 4.2 and Python >= 3.11.
-- Utilizes TailwindCSS for clean and responsive styles.
-- No need for Node.js or npm work-arounds.
-- Dynamic user interactions provided by Alpine.js + htmx.
-- Easily configurable settings through environment variables.
-- Docker support with `docker-compose` for development and production environments, including a *testing* version with `PyPy` as the Python interpreter.
-- Support for `Mailpit` for local email testing and `AnyMail` for production email.
-- Robust auth functionality provided by `django-allauth`, with a ready-to-go custom user model.
-- Static files managed with `Whitenoise`.
-- Includes a `Makefile` for simplified setup and common tasks along with pre-configured linting tools like `djhtml` and `ruff` ready to use with `pre-commit`.
+MoodMo is a self-hosted mood tracking and journal application built with privacy in mind, while also prioritizing speed and an user-friendly interface.  
 
+![Screenshot of the Home page of MoodMo](https://github.com/dnlzrgz/moodmo/raw/master/static/images/screenshot.png)
+</div>
 
-## Roadmap - Future Features
+## Motivation
 
-- [ ] Advanced analytics and visualizations.
-- [ ] Multi-language support.
+MoodMo it's the result of my personal longing for a mood tracking and journal application that I could use in every device I wanted without worries about the privacy or security of my data, and one that I could deploy and manage easily, whether on a local device such a Raspberry Pi or through a cloud provider like Railway.  
+
+## Features
+
+- Responsive and modern interface powered by [Tailwind CSS](https://tailwindcss.com/).
+- Dynamic user interaction with minimal JavaScript usage thanks to `htmx` and `Alpine.js`.
+- Easy to deploy thanks to Docker.
+- Simple setup process.
+- Flexible configuration through `env` variables.
+- Robust authentication provided by `django-allauth`.
+- Full-text search functionality.
+- Support for caching with `Redis` and `memcached`.
+- Data export and import in CSV and JSON formats.
+
+## Deployment
+
+<!-- TODO: Update this section -->
+## Development
+<!-- TODO: Update this section -->
+## Roadmap
+
+- [ ] Statistics.
+- [ ] Search.
 - [ ] Dark mode.
-- [ ] Custom user themes.
-- [ ] Support for custom moods.
 - [ ] Weather integration.
+- [ ] Location.
 - [ ] Journaling.
 
 ## Help Not Wanted but Attention Is Appreciated

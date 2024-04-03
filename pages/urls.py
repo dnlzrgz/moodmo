@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path
 from django.views.generic.base import TemplateView
 from django.views.decorators.cache import cache_page
@@ -9,7 +10,7 @@ from pages.views import (
 urlpatterns = [
     path(
         "",
-        cache_page(60 * 15)(HomePageView.as_view()),
+        cache_page(settings.CACHE_TIMEOUT_SECONDS)(HomePageView.as_view()),
         name="home",
     ),
     path(
@@ -19,7 +20,7 @@ urlpatterns = [
     ),
     path(
         "robots.txt",
-        cache_page(60 * 15)(
+        cache_page(settings.CACHE_TIMEOUT_SECONDS)(
             TemplateView.as_view(
                 template_name="pages/robots.txt",
                 content_type="text/plain",
