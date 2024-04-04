@@ -56,7 +56,6 @@ class Command(BaseCommand):
         if username:
             user_queryset = user_queryset.filter(username=username)
 
-        # Create moods
         moods = []
         for _ in range(n):
             fake_dt = fake.date_time_between_dates(
@@ -77,7 +76,6 @@ class Command(BaseCommand):
 
         Mood.objects.bulk_create(moods)
 
-        # Check if there are any activites
         activities = Activity.objects.all()
         if activities.exists():
             for mood in moods:

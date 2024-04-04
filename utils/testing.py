@@ -1,4 +1,7 @@
+import random
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+from moods.models import Mood
 from activities.models import Activity
 
 try:
@@ -20,6 +23,18 @@ def create_fake_user():
     user = get_user_model().objects.create_user(**credentials)
 
     return (credentials, user)
+
+
+def create_fake_mood(user):
+    mood = Mood.objects.create(
+        user=user,
+        mood=random.choice(Mood.MOOD_CHOICES)[0],
+        note_title=fake.sentence(),
+        date=timezone.now(),
+        time=timezone.now(),
+    )
+
+    return mood
 
 
 def create_fake_activity(user):
