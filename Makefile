@@ -167,5 +167,5 @@ dev:
 
 # Start local environment
 local:
-	@make local-restart
+	@make local-start
 	@make local-logs

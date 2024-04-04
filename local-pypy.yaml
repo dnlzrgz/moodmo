@@ -11,7 +11,7 @@ services:
     container_name: moodmo_local_pypy_django
     depends_on:
       - postgres
-      - mailpit
+      - memcached
       - mailpit
     env_file:
       - ./.env
