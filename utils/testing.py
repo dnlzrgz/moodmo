@@ -1,8 +1,7 @@
 import random
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from moods.models import Mood
-from activities.models import Activity
+from moods.models import Activity, Mood
 
 try:
     from faker import Faker

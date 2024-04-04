@@ -1,6 +1,19 @@
 from django import forms
-from moods.models import Mood
-from activities.models import Activity
+from moods.models import Activity, Mood
+
+
+class ActivityForm(forms.ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Name of the activity",
+            },
+        ),
+    )
+
+    class Meta:
+        model = Activity
+        fields = ["name"]
 
 
 class MoodForm(forms.ModelForm):
@@ -40,3 +53,16 @@ class MoodForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["activities"].queryset = Activity.objects.filter(user=user)
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+
+class ExportOptionsForm(forms.Form):
+    export_format = forms.ChoiceField(
+        choices=[
+            ("csv", "CSV"),
+            ("json", "JSON"),
+        ],
+    )

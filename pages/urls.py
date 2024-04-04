@@ -4,6 +4,7 @@ from django.views.generic.base import TemplateView
 from django.views.decorators.cache import cache_page
 from pages.views import (
     HomePageView,
+    SettingsView,
     StatisticsPageView,
 )
 
@@ -14,7 +15,12 @@ urlpatterns = [
         name="home",
     ),
     path(
-        "stats",
+        "settings",
+        SettingsView.as_view(),
+        name="settings",
+    ),
+    path(
+        "statistics",
         StatisticsPageView.as_view(),
         name="statistics",
     ),

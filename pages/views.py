@@ -19,5 +19,9 @@ class HomePageView(TemplateView):
         return context
 
 
+class SettingsView(LoginRequiredMixin, TemplateView):
+    template_name = "pages/settings.html"
+
+
 class StatisticsPageView(LoginRequiredMixin, TemplateView):
     template_name = "pages/statistics.html"

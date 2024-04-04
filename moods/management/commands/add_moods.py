@@ -3,8 +3,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from moods.models import Mood
-from activities.models import Activity
+from moods.models import Activity, Mood
 
 try:
     from faker import Faker

@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from activities.models import Activity
+from moods.models import Activity
 from utils.testing import create_fake_user, create_fake_activity
 
 
@@ -14,7 +14,7 @@ class ListViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "activities/activity_list.html")
+        self.assertTemplateUsed(response, "moods/activity_list.html")
 
     def test_not_authenticated_user_cannot_access_view(self):
         response = self.client.get(self.url)
@@ -50,7 +50,7 @@ class CreateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "activities/activity_create.html")
+        self.assertTemplateUsed(response, "moods/activity_create.html")
 
     def test_not_authenticated_user_cannot_access_view(self):
         response = self.client.get(self.url)
@@ -93,7 +93,7 @@ class UpdateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "activities/activity_update.html")
+        self.assertTemplateUsed(response, "moods/activity_update.html")
 
     def test_not_authenticated_user_cannot_access_view(self):
         response = self.client.get(self.url)
@@ -151,7 +151,7 @@ class DeleteViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "activities/activity_delete.html")
+        self.assertTemplateUsed(response, "moods/activity_delete.html")
 
     def test_not_authenticated_user_cannot_access_view(self):
         response = self.client.get(self.url)

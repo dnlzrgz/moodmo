@@ -1,14 +1,20 @@
 from django.urls import path
 from moods.views import (
+    ActivityListView,
+    ActivityCreateView,
+    ActivityUpdateView,
+    ActivityDeleteView,
     MoodListView,
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,
     MoodSearchView,
     MoodSearchResultsView,
+    ExportView,
+    ImportView,
 )
 
-urlpatterns = [
+moods_urlpatterns = [
     path(
         "",
         MoodListView.as_view(),
@@ -40,3 +46,41 @@ urlpatterns = [
         name="mood_search_results",
     ),
 ]
+
+activities_urlpatterns = [
+    path(
+        "activities/",
+        ActivityListView.as_view(),
+        name="activity_list",
+    ),
+    path(
+        "activities/create/",
+        ActivityCreateView.as_view(),
+        name="activity_create",
+    ),
+    path(
+        "activities/edit/<slug>",
+        ActivityUpdateView.as_view(),
+        name="activity_edit",
+    ),
+    path(
+        "activities/delete/<slug>",
+        ActivityDeleteView.as_view(),
+        name="activity_delete",
+    ),
+]
+
+export_and_import_urlpatterns = [
+    path(
+        "export/",
+        ExportView.as_view(),
+        name="export",
+    ),
+    path(
+        "import/",
+        ImportView.as_view(),
+        name="import",
+    ),
+]
+
+urlpatterns = moods_urlpatterns + activities_urlpatterns + export_and_import_urlpatterns
