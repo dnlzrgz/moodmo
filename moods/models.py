@@ -17,7 +17,7 @@ class Activity(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
-        return reverse("activity_edit", kwargs={"pk": self.pk})
+        return reverse("activity_edit", kwargs={"slug": self.sqid})
 
     def __str__(self):
         return f"{self.name}"
@@ -53,7 +53,7 @@ class Mood(models.Model):
     search_vector = SearchVectorField(null=True)
 
     def get_absolute_url(self):
-        return reverse("mood_detail", kwargs={"pk": self.pk})
+        return reverse("mood_edit", kwargs={"slug": self.sqid})
 
     def __str__(self) -> str:
         return f"Mood added on {self.date} at {self.time}"

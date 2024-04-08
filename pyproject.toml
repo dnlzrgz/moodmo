@@ -28,6 +28,7 @@ django-debug-toolbar = "^4.2.0"
 djhtml = "^3.0.6"
 django-browser-reload = "^1.12.1"
 faker = "^20.1.0"
+coverage = "^7.4.4"
 
 [build-system]
 requires = ["poetry-core"]

@@ -4,6 +4,29 @@ from moods.models import Activity
 from utils.testing import create_fake_user, create_fake_activity
 
 
+class ActivityModelTest(TestCase):
+    def setUp(self) -> None:
+        self.credentials, self.user = create_fake_user()
+
+    def test_activity_creation(self):
+        activity = Activity.objects.create(
+            user=self.user,
+            name="Testing",
+        )
+
+        self.assertEqual(activity.user, self.user)
+        self.assertEqual(activity.name, "Testing")
+
+    def test_get_absolute_url(self):
+        activity = Activity.objects.create(
+            user=self.user,
+            name="Testing",
+        )
+
+        expected_url = f"/moods/activities/edit/{activity.sqid}"
+        self.assertEqual(activity.get_absolute_url(), expected_url)
+
+
 class ListViewTest(TestCase):
     def setUp(self):
         self.credentials, self.user = create_fake_user()
