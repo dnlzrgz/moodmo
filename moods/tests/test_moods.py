@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from moods.models import Mood
+from moods.forms import MoodForm
 from utils.testing import create_fake_user, create_fake_mood
 
 
@@ -46,6 +47,44 @@ class MoodModelTest(TestCase):
     def test_exception_if_required_fields_not_present(self):
         with self.assertRaises(IntegrityError):
             Mood.objects.create(user=self.user)
+
+
+class MoodFormTest(TestCase):
+    def setUp(self) -> None:
+        self.credentials, self.user = create_fake_user()
+
+    def test_mood_form_valid(self):
+        data = {
+            "mood": 1,
+            "date": timezone.now().date(),
+            "time": timezone.now().time(),
+        }
+        form = MoodForm(
+            user=self.user,
+            data=data,
+        )
+
+        self.assertTrue(form.is_valid())
+
+    def test_mood_form_invalid_mood(self):
+        data = {
+            "mood": 99,
+            "date": timezone.now().date(),
+            "time": timezone.now().time(),
+        }
+        form = MoodForm(
+            user=self.user,
+            data=data,
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_mood_form_invalid_empty(self):
+        data = {}
+        form = MoodForm(
+            user=self.user,
+            data=data,
+        )
+        self.assertFalse(form.is_valid())
 
 
 class ListViewTest(TestCase):

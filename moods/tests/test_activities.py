@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from moods.forms import ActivityForm
 from moods.models import Activity
 from utils.testing import create_fake_user, create_fake_activity
 
@@ -25,6 +26,18 @@ class ActivityModelTest(TestCase):
 
         expected_url = f"/moods/activities/edit/{activity.sqid}"
         self.assertEqual(activity.get_absolute_url(), expected_url)
+
+
+class ActivityFormTest(TestCase):
+    def test_activity_form_valid(self):
+        data = {"name": "testing"}
+        form = ActivityForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_activity_form_invalid_name(self):
+        data = {"name": ""}
+        form = ActivityForm(data=data)
+        self.assertFalse(form.is_valid())
 
 
 class ListViewTest(TestCase):
