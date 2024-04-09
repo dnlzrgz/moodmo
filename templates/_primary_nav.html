@@ -24,11 +24,14 @@
 
     <div class="hidden lg:flex items-center gap-x-6 p-3 font-bold uppercase">
       {% if user.is_authenticated %}
-        <a href="{% url 'mood_create' %}"
-           class="bg-periwinkle-500 py-3 px-6 rounded-full hover:bg-black hover:text-white transition-colors"
-           role="button">
+        <button
+          class="text-xl text-black bg-periwinkle-500 py-3 px-6 rounded-full hover:bg-black hover:text-white transition-colors"
+          hx-get="{% url 'mood_create' %}"
+          hx-trigger="click"
+          hx-target="body"
+          role="link">
           New mood
-        </a>
+        </button>
       {% else %}
         <a href="{% url 'account_login' %}" class="hover:text-primary-500 transition-colors"> Log in </a>
         <a href="{% url 'account_signup' %}"
@@ -41,7 +44,7 @@
 
     <!-- Mobile menu -->
     <div class="lg:hidden flex items-center justify-center">
-      <button class="p-3 rounded-full" @click="menuOpen = true" name="menu">
+      <button class="p-3 rounded-full" @click="menuOpen = true" name="menu" role="dialog">
         <span class="sr-only">Menu</span>
         <i class="fa-solid fa-bars text-2xl text-black"></i>
       </button>

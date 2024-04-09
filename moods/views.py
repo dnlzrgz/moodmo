@@ -29,7 +29,7 @@ class ActivityListView(LoginRequiredMixin, ListView):
     ordering = ["name"]
 
     def get_queryset(self):
-        return Activity.objects.filter(user=self.request.user)
+        return Activity.objects.filter(user=self.request.user).only("name", "sqid")
 
 
 class ActivityCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
@@ -72,8 +72,10 @@ class MoodListView(LoginRequiredMixin, ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Mood.objects.filter(user=self.request.user).prefetch_related(
-            "activities"
+        return (
+            Mood.objects.filter(user=self.request.user)
+            .prefetch_related("activities")
+            .only("mood", "note_title", "date", "time", "activities")
         )
 
 

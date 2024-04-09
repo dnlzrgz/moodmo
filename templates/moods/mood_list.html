@@ -29,15 +29,19 @@
 
     <button
       x-show="scrolled" @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-      class="fixed bottom-5 left-5 lg:left-20 bg-white border-2 border-black rounded-full w-12 h-12 hover:bg-black hover:text-white transition-colors">
+      class="fixed bottom-5 left-5 lg:left-20 bg-white border-2 border-black rounded-full w-12 h-12 hover:bg-black hover:text-white transition-colors"
+      role="link">
       <i class="fa-solid fa-arrow-up m-3 text-lg"></i>
     </button>
 
-    <a
-      href="{% url 'mood_create' %}"
-      class="lg:hidden flex items-center justify-center fixed bottom-5 right-5 bg-primary-500 rounded-full w-20 h-20">
+    <button
+      class="lg:hidden flex items-center justify-center fixed bottom-5 right-5 bg-primary-500 rounded-full w-20 h-20"
+      hx-get="{% url 'mood_create' %}"
+      hx-trigger="click"
+      hx-target="body"
+      role="link">
       <i class="fa-solid fa-plus text-2xl text-black"></i>
-    </a>
+    </button>
   </main>
 
   <!-- Custom JS -->
