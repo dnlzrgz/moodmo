@@ -38,17 +38,6 @@ class ActivityCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
     template_name = "moods/activity_create.html"
     success_url = reverse_lazy("activity_list")
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        if Activity.objects.filter(
-            name=form.instance.name,
-            user=self.request.user,
-        ).exists():
-            form.add_error("name", "An activity with this name already exists.")
-            return self.form_invalid(form)
-
-        return super().form_valid(form)
-
 
 class ActivityUpdateView(
     LoginRequiredMixin, UserIsOwnerMixin, SetUserMixin, UpdateView
@@ -175,13 +164,14 @@ class ImportView(LoginRequiredMixin, FormView):
     max_upload_size = settings.FILE_UPLOAD_MAX_MEMORY_SIZE
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
+        form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            return self.form_valid(form)
+            return self.handle_upload_file(form)
         else:
+            form = UploadFileForm()
             return self.form_invalid(form)
 
-    def form_valid(self, form):
+    def handle_upload_file(self, form):
         file = form.cleaned_data["file"]
 
         if not (

@@ -283,9 +283,7 @@ class ImportViewTest(TestCase):
         text_file.name = "test.txt"
         response = self.client.post(self.url, {"file": text_file})
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response, "form", "file", "Only CSV or JSON files are supported."
-        )
+        self.assertContains(response, "Only CSV or JSON files are supported.")
 
     def test_upload_file_exceeding_size(self):
         self.client.login(**self.credentials)
@@ -295,10 +293,8 @@ class ImportViewTest(TestCase):
         response = self.client.post(self.url, {"file": large_file})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
+        self.assertContains(
             response,
-            "form",
-            "file",
             "The file is too big. The maximum support filesize is 2.5 MB.",
         )
 

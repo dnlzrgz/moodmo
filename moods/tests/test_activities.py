@@ -93,16 +93,15 @@ class CreateViewTest(TestCase):
             Activity.objects.filter(name="Testing", user=self.user).exists()
         )
 
-    def test_duplicated_activity_name_not_allowed(self):
+    def test_activity_with_duplicated_name_do_nothing(self):
         self.client.login(**self.credentials)
         activity = create_fake_activity(self.user)
         new_activity_data = {"name": activity.name}
 
         response = self.client.post(self.url, data=new_activity_data)
-        self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response, "form", "name", "An activity with this name already exists."
-        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Activity.objects.filter(user=self.user).count(), 1)
 
 
 class UpdateViewTest(TestCase):

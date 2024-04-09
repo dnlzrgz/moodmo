@@ -1,34 +1,34 @@
 [tool.poetry]
 name = "moodmo"
-version = "0.10.0"
+version = "0.11.0"
 description = "A user-friendly, self-hosted mood tracking application written in Django."
 license = "GPL-3.0"
 authors = ["dnlzrgz <24715931+dnlzrgz@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-django = "^4.2.7"
-environs = "^9.5.0"
-psycopg = { extras = ["binary"], version = "^3.1.12" }
-django-allauth = "^0.58.2"
-whitenoise = { extras = ["brotli"], version = "^6.6.0" }
+python = "^3.12"
+django = "^5.0.4"
+environs = "^11.0.0"
+psycopg = {extras = ["binary"], version = "^3.1.18"}
+django-allauth = "^0.61.1"
+whitenoise = {extras = ["brotli"], version = "^6.6.0"}
 gunicorn = "^21.2.0"
-redis = { extras = ["hiredis"], version = "^5.0.1" }
+redis = {extras = ["hiredis"], version = "^5.0.3"}
 brotli = "^1.1.0"
 django-sqids = "^0.1.1"
 pymemcache = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
-commitizen = "^3.12.0"
-pre-commit = "^3.5.0"
-ruff = "^0.2.1"
-django-debug-toolbar = "^4.2.0"
+ruff = "^0.3.5"
+django-debug-toolbar = "^4.3.0"
 djhtml = "^3.0.6"
 django-browser-reload = "^1.12.1"
-faker = "^20.1.0"
+faker = "^24.7.1"
 coverage = "^7.4.4"
+pre-commit = "^3.7.0"
+commitizen = "^3.21.3"
 
 [build-system]
 requires = ["poetry-core"]

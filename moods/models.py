@@ -19,6 +19,12 @@ class Activity(models.Model):
     def get_absolute_url(self):
         return reverse("activity_edit", kwargs={"slug": self.sqid})
 
+    def save(self, *args, **kwargs):
+        if Activity.objects.filter(user=self.user, name=self.name).exists():
+            return
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name}"
 
@@ -39,7 +45,7 @@ class Mood(models.Model):
         (1, "happy"),
         (2, "very happy"),
     ]
-    mood = models.IntegerField(choices=MOOD_CHOICES)
+    mood = models.SmallIntegerField(choices=MOOD_CHOICES)
     note_title = models.CharField(blank=True, max_length=255)
     note = models.TextField(blank=True)
     activities = models.ManyToManyField(

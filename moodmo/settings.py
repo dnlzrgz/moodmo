@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # Keep the secret key used in production secret!
 SECRET_KEY = env.str(
@@ -123,7 +123,7 @@ WSGI_APPLICATION = "moodmo.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.0/ref/databases/
 
 DATABASES = {
     "default": {
@@ -142,7 +142,7 @@ DATABASES = {
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Cache
-# https://docs.djangoproject.com/en/4.2/topics/cache/
+# https://docs.djangoproject.com/en/5.0/topics/cache/
 
 if env.str("REDIS_LOCATION", ""):
     CACHES = {
@@ -169,7 +169,7 @@ CACHE_TIMEOUT_SECONDS = env.int("CACHE_TIMEOUT_SECONDS", 60 * 15)
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/5.0/topics/auth/passwords/
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -191,7 +191,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -205,7 +205,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images) with WhiteNoise
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -221,8 +221,7 @@ STORAGES = {
 }
 
 # File upload
-# https://docs.djangoproject.com/en/4.2/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
-# https://docs.djangoproject.com/en/4.2/ref/settings/#data-upload-max-number-fields
+# https://docs.djangoproject.com/en/5.0/topics/http/file-uploads/
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = env.int(
     "FILE_UPLOAD_MAX_MEMORY_SIZE",
@@ -231,7 +230,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = env.int(
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/5.0/ref/models/fields/#bigautofield
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -281,7 +280,7 @@ if not DEBUG:
 
 
 # Auth user model
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-user-model
+# https://docs.djangoproject.com/en/5.0/topics/auth/customizing/
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
@@ -298,13 +297,14 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = env.bool("DJANGO_ACCOUNT_SESSION_REMEMBER ", True)
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = env.int("DJANGO_ACCOUNT_LOGIN_ATTEMPTS_LIMIT ", 5)
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = env.int("DJANGO_ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT", 7200)
+ACCOUNT_RATE_LIMITS = {
+    "login_failed": env.str("FAILED_LOGIN_ATTEMPTS_LIMIT ", "5/5m/ip")
+}
 ACCOUNT_EMAIL_VERIFICATION = env.str("DJANGO_ACCOUNT_EMAIL_VERIFICATION", "optional")
 
 
 # Email backend
-# https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
+# https://docs.djangoproject.com/en/5.0/topics/email/
 
 EMAIL_HOST = env.str("EMAIL_HOST", default="mailpit")
 EMAIL_PORT = env.str("EMAIL_PORT", "1025")
@@ -323,7 +323,8 @@ DJANGO_SQIDS_MIN_ALPHABET = "Sq1dm5Xf9GhTzCv6RjKu0bPwY3eL4aDocVg2r7nBpO8IyHmMJxZ
 
 
 # Logging
-# https://docs.djangoproject.com/en/4.2/topics/logging/
+# https://docs.djangoproject.com/en/5.0/topics/logging/
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
