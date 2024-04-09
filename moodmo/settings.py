@@ -73,6 +73,7 @@ if DEBUG:
     INSTALLED_APPS += [
         "debug_toolbar",
         "django_browser_reload",
+        "silk",
     ]
 
 MIDDLEWARE = [
@@ -85,12 +86,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
 ]
 
 if DEBUG:
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         "django_browser_reload.middleware.BrowserReloadMiddleware",
+        "silk.middleware.SilkyMiddleware",
     ]
 
 ROOT_URLCONF = "moodmo.urls"
@@ -166,6 +169,13 @@ else:
     }
 
 CACHE_TIMEOUT_SECONDS = env.int("CACHE_TIMEOUT_SECONDS", 60 * 15)
+
+# Django debug toolbar settings
+# https://django-debug-toolbar.readthedocs.io/en/latest/index.html
+
+DEBUG_TOOLBAR_CONFIG = {
+    "ROOT_TAG_EXTRA_ATTRS": "hx-preserve",
+}
 
 
 # Password validation

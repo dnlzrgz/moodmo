@@ -14,4 +14,5 @@ if settings.DEBUG:
     urlpatterns += [
         path("__debug__/", include("debug_toolbar.urls")),
         path("__reload__/", include("django_browser_reload.urls")),
+        path("silk/", include("silk.urls", namespace="silk")),
     ]

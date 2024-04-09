@@ -29,6 +29,7 @@ faker = "^24.7.1"
 coverage = "^7.4.4"
 pre-commit = "^3.7.0"
 commitizen = "^3.21.3"
+django-silk = "^5.1.0"
 
 [build-system]
 requires = ["poetry-core"]
