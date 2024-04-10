@@ -23,7 +23,7 @@ RUN pip wheel --wheel-dir /wheels \
 RUN pip wheel --wheel-dir /wheels psycopg
 
 # Download TailwindCSS cli
-RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.1/tailwindcss-linux-x64
+RUN wget -qO tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.3/tailwindcss-linux-x64
 RUN chmod +x tailwindcss
 
 # Create and minify styles

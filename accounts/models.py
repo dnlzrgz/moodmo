@@ -5,4 +5,4 @@ class CustomUser(AbstractUser):
     pass
 
     def __str__(self) -> str:
-        return self.email
+        return str(self.email)
