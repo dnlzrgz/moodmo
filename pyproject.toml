@@ -34,3 +34,6 @@ django-silk = "^5.1.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+ignore = ["F401"]
