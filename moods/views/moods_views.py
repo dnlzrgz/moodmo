@@ -1,6 +1,6 @@
 import csv
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
@@ -29,6 +29,8 @@ class MoodListView(LoginRequiredMixin, ListView):
     paginate_by = 30
 
     def get(self, request, *args, **kwargs):
+        self.template_name = "moods/mood_list.html"
+
         if request.headers.get("HX-Request"):
             self.template_name = "moods/hx_mood_list.html"
         else:
@@ -36,12 +38,41 @@ class MoodListView(LoginRequiredMixin, ListView):
 
         return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        date = self.request.GET.get("date")
+        if date is None:
+            context["current_month"] = timezone.now().date()
+            return context
+
+        try:
+            date = datetime.strptime(date, "%Y-%m").date()
+            context["current_month"] = date
+        except ValueError:
+            context["current_month"] = timezone.now().date()
+
+        return context
+
     def get_queryset(self):
-        return (
+        queryset = (
             Mood.objects.filter(user=self.request.user)
             .prefetch_related("activities")
             .only("mood", "note_title", "date", "time", "activities")
         )
+        date = self.request.GET.get("date")
+        if date is None:
+            return queryset
+        try:
+            date = datetime.strptime(date, "%Y-%m").date()
+            queryset = queryset.filter(
+                date__year__lte=date.year,
+                date__month__lte=date.month,
+            )
+        except ValueError:
+            pass
+
+        return queryset
 
 
 class MoodSearchView(LoginRequiredMixin, TemplateView):
@@ -60,27 +91,28 @@ class MoodSearchResultsView(LoginRequiredMixin, ListView):
 
         return super().get(request, *args, **kwargs)
 
-    def get_queryset(self):
-        mood = self.request.GET.get("mood", "")
-        search_term = self.request.GET.get("search_term", "")
-        start_date = self.request.GET.get("start_date", "")
-        end_date = self.request.GET.get("end_date", "")
-
-        moods = Mood.objects.filter(user=self.request.user)
-
-        if mood:
-            moods = moods.filter(mood=mood)
-        if search_term:
-            moods = moods.filter(search_vector=search_term)
-        if start_date:
-            start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
-            moods = moods.filter(date__gte=start_date - timedelta(days=1))
-        if end_date:
-            end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
-            moods = moods.filter(date__lte=end_date + timedelta(days=1))
-
-        moods = moods.prefetch_related("activities")
-        return moods
+    # def get_queryset(self):
+    #     mood = self.request.GET.get("mood", "")
+    #     search_term = self.request.GET.get("search_term", "")
+    #     start_date = self.request.GET.get("start_date", "")
+    #     end_date = self.request.GET.get("end_date", "")
+    #
+    #     moods = Mood.objects.filter(user=self.request.user)
+    #
+    #     if mood:
+    #         moods = moods.filter(mood=mood)
+    #     if search_term:
+    #         moods = moods.filter(search_vector=search_term)
+    #     if start_date:
+    #         start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
+    #         moods = moods.filter(date__gte=start_date - timedelta(days=1))
+    #     if end_date:
+    #         end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
+    #         moods = moods.filter(date__lte=end_date + timedelta(days=1))
+    #
+    #     moods = moods.prefetch_related("activities")
+    #     return moods
+    #
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):

@@ -168,7 +168,8 @@ else:
         }
     }
 
-CACHE_TIMEOUT_SECONDS = env.int("CACHE_TIMEOUT_SECONDS", 60 * 15)
+CACHE_TIMEOUT_SECONDS = env.int("CACHE_TIMEOUT_SECONDS", 0)
+
 
 # Django debug toolbar settings
 # https://django-debug-toolbar.readthedocs.io/en/latest/index.html
