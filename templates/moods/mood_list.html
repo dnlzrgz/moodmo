@@ -1,6 +1,5 @@
 {% extends "_base.html" %}
 {% load static %}
-{% load custom_tags %}
 {% block title %}MoodMo - Moods{% endblock title %}
 {% block content %}
   <header>
@@ -10,15 +9,20 @@
   <main class="w-full max-w-screen-md px-3 mb-24 sm:px-6 md:px-0 mx-auto"
         x-data="{scrolled: false}" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 100 })">
     <div class="flex items-center justify-evenly text-black text-center text-base sm:text-lg font-bold my-9">
+      {% now "Y-m" as current_date %}
       <a
-        href="{% url 'mood_list' %}?date={% prev_month %}"
+        {% if prev_month|date:"Y-m" == current_date %}
+          href="{% url 'mood_list' %}"
+        {% else %}
+          href="{% url 'mood_list' %}?date={{ prev_month|date:"Y-m" }}"
+        {% endif %}
         class="flex items-center justify-center px-3 py-2 text-black border-2 border-black rounded-full text-lg hover:text-white hover:bg-black transition-colors">
         <i class="fa-solid fa-chevron-left"></i>
       </a>
 
       <p>
-        {% now "Y" as current_year %}
-        {% if current_month|date:"Y" == current_year %}
+        {% now "Y" as current_date_year %}
+        {% if current_month|date:"Y" == current_date_year %}
           {{ current_month|date:"F" }}
         {% else %}
           {{ current_month|date:"F, Y" }}
@@ -26,7 +30,11 @@
       </p>
 
       <a
-        href="{% url 'mood_list' %}?date={% next_month %}"
+        {% if next_month|date:"Y-m" == current_date %}
+          href="{% url 'mood_list' %}"
+        {% else %}
+          href="{% url 'mood_list' %}?date={{ next_month|date:"Y-m" }}"
+        {% endif %}
         class="flex items-center justify-center px-3 py-2 text-black border-2 border-black rounded-full text-lg hover:text-white hover:bg-black transition-colors">
         <i class="fa-solid fa-chevron-right"></i>
       </a>

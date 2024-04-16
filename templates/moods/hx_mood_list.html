@@ -18,12 +18,7 @@
     <div>
       <time class="text-base sm:text-lg font-bold">
         <span>
-          {% now "Y-m-d" as today %}
-          {% if mood.date|date:'Y-m-d' == today %}
-            Today
-          {% else %}
-            {{ mood.date }}
-          {% endif %}
+          {{ mood.date|date:'DATE_FORMAT' }}
         </span> at
         <span>
           {{ mood.time|time:"g:i A" }}
@@ -49,7 +44,7 @@
 {% endfor %}
 
 {% if page_obj.has_next %}
-  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}&date={{ current_month|date:'Y-m' }}" hx-trigger="intersect throttle:3s"
+  <span hx-indicator="#loading" hx-get="/moods/?page={{page_obj.next_page_number}}" hx-trigger="intersect throttle:3s"
         hx-swap="afterend">
   </span>
 {% endif %}

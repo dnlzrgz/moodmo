@@ -1,11 +1,10 @@
 import csv
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-from django.utils.timezone import make_aware
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -40,17 +39,20 @@ class MoodListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         date = self.request.GET.get("date")
-        if date is None:
-            context["current_month"] = timezone.now().date()
-            return context
 
         try:
-            date = datetime.strptime(date, "%Y-%m").date()
-            context["current_month"] = date
+            if date is None:
+                current_date = timezone.now().date()
+            else:
+                current_date = datetime.strptime(date, "%Y-%m").date()
+
         except ValueError:
-            context["current_month"] = timezone.now().date()
+            current_date = timezone.now().date()
+
+        context["prev_month"] = current_date.replace(day=1) - timedelta(days=1)
+        context["current_month"] = current_date
+        context["next_month"] = current_date.replace(day=1) + timedelta(days=32)
 
         return context
 
@@ -63,14 +65,15 @@ class MoodListView(LoginRequiredMixin, ListView):
         date = self.request.GET.get("date")
         if date is None:
             return queryset
-        try:
-            date = datetime.strptime(date, "%Y-%m").date()
-            queryset = queryset.filter(
-                date__year__lte=date.year,
-                date__month__lte=date.month,
-            )
-        except ValueError:
-            pass
+        else:
+            try:
+                date = datetime.strptime(date, "%Y-%m").date()
+                queryset = queryset.filter(
+                    date__year=date.year,
+                    date__month=date.month,
+                )
+            except ValueError:
+                pass
 
         return queryset
 
