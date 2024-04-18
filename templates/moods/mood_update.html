@@ -13,7 +13,9 @@
             <div class="flex items-center gap-x-6 p-3">
                 <a href="{% url 'mood_delete' mood.sqid %}" class="flex items-center justify-center gap-x-3 hover:text-red-500 transition-colors">
                     <i class="fa-solid fa-trash"></i>
-                    Delete
+                    <span class="hidden md:inline">
+                        Delete
+                    </span>
                 </a>
             </div>
         </nav>

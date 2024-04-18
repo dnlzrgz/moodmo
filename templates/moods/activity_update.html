@@ -4,7 +4,9 @@
 {% block navbar %}
   <a href="{% url 'activity_delete' activity.sqid %}" class="flex items-center justify-center gap-x-3 hover:text-red-500 transition-colors">
     <i class="fa-solid fa-trash"></i>
-    Delete
+    <span class="hidden md:inline">
+      Delete
+    </span>
   </a>
 {% endblock %}
 {% block form_action %}{% url 'activity_edit' activity.sqid %}{% endblock %}
