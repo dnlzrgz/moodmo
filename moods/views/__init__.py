@@ -7,7 +7,6 @@ from moods.views.activities_views import (
 from moods.views.moods_views import (
     MoodListView,
     MoodSearchView,
-    MoodSearchResultsView,
     MoodCreateView,
     MoodUpdateView,
     MoodDeleteView,

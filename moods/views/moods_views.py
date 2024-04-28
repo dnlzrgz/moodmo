@@ -6,12 +6,10 @@ from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     CreateView,
-    TemplateView,
     UpdateView,
     DeleteView,
     FormView,
@@ -32,8 +30,6 @@ class MoodListView(LoginRequiredMixin, ListView):
 
         if request.headers.get("HX-Request"):
             self.template_name = "moods/hx_mood_list.html"
-        else:
-            self.template_name = "moods/mood_list.html"
 
         return super().get(request, *args, **kwargs)
 
@@ -62,6 +58,7 @@ class MoodListView(LoginRequiredMixin, ListView):
             .prefetch_related("activities")
             .only("mood", "note_title", "date", "time", "activities")
         )
+
         date = self.request.GET.get("date")
         if date is None:
             return queryset
@@ -78,44 +75,58 @@ class MoodListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class MoodSearchView(LoginRequiredMixin, TemplateView):
-    template_name = "moods/mood_search.html"
-
-
-class MoodSearchResultsView(LoginRequiredMixin, ListView):
+class MoodSearchView(LoginRequiredMixin, ListView):
     model = Mood
-    template_name = "moods/hx_mood_list.html"
+    template_name = "moods/mood_search.html"
     context_object_name = "moods"
-    paginate_by = 30
+    # paginate_by = 30
 
     def get(self, request, *args, **kwargs):
-        if not request.headers.get("HX-Request"):
-            return redirect("mood_search")
+        self.template_name = "moods/mood_search.html"
+
+        if request.headers.get("HX-Request"):
+            self.template_name = "moods/hx_mood_list.html"
 
         return super().get(request, *args, **kwargs)
 
-    # def get_queryset(self):
-    #     mood = self.request.GET.get("mood", "")
-    #     search_term = self.request.GET.get("search_term", "")
-    #     start_date = self.request.GET.get("start_date", "")
-    #     end_date = self.request.GET.get("end_date", "")
-    #
-    #     moods = Mood.objects.filter(user=self.request.user)
-    #
-    #     if mood:
-    #         moods = moods.filter(mood=mood)
-    #     if search_term:
-    #         moods = moods.filter(search_vector=search_term)
-    #     if start_date:
-    #         start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
-    #         moods = moods.filter(date__gte=start_date - timedelta(days=1))
-    #     if end_date:
-    #         end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
-    #         moods = moods.filter(date__lte=end_date + timedelta(days=1))
-    #
-    #     moods = moods.prefetch_related("activities")
-    #     return moods
-    #
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["activities"] = Activity.objects.filter(user=self.request.user)
+        return context
+
+    def get_queryset(self):
+        queryset = (
+            Mood.objects.filter(user=self.request.user)
+            .prefetch_related("activities")
+            .only("mood", "note_title", "date", "time", "activities")
+        )
+
+        mood = self.request.GET.get("mood", None)
+        search_term = self.request.GET.get("search", None)
+        start_date = self.request.GET.get("start_date", None)
+        end_date = self.request.GET.get("end_date", None)
+
+        if mood:
+            queryset = queryset.filter(mood=mood)
+
+        if search_term:
+            queryset = queryset.filter(search_vector=search_term)
+
+        if start_date:
+            try:
+                date = datetime.strptime(start_date, "%Y-%m-%d").date()
+                queryset = queryset.filter(date__gte=date)
+            except ValueError:
+                pass
+
+        if end_date:
+            try:
+                date = datetime.strptime(end_date, "%Y-%m-%d").date()
+                queryset = queryset.filter(date__lte=date)
+            except ValueError:
+                pass
+
+        return queryset
 
 
 class MoodCreateView(LoginRequiredMixin, SetUserMixin, CreateView):
